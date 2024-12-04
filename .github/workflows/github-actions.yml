@@ -18,13 +18,35 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-      - name: Iterate and process files
+      - name: Run tests
         run: |
-          DIRECTORY="Track_RPA/tests"
+          python Track_RPA/tests/Test.py
+      #- name: Run tests
+      #  run: |
+      #    DIRECTORY="Track_RPA/tests"
 
-          for file in $DIRECTORY/*; do
-            if [[ -f "$file" ]]; then
-              python "$file"
+      #    for file in $DIRECTORY/*; do
+      #      if [[ -f "$file" ]]; then
+      #        python "$file"
+      #      fi
+      #    done
+      - name: Test File Creation
+        run: |
+          ls Track_RPA/Archives/Detailed
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Upload file to S3
+        run: |
+          DIRECTORY="Track_RPA/Archives/Detailed"
+          for FILE in $DIRECTORY/*; do
+            if [[ "$FILE" != ".gitkeep"  ]]; then
+              S3_BUCKET=${{ secrets.AWS_S3_BUCKET }}
+              aws s3 cp $FILE s3://$S3_BUCKET/ --acl public-read
             fi
           done
       - name: Check out repository code
