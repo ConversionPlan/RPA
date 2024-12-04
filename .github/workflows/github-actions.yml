@@ -18,15 +18,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-      - name: Check out repository code
-        uses: actions/checkout@v4
-
       - name: Iterate and process files
         run: |
-            DIRECTORY="Track_RPA/tests"
-            
-            for file in $DIRECTORY/*; do
-              if [[ -f "$file" ]]; then
-                python "$file"
-              fi
-            done
+          DIRECTORY="Track_RPA/tests"
+
+          for file in $DIRECTORY/*; do
+            if [[ -f "$file" ]]; then
+              python "$file"
+            fi
+          done
+      - name: Check out repository code
+        uses: actions/checkout@v4
