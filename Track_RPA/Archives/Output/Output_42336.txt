@@ -1,0 +1,9 @@
+The Test Process executed by TrackTraceRX started at 11:55 AM on 
+02/06/2024.
+
+We started the Trading Partners Module Test Process at 11:55 AM, and concluded Successfully 
+at 11:55 AM. Trading Partner Trading_22167 was Created.
+
+
+ We started the Receiving Module Test Process at 11:55 AM, and concluded Successfully at 
+11:56 AM. Purchase Order PO_Teste_24185 was Created.

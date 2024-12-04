@@ -1,0 +1,12 @@
+The Test Process executed by TrackTraceRX started at 04:45 PM on 
+02/26/2024.
+
+We started the Trading Partners Module Test Process at 04:45 PM, and concluded Successfully 
+at 04:45 PM. Trading Partner Trading_42257 was Created.
+
+
+ We started the Receiving Module Test Process at 04:45 PM, and concluded Successfully at 
+04:46 PM. Purchase Order PO_Teste_85597 was Created.
+
+ We started the Containers Module Test Process at 04:46 PM, and concluded Successfully
+at 04:48 PM. Container urn:epc:id:sscc:0245869.11111111521324433901 was Created.
