@@ -1,7 +1,7 @@
 import sqlite3
 
 # Se o banco de dados não existir, ele será criado automaticamente
-con = sqlite3.connect('TWBD_01')
+con = sqlite3.connect('../TWBD_01')
 
 # Cria um Cursor
 sql = con.cursor()
