@@ -25,17 +25,15 @@ def add_text(output_file):
     Date = datetime.now().strftime("%m/%d/%Y")
     Author = "Victor Angelo"
 
-    Path = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
-    output_path = Path + "/Archives/Detailed/Track_Validation_" + P + ".pdf"
+    output_path = "Track_RPA/Archives/Detailed/Track_Validation_" + P + ".pdf"
 
     # Create 01 Page Document
     cnv = canvas.Canvas(output_path, pagesize=A4)
-    Path = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
     pdfmetrics.registerFont(
         TTFont('Arial', 'arial.ttf'))  # Replace 'arial.ttf' with the actual path to your Arial font file
 
     # Add Logo
-    image_path = os.path.join(Path + "/Archives/images", "Logo_TrackTraceRX.png")
+    image_path = os.path.join("Track_RPA/Archives/images", "Logo_TrackTraceRX.png")
     cnv.drawImage(image_path, 300, 690, width=250, height=40)
 
     # Text = TrackRX Validation Report for
