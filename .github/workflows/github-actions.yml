@@ -1,8 +1,12 @@
 name: Run RPA
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  Install-Packages:
+  Test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -14,4 +18,15 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Iterate and process files
+        run: |
+            DIRECTORY="Track_RPA/tests"
+            
+            for file in $DIRECTORY/*; do
+              if [[ -f "$file" ]]; then
+                python "$file"
+              fi
+            done
