@@ -1,9 +1,0 @@
-The Test Process executed by TrackTraceRX started at 11:29 PM on 
-02/25/2024.
-
-We started the Trading Partners Module Test Process at 11:29 PM, and concluded Successfully 
-at 11:30 PM. Trading Partner Trading_08496 was Created.
-
-
- We started the Commission and Packaging Module Test Process at 11:30 PM, and 
-concluded Successfully at 11:34 PM.
