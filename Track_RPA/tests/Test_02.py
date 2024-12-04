@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 
 API = "c972c7e047d93bf6da9329c645154723:A:ZFhjOD8l1T6O2urWsiuLsvQ62PpuNHELMg21PRVwXbvQSOi2fgIzucOWeQ3rS6AUz1s02piupGVd7vMr0"
-file = "C:\\Users\\Victor Angêlo\\OneDrive\\TRACK\\Development\\Python Development\\Automation\\Track_RPA\\Archives\\Test_Big.xlsx"
+file = "../Track_RPA/Archives/Test_Big.xlsx"
 headers = {'Content-type': 'application/x-www-form-urlencoded',
                                             'Accept': 'application/json',
                                             'Authorization': API}
