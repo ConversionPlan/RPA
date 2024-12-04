@@ -1,0 +1,10 @@
+selenium
+ttkthemes
+customtkinter
+awesometkinter
+pillow
+winotify
+pandas
+openpyxl
+reportlab
+psycopg2
