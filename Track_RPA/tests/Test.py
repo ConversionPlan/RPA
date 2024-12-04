@@ -26,7 +26,7 @@ def add_text(output_file):
     Author = "Victor Angelo"
 
     Path = getattr(sys, '_MEIPASS', os.path.abspath(os.path.dirname(__file__)))
-    output_path = Path + "\\Archives\\Detailed\\Track_Validation_" + P + ".pdf"
+    output_path = Path + "/Archives/Detailed/Track_Validation_" + P + ".pdf"
 
     # Create 01 Page Document
     cnv = canvas.Canvas(output_path, pagesize=A4)
@@ -35,7 +35,7 @@ def add_text(output_file):
         TTFont('Arial', 'arial.ttf'))  # Replace 'arial.ttf' with the actual path to your Arial font file
 
     # Add Logo
-    image_path = os.path.join(Path + "\\Archives\\images\\", "Logo_TrackTraceRX.png")
+    image_path = os.path.join(Path + "/Archives/images", "Logo_TrackTraceRX.png")
     cnv.drawImage(image_path, 300, 690, width=250, height=40)
 
     # Text = TrackRX Validation Report for
@@ -174,7 +174,7 @@ def add_text(output_file):
             # Adicionar bordas
             cnv.rect(x1, y1, x2 - x1, y2 - y1)
 
-    # input_txt = "C:\\Users\\Victor Angêlo\\OneDrive\\TRACK\\Development\\Python Development\\Automation\\Track_RPA\\Archives\\Output\\Output_24269.txt"
+    # input_txt = "C:/Users/Victor Angêlo/OneDrive/TRACK/Development/Python Development/Automation/Track_RPA/Archives/Output/Output_24269.txt"
     # # Adicione o conteúdo do arquivo de texto ao novo PDF
     # with open(input_txt, 'r', encoding='latin-1') as txt_file:
     #     lines = txt_file.readlines()
