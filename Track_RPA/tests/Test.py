@@ -3,29 +3,19 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.pagesizes import A4
 import os
-import sys
 from datetime import datetime
-import random as r #Randomize Number Library
-from reportlab.lib import colors
-data_atual = datetime.now()
 
-def add_text(output_file):
-
-    ph_no = []
-    # A loop is used to generate 5 Numbers.
-    for i in range(0, 5):
-        ph_no.append(r.randint(0, 9))  # Each Number from 0 to 9
-    # I take the numbers from the array and put them together
-    P = ''
-    for i in ph_no:
-        P += str(i)
+def add_text():
+    print("PATH:", os.path.abspath(os.getcwd()))
 
     Portal = "QA Assurance"
     Reference_Report = "ReportRPA_01"
     Date = datetime.now().strftime("%m/%d/%Y")
+    # File_Date = datetime.now().strftime("%m_%d_%Y_%H%M%S")
     Author = "Victor Angelo"
 
-    output_path = "Track_RPA/Archives/Detailed/Track_Validation_" + P + ".pdf"
+    # output_path = "Track_RPA/Archives/Detailed/Track_Validation_" + File_Date + ".pdf"
+    output_path = "Track_RPA/Archives/Detailed/Track_Validation.pdf"
 
     # Create 01 Page Document
     cnv = canvas.Canvas(output_path, pagesize=A4)
@@ -64,9 +54,9 @@ def add_text(output_file):
     font_name = "Arial"
     font_size = 16
     cnv.setFont(font_name, font_size)
-    cnv.drawString(50, 750, "1. Execultive Summary")
+    cnv.drawString(50, 750, "1. Executive Summary")
 
-    # Text = Text of Execultive Summary
+    # Text = Text of Executive Summary
     font_size = 12
     cnv.setFont(font_name, font_size)
     cnv.drawString(50, 720, "This report details the validation activities performed from " + Date + " for the Customers")
@@ -140,14 +130,6 @@ def add_text(output_file):
         # Adicione mais linhas conforme necessário
     ]
 
-    # Definir o estilo da tabela
-    estilo_tabela = [
-        ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-    ]
-
     # Configurar a fonte e tamanho
     font_name = "Arial"
     font_size = 12
@@ -172,19 +154,8 @@ def add_text(output_file):
             # Adicionar bordas
             cnv.rect(x1, y1, x2 - x1, y2 - y1)
 
-    # input_txt = "C:/Users/Victor Angêlo/OneDrive/TRACK/Development/Python Development/Automation/Track_RPA/Archives/Output/Output_24269.txt"
-    # # Adicione o conteúdo do arquivo de texto ao novo PDF
-    # with open(input_txt, 'r', encoding='latin-1') as txt_file:
-    #     lines = txt_file.readlines()
-    #
-    #     espacamento_entre_linhas = 20
-    #     y_position = 720
-    #     for line in lines:
-    #         cnv.drawString(50, y_position, line.strip())
-    #         y_position -= espacamento_entre_linhas  # Ajuste para o próximo espaçamento entre as linhas
-
     # Save 03 Page Document and Save Document
     cnv.save()
 
-add_text("Track_Validation.pdf")
+add_text()
 

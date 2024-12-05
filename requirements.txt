@@ -8,4 +8,3 @@ pandas
 openpyxl
 reportlab
 psycopg2
-boto3

@@ -33,21 +33,19 @@ jobs:
       - name: Test File Creation
         run: |
           ls Track_RPA/Archives/Detailed
-      - name: Set up AWS CLI
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Get current date
+        id: DATE
+        run: echo "{DATE}=$(date +'%m%d%YT%H%M%S')" >> $GITHUB_ENV
+      - name: Rename PDF
+        run: mv Track_RPA/Archives/Detailed/Track_Validation.pdf Track_RPA/Archives/Detailed/Track_Validation_${{ env.DATE }}.pdf
+      - name: Upload PDF
+        uses: yakubique/minio-upload@v1.1.3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Upload file to S3
-        run: |
-          DIRECTORY="Track_RPA/Archives/Detailed"
-          for FILE in $DIRECTORY/*; do
-            if [[ "$FILE" != ".gitkeep"  ]]; then
-              S3_BUCKET=${{ secrets.AWS_S3_BUCKET }}
-              aws s3 cp $FILE s3://$S3_BUCKET/ --acl public-read
-            fi
-          done
+          endpoint: ${{ secrets.MINIO_ENDPOINT }}
+          access_key: ${{ secrets.MINIO_ACCESS_KEY }}
+          secret_key: ${{ secrets.MINIO_SECRET_KEY }}
+          bucket: ${{ secrets.MINIO_BUCKET }}
+          source_dir: 'Track_RPA/Archives/Detailed/Track_Validation.pdf'
+          target_dir: '/'
       - name: Check out repository code
         uses: actions/checkout@v4
