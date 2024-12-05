@@ -34,7 +34,7 @@ jobs:
         id: DATE
         run: echo "{DATE}=$(date +'%m%d%YT%H%M%S')" >> $GITHUB_ENV
       - name: Show Current date
-        run: echo "$(date +'%m%d%YT%H%M%S')"
+        run: echo "DATE - ${{ env.DATE }}"
       - name: Rename PDF
         run: mv Track_RPA/Archives/Detailed/Track_Validation.pdf Track_RPA/Archives/Detailed/Track_Validation_${{ env.DATE }}.pdf
       - name: Show PDF folder
