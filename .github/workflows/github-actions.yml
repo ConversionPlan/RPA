@@ -45,7 +45,7 @@ jobs:
           access_key: ${{ secrets.MINIO_ACCESS_KEY }}
           secret_key: ${{ secrets.MINIO_SECRET_KEY }}
           bucket: ${{ secrets.MINIO_BUCKET }}
-          source_dir: 'Track_RPA/Archives/Detailed/Track_Validation.pdf'
+          source_dir: 'Track_RPA/Archives/Detailed/Track_Validation_${{ env.DATE }}.pdf'
           target_dir: '/'
       - name: Check out repository code
         uses: actions/checkout@v4
