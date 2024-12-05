@@ -21,7 +21,7 @@ class Functions():
             dbname="ttrx",
             user="admin",
             password="Debatable-Grime-Herbicide-Research-Unknowing-Aviation3",
-            host="http://provider.hurricane.akash.pub",
+            host="provider.hurricane.akash.pub",
             port="30601"
         )
 
