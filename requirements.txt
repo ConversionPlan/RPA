@@ -4,6 +4,7 @@ ttkthemes
 customtkinter
 awesometkinter
 pillow
+winreg
 winotify
 pandas
 openpyxl
