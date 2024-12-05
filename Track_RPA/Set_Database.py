@@ -29,3 +29,6 @@ sql.execute('''
                  Mod_Transformation TEXT
              )
 ''')
+
+con.commit()
+con.close()
