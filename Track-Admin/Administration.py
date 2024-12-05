@@ -5,17 +5,9 @@
 from tkinter import * #Graphical Interface Library
 from tkinter import Tk, ttk, messagebox #Graphical Interface Library
 import tkinter as tk
-from tkinter.filedialog import askopenfilename #Library to Select Machine files
-from ttkthemes import ThemedStyle
-import customtkinter
-import awesometkinter as atk
 from PIL import Image, ImageTk #Library for Images with TkInter
 # Utilities
-from winotify import Notification, audio # Notifications Windows Library
-import random as r # Randomize Number Library
-import openpyxl # Excel Integration Library
 import os # Windows Path Library
-import requests # Library for API
 import sys # System Library
 # Data Base
 import psycopg2
