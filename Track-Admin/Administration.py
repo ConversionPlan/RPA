@@ -28,24 +28,6 @@ class Functions():
         # Create a cursor to run queries
         self.sql = self.conn.cursor()
 
-        self.sql.execute('''
-             CREATE TABLE IF NOT EXISTS Admin (
-                 id INTEGER PRIMARY KEY,
-                 Link TEXT,
-                 API TEXT,
-                 Mod_Partner TEXT,
-                 Mod_Product TEXT,
-                 Mod_Outbound TEXT,
-                 Mod_ByPicking TEXT,
-                 Mod_Containers TEXT,
-                 Mod_Quarantine TEXT,
-                 Mod_RMA TEXT,
-                 Mod_Com_Pack TEXT,
-                 Mod_Disporsal TEXT,
-                 Mod_Transformation TEXT
-             )
-        ''')
-
         # # Run a query
         # self.sql.execute("SELECT * FROM tb_webportal")
         #

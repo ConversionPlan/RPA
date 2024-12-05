@@ -1,13 +1,14 @@
-import sqlite3
+import psycopg2
 
-# Se o banco de dados não existir, ele será criado automaticamente
-con = sqlite3.connect('../TWBD_01')
+con = psycopg2.connect(
+            dbname="ttrx",
+            user="admin",
+            password="Debatable-Grime-Herbicide-Research-Unknowing-Aviation3",
+            host="provider.hurricane.akash.pub",
+            port="30601"
+)
 
-# Cria um Cursor
 sql = con.cursor()
-
-# # Executa o Comando
-# con.commit()
 
 # # Inserir dados na tabela
 # sql.execute("INSERT INTO Admin (Link, API, Mod_Partner, Mod_Product, Mod_Outbound, Mod_ByPicking, Mod_Containers, Mod_Quarantine, Mod_RMA, Mod_Com_Pack, Mod_Disporsal, Mod_Transformation) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", ("Link_02", "API Key", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T"))
