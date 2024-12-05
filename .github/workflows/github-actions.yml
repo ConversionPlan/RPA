@@ -32,7 +32,7 @@ jobs:
           done
       - name: Get current date
         id: DATE
-        run: echo "{DATE}=$(date +'%m%d%YT%H%M%S')" >> $GITHUB_ENV
+        run: echo "DATE=$(date +'%m%d%YT%H%M%S')" >> $GITHUB_ENV
       - name: Show Current date
         run: echo "DATE - ${{ env.DATE }}"
       - name: Rename PDF
