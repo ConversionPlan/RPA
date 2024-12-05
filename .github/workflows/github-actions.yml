@@ -18,21 +18,18 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-      - name: Run Administration
+      - name: Run Administration file
         run: |
           python Track-Admin/Administration.py
       - name: Run tests
         run: |
-          python Track_RPA/tests/Test.py && python Track_RPA/tests/Test_02.py
-      #- name: Run tests
-      #  run: |
-      #    DIRECTORY="Track_RPA/tests"
+          DIRECTORY="Track_RPA/tests"
 
-      #    for file in $DIRECTORY/*; do
-      #      if [[ -f "$file" ]]; then
-      #        python "$file"
-      #      fi
-      #    done
+          for file in $DIRECTORY/*; do
+            if [[ -f "$file" ]]; then
+              python "$file"
+            fi
+          done
       - name: Get current date
         id: DATE
         run: echo "{DATE}=$(date +'%m%d%YT%H%M%S')" >> $GITHUB_ENV
