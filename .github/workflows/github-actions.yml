@@ -18,6 +18,9 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+      - name: Run Administration
+        run: |
+          python Track-Admin/Administration.py
       - name: Run tests
         run: |
           python Track_RPA/tests/Test.py && python Track_RPA/tests/Test_02.py

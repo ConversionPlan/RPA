@@ -6,25 +6,6 @@ con = sqlite3.connect('../TWBD_01')
 # Cria um Cursor
 sql = con.cursor()
 
-# # Cria a Query
-# sql.execute('''
-#     CREATE TABLE IF NOT EXISTS Admin (
-#         id INTEGER PRIMARY KEY,
-#         Link TEXT,
-#         API TEXT,
-#         Mod_Partner TEXT,
-#         Mod_Product TEXT,
-#         Mod_Outbound TEXT,
-#         Mod_ByPicking TEXT,
-#         Mod_Containers TEXT,
-#         Mod_Quarantine TEXT,
-#         Mod_RMA TEXT,
-#         Mod_Com_Pack TEXT,
-#         Mod_Disporsal TEXT,
-#         Mod_Transformation TEXT
-#     )
-# ''')
-
 # # Executa o Comando
 # con.commit()
 
