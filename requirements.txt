@@ -1,10 +1,4 @@
-requests
 selenium
-ttkthemes
-customtkinter
-awesometkinter
-pillow
-pandas
-openpyxl
+webdriver-manager
+behave
 reportlab
-psycopg2

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="12a10ef8-64ee-4a15-8e9e-48822be8302e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/features/steps/auth.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/report/Logo_TrackTraceRX.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/report/generate_pdf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/github-actions.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/github-actions.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/RPA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/RPA.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/.idea/Track-Admin.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Administration.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_16313.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_16745.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_28862.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_38557.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_40074.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_43567.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_46954.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_47217.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_49666.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_49764.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_53101.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_55502.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_58444.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_59639.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_62402.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_65707.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_71482.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_73654.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_80434.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_83627.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_88087.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_89982.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Detailed/Track_Validation_97094.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_00591.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_01614.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_02078.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_02545.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_04313.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_08135.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_09121.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_13634.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_14754.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_17642.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_22064.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_22832.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_25363.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_29209.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_31616.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_32930.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_38899.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_43317.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_43498.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_45035.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_46693.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_47298.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_49611.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_51623.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_53507.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_59281.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_59296.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_62011.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_64805.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_65670.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_65791.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_67073.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_67765.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_72061.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_77507.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_79052.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_79526.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_79681.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_87344.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_88793.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_95239.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_97330.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_97854.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_99006.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Log/Erro_99436.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_07781.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_08204.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_11102.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_13504.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_18572.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_18964.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_23411.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_25095.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_25306.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_29784.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_29843.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_32722.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_33352.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_34160.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_37093.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_40534.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_46120.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_46187.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_50304.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_50709.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_51188.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_56684.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_58500.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_61656.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_62798.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_62930.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_63949.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_64542.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_64805.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_67632.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_67737.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_68411.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_68847.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_71660.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_73266.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_75255.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_75968.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_78645.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_80705.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_81721.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_83010.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_88561.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_92963.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_94551.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_95798.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_97850.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_97930.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_98247.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Output/Output_99262.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/RPA Requirements.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Serials.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Test_01.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/Test_Big.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/chromedriver.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/images/Logo_TrackTraceRX.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/images/back-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/images/back.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/images/back_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/images/btn_next.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/images/help.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track-Admin/Archives/images/logout.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/.idea/Track_RPA.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/Detailed/Track_Validation.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/RPA Requirements.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/Serials.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/Test_01.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/Test_Big.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/chromedriver.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/images/Logo_TrackTraceRX.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/images/back-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/images/back.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/images/back_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/images/btn_next.JPG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/images/help.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Archives/images/logout.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Portal_01" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/Set_Database.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/TWBD_01" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/UI.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/UI.spec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/Tree-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/Tree-01.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/Tree-02.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/UI.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/warn-UI.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/build/UI/xref-UI.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/tests/001_Track_Validation_Report.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/tests/002_Checks_For_Admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Track_RPA/tests/003_Gets_Serial_By_Transaction.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/arial.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_tests.sh" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2pqZuRgBWdPE0mG89AAawZKX257" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.01-login.feature.Steps.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "C:/Users/Violeta/Downloads/RPA/report",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Violeta\Downloads\RPA\report" />
+      <recent name="C:\Users\Violeta\Downloads\RPA" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Violeta\Downloads\RPA\report" />
+      <recent name="C:\Users\Violeta\Downloads\RPA" />
+      <recent name="C:\Users\Violeta\Downloads\RPA\Feature" />
+      <recent name="C:\Users\Violeta\Downloads\RPA\Feature\steps" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="01-login.feature.Steps" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="RPA" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13 (RPA)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Feature/tests" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\Violeta\Downloads\RPA\Feature\steps\01-login.feature.Steps.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="12a10ef8-64ee-4a15-8e9e-48822be8302e" name="Changes" comment="" />
+      <created>1733495787710</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733495787710</updated>
+    </task>
+    <servers />
+  </component>
+</project>
