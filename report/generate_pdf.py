@@ -27,7 +27,7 @@ def generate_pdf():
     # Create 01 Page Document
     cnv = canvas.Canvas(output_path, pagesize=A4)
     pdfmetrics.registerFont(
-        TTFont('Arial', 'arial.ttf'))  # Replace 'arial.ttf' with the actual path to your Arial font file
+        TTFont('Arial', 'report/arial.ttf'))  # Replace 'arial.ttf' with the actual path to your Arial font file
 
     # Add Logo
     image_path = os.path.join("report", "Logo_TrackTraceRX.png")
