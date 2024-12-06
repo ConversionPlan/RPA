@@ -30,6 +30,6 @@ jobs:
           behave --format json --outfile report/results.json
       - name: Generate PDF file
         run: |
-          python .\report\generate_pdf.py
+          python report/generate_pdf.py
       - name: Check out repository code
         uses: actions/checkout@v4
