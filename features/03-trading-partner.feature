@@ -25,6 +25,15 @@ Feature: Trading Partners
     And Add Address City
     And Add Address ZIP
     And Click on Add - Save Address
+    And Click on Add - Address
+    And Add Main Address Nickname
+    And Add Second Address GLN
+    And Add Second Address SGLN
+    And Add Main Address Recipient Name
+    And Add Address Line 1
+    And Add Address City
+    And Add Address ZIP
+    And Click on Add - Save Address
     And Click on Save
     Then Trading Partner should be saved
     And End test
@@ -50,6 +59,15 @@ Feature: Trading Partners
     And Add Address GLN
     And Add Address SGLN
     And Add Ship To Address Recipient Name
+    And Add Address Line 1
+    And Add Address City
+    And Add Address ZIP
+    And Click on Add - Save Address
+    And Click on Add - Address
+    And Add Main Address Nickname
+    And Add Second Address GLN
+    And Add Second Address SGLN
+    And Add Main Address Recipient Name
     And Add Address Line 1
     And Add Address City
     And Add Address ZIP

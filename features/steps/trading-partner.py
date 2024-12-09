@@ -119,7 +119,7 @@ def click_add_ndc(context):
 
 
 @when("Add Ship From Address Nickname")
-def add_address_nickname(context):
+def add_ship_from_address_nickname(context):
     try:
         time.sleep(2)
         context.driver.find_element(by=By.XPATH, value="//input[@rel='address_nickname']").send_keys("Ship From")
@@ -129,7 +129,7 @@ def add_address_nickname(context):
 
 
 @when("Add Ship To Address Nickname")
-def add_address_nickname(context):
+def add_ship_to_address_nickname(context):
     try:
         time.sleep(2)
         context.driver.find_element(by=By.XPATH, value="//input[@rel='address_nickname']").send_keys("Ship To")
@@ -138,10 +138,30 @@ def add_address_nickname(context):
         raise
 
 
+@when("Add Main Address Nickname")
+def add_main_address_nickname(context):
+    try:
+        time.sleep(2)
+        context.driver.find_element(by=By.XPATH, value="//input[@rel='address_nickname']").send_keys("Main Address")
+    except:
+        ends_timer(context)
+        raise
+
+
 @when("Add Address GLN")
 def add_address_gln(context):
     try:
+        context.gln = generate_gln(context.company_prefix)
         context.driver.find_element(by=By.ID, value="TT_UTILS_UI_FORM_UUID__3_gs1_id").send_keys(context.gln)
+    except:
+        ends_timer(context)
+        raise
+
+@when("Add Second Address GLN")
+def add_address_gln(context):
+    try:
+        context.gln = generate_gln(context.company_prefix)
+        context.driver.find_element(by=By.ID, value="TT_UTILS_UI_FORM_UUID__4_gs1_id").send_keys(context.gln)
     except:
         ends_timer(context)
         raise
@@ -150,14 +170,24 @@ def add_address_gln(context):
 @when("Add Address SGLN")
 def add_address_sgln(context):
     try:
+        context.sgln = generate_sgln_from_gln(context.gln)
         context.driver.find_element(by=By.ID, value="TT_UTILS_UI_FORM_UUID__3_gs1_sgln").send_keys(context.sgln)
+    except:
+        ends_timer(context)
+        raise
+
+@when("Add Second Address SGLN")
+def add_address_sgln(context):
+    try:
+        context.sgln = generate_sgln_from_gln(context.gln)
+        context.driver.find_element(by=By.ID, value="TT_UTILS_UI_FORM_UUID__4_gs1_sgln").send_keys(context.sgln)
     except:
         ends_timer(context)
         raise
 
 
 @when("Add Ship From Address Recipient Name")
-def add_address_recipient(context):
+def add_ship_from_address_recipient(context):
     try:
         context.driver.find_element(by=By.XPATH, value="//input[@rel='recipient_name']").send_keys("Ship From")
     except:
@@ -166,9 +196,18 @@ def add_address_recipient(context):
 
 
 @when("Add Ship To Address Recipient Name")
-def add_address_recipient(context):
+def add_ship_to_address_recipient(context):
     try:
         context.driver.find_element(by=By.XPATH, value="//input[@rel='recipient_name']").send_keys("Ship To")
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Add Main Address Recipient Name")
+def add_main_address_recipient(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//input[@rel='recipient_name']").send_keys("Main Address")
     except:
         ends_timer(context)
         raise
