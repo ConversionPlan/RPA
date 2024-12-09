@@ -45,7 +45,7 @@ def is_logged_in(context):
 def launchBrowser(context):
     try:
         options = Options()
-        # options.add_argument("--headless=new")
+        options.add_argument("--headless=new")
         context.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()),
             options=options)
