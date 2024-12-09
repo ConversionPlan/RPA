@@ -50,10 +50,20 @@ def generate_company_prefix() -> str:
     company_prefix = "0" + generate_x_length_number(6)
     return company_prefix
 
-def generate_gs1_id():
+def generate_gs1_id() -> str:
     gs1_id = generate_x_length_number(6)
     return gs1_id
+
+def generate_gtin_with_cp_id(company_prefix: str, gs1_id: str) -> str:
+    gtin = gs1_id[0] + company_prefix + gs1_id[1:]
+    return gtin
 
 def generate_ndc():
     ndc = f"{generate_x_length_number(3)}-{generate_x_length_number(4)}"
     return ndc
+
+def generate_text_with_n_chars(n = 5) -> str:
+    if n < 5 or n is None:
+        n = 5
+    text = fake.text(n)
+    return text

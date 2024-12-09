@@ -6,7 +6,7 @@ All tests in order:
 1. Login Feature.
    1. Login to Portal with valid parameters
 2. Product Feature.
-   1. Create a Product
+   1. Create an Each Product
 
 # Run Locally
 
