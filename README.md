@@ -3,9 +3,14 @@
 RPA for Track Trace RX's portal. It runs after every push to the `main` branch of this repository, and daily at 6am.
 
 All tests in order:
-1. Track Validation Report: It generates a PDF report of the test and saves it on our Min.IO bucket.
-2. Checks for Admin: It checks for an admin in the Admin table.
-3. Gets Serial by Transaction: It gets the products in a list, their transactions and serials.
+1. Login Feature.
+   1. Login to Portal with valid parameters
+2. Product Feature.
+   1. Create an Each Product
+   2. Create an Aggregation Product
+3. Trading Partners.
+   1. Create a Vendor
+   2. Create a Customer
 
 # Run Locally
 
@@ -13,16 +18,20 @@ In order to run this repository locally, you need to have [Python](https://www.p
 
 After having clone this repository, to install all the necessary packages, go to the root directory and run:
 
-`pip install -r requirements.txt`
+```pip install -r requirements.txt```
 
 Then, to run all the tests at the same time:
 
-`bash run_tests.sh`
+```behave --format json --outfile report/results.json```
 
 Or to run a specific test:
 
-`python Track_RPA/tests/{SPECIFIC_TEST_PY}`
+```behave .\features\{SPECEFICI_TEST_PY}.feature --format json --outfile report/results.json```
 
-And replace {SPECIFIC_TEST_PY} by the name of the test file you want to run.
+And replace {SPECIFIC_TEST_PY} by the name of the test you want to run.
 
-Note: The PDF file 001_Track_Validation_Report.py generates can be found in `Track_RPA/Archives/Detailed/Track_Validation.pdf`. 
+Then, to generate the PDF Report:
+
+```python .\reports\generate_pdf_py```
+
+The file will be found in `.\reports\Track_Validation.pdf`

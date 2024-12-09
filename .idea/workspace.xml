@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="12a10ef8-64ee-4a15-8e9e-48822be8302e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/02-product.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/02-product.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/steps/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/features/steps/auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/steps/product.py" beforeDir="false" afterPath="$PROJECT_DIR$/features/steps/product.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/steps/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/features/steps/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/generate_pdf.py" beforeDir="false" afterPath="$PROJECT_DIR$/report/generate_pdf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/test_times.json" beforeDir="false" afterPath="$PROJECT_DIR$/report/test_times.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2pqZuRgBWdPE0mG89AAawZKX257" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.01-login.feature.Steps.executor": "Debug",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "C:/Users/Violeta/Downloads/RPA/features/steps",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Violeta\Downloads\RPA\features\steps" />
+      <recent name="C:\Users\Violeta\Downloads\RPA\features" />
+      <recent name="C:\Users\Violeta\Downloads\RPA\report" />
+      <recent name="C:\Users\Violeta\Downloads\RPA" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Violeta\Downloads\RPA\report" />
+      <recent name="C:\Users\Violeta\Downloads\RPA" />
+      <recent name="C:\Users\Violeta\Downloads\RPA\Feature" />
+      <recent name="C:\Users\Violeta\Downloads\RPA\Feature\steps" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="01-login.feature.Steps" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="RPA" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13 (RPA)" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Feature/tests" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="C:\Users\Violeta\Downloads\RPA\Feature\steps\01-login.feature.Steps.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="12a10ef8-64ee-4a15-8e9e-48822be8302e" name="Changes" comment="" />
+      <created>1733495787710</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733495787710</updated>
+    </task>
+    <servers />
+  </component>
+</project>
