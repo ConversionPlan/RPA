@@ -6,6 +6,7 @@ import os
 import json
 from datetime import datetime
 
+
 def generate_pdf():
     # Texts for the PDF
     portal: str = "QA Assurance"
@@ -50,14 +51,16 @@ def generate_pdf():
     cnv.drawString(left_margin, 750, "1. Executive Summary")
 
     cnv.setFont(font_name, small_font)
-    cnv.drawString(left_margin, 720, "This report details the validation activities performed from " + current_date + " for the Customers")
+    cnv.drawString(left_margin, 720,
+                   "This report details the validation activities performed from " + current_date + " for the Customers")
     cnv.drawString(left_margin, 700, "Portal capturing findings from the RPA phases.")
 
     cnv.setFont(font_name, medium_font)
     cnv.drawString(left_margin, 620, "2. Introduction")
 
     cnv.setFont(font_name, small_font)
-    cnv.drawString(left_margin, 590, "The validation activities are intended to confirm that the TrackRX Portal is installed, operates,")
+    cnv.drawString(left_margin, 590,
+                   "The validation activities are intended to confirm that the TrackRX Portal is installed, operates,")
     cnv.drawString(left_margin, 570, "and performs according to manufacturer specifications and company requirements.")
 
     cnv.setFont(font_name, medium_font)
@@ -70,7 +73,8 @@ def generate_pdf():
     cnv.drawString(left_margin, 420, "4. Methodology")
 
     cnv.setFont(font_name, small_font)
-    cnv.drawString(left_margin, 390, "You can find the entire detailed process that was performed by Track Trace RPA on the")
+    cnv.drawString(left_margin, 390,
+                   "You can find the entire detailed process that was performed by Track Trace RPA on the")
     cnv.drawString(left_margin, 370, "next page.")
 
     # Save Second Document Page
@@ -80,7 +84,6 @@ def generate_pdf():
     cnv.setFont(font_name, medium_font)
     y = 750
     cnv.drawString(left_margin, y, "5. Detailed RPA Process")
-
 
     # Get Test Data
     with open("report/results.json", "r") as file:
@@ -138,4 +141,3 @@ def generate_pdf():
 
 
 generate_pdf()
-

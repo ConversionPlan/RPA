@@ -7,6 +7,7 @@ All tests in order:
    1. Login to Portal with valid parameters
 2. Product Feature.
    1. Create an Each Product
+   2. Create an Aggregation Product
 
 # Run Locally
 
