@@ -1,10 +1,8 @@
 from behave import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from features.steps.utils import generate_ndc, generate_gs1_id, generate_company_prefix, generate_product_name, \
-    generate_gtin_with_cp_id, generate_text_with_n_chars, generate_cp_id_by_gtin
+from features.steps.utils import *
 from features.steps.auth import ends_timer
-import time
 
 @when("Open dashboard page")
 def open_dashboard_page(context):

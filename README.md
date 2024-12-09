@@ -8,6 +8,8 @@ All tests in order:
 2. Product Feature.
    1. Create an Each Product
    2. Create an Aggregation Product
+3. Trading Partners.
+   1. Create a Vendor
 
 # Run Locally
 
