@@ -40,5 +40,5 @@ def clickSubmitButton(context):
 @then('User must login successfully')
 def assertLogin(context):
     context.driver.implicitly_wait(5)
-    header = context.driver.find_element(by=By.ID, value="tt2_ui__header__main_container")
-    assert header
+    context.driver.find_element(by=By.ID, value="tt2_ui__header__main_container")
+    context.driver.close()
