@@ -10,6 +10,7 @@ All tests in order:
    2. Create an Aggregation Product
 3. Trading Partners.
    1. Create a Vendor
+   2. Create a Customer
 
 # Run Locally
 

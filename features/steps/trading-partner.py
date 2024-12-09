@@ -37,6 +37,16 @@ def input_trading_partner_name(context):
         raise
 
 
+@when("Select Trading Partner Type as Customer")
+def select_tp_type_customer(context):
+    try:
+        context.driver.find_element(by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_type").click()
+        context.driver.find_element(by=By.XPATH, value="//select[@id='TT_UTILS_UI_FORM_UUID__1_type']/option[@value='CUSTOMER']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
 @when("Add Trading Partner GS1 ID (GLN)")
 def input_tp_gs1_id(context):
     try:
@@ -118,6 +128,16 @@ def add_address_nickname(context):
         raise
 
 
+@when("Add Ship To Address Nickname")
+def add_address_nickname(context):
+    try:
+        time.sleep(2)
+        context.driver.find_element(by=By.XPATH, value="//input[@rel='address_nickname']").send_keys("Ship To")
+    except:
+        ends_timer(context)
+        raise
+
+
 @when("Add Address GLN")
 def add_address_gln(context):
     try:
@@ -140,6 +160,15 @@ def add_address_sgln(context):
 def add_address_recipient(context):
     try:
         context.driver.find_element(by=By.XPATH, value="//input[@rel='recipient_name']").send_keys("Ship From")
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Add Ship To Address Recipient Name")
+def add_address_recipient(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//input[@rel='recipient_name']").send_keys("Ship To")
     except:
         ends_timer(context)
         raise
