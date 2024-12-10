@@ -95,3 +95,6 @@ def generate_zip() -> str:
     zip = fake.zipcode()
     return zip
 
+def generate_po() -> str:
+    po = "PO#" + generate_x_length_number(9)
+    return po
