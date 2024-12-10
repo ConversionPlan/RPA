@@ -26,12 +26,10 @@ jobs:
         run: |
           pip install -r requirements.txt
       - name: Run tests
-        #run: |
-        #  behave --format json --outfile report/results.json
         run: |
-          behave
+          behave --format json --outfile report/results.json
       - name: Generate PDF file
-        if: always()
+        if: success() || failure()
         run: |
           python report/generate_pdf.py
       - name: Check out repository code
