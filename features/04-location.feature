@@ -1,2 +1,0 @@
-@Location_Management
-Feature: Location Management
