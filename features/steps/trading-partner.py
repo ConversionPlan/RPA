@@ -112,8 +112,9 @@ def click_requirements_tab(context):
 @when("Click on Add - Address")
 def click_add_ndc(context):
     try:
+        time.sleep(2)
         context.driver.find_element(by=By.XPATH,
-                                    value="//div[contains(@class, 'tp_form__tabs__3_addresses')]//span[text()='Add']").click()
+                                    value="//div[contains(@class, 'tp_form__tabs__') and contains(@class, 'addresses')]//span[text()='Add']").click()
     except:
         ends_timer(context)
         raise
