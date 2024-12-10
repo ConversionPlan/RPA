@@ -13,6 +13,8 @@ All tests in order:
    2. Create a Customer
 3. Location Feature.
    1. Create a Customer's Location
+4. Inbound.
+   1. Create a Manual Inbound Shipment
 
 # Run Locally
 
