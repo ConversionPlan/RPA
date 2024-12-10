@@ -46,6 +46,8 @@ def launchBrowser(context):
     try:
         options = Options()
         options.add_argument("--headless=new")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--ignore-certificate-errors")
         context.driver = webdriver.Chrome(
             service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()),
             options=options)
