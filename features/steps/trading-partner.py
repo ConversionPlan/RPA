@@ -102,7 +102,8 @@ def edit_tp(context):
 @when("Click on Address Tab")
 def click_requirements_tab(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//li[@rel='addresses']").click()
+        time.sleep(3)
+        context.driver.find_element(by=By.XPATH, value="//li[@rel='addresses']/span").click()
     except:
         ends_timer(context)
         raise
