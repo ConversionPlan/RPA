@@ -41,7 +41,8 @@ def input_trading_partner_name(context):
 def select_tp_type_customer(context):
     try:
         context.driver.find_element(by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_type").click()
-        context.driver.find_element(by=By.XPATH, value="//select[@id='TT_UTILS_UI_FORM_UUID__1_type']/option[@value='CUSTOMER']").click()
+        context.driver.find_element(by=By.XPATH,
+                                    value="//select[@id='TT_UTILS_UI_FORM_UUID__1_type']/option[@value='CUSTOMER']").click()
     except:
         ends_timer(context)
         raise
@@ -100,7 +101,7 @@ def edit_tp(context):
 
 
 @when("Click on Address Tab")
-def click_requirements_tab(context):
+def click_addresses_tab(context):
     try:
         time.sleep(3)
         context.driver.find_element(by=By.XPATH, value="//li[@rel='addresses']/span").click()
@@ -110,7 +111,7 @@ def click_requirements_tab(context):
 
 
 @when("Click on Add - Address")
-def click_add_ndc(context):
+def click_add_address(context):
     try:
         time.sleep(2)
         context.driver.find_element(by=By.XPATH,
@@ -159,8 +160,9 @@ def add_address_gln(context):
         ends_timer(context)
         raise
 
+
 @when("Add Second Address GLN")
-def add_address_gln(context):
+def add_sec_address_gln(context):
     try:
         context.gln = generate_gln(context.company_prefix)
         context.driver.find_element(by=By.ID, value="TT_UTILS_UI_FORM_UUID__4_gs1_id").send_keys(context.gln)
@@ -178,8 +180,9 @@ def add_address_sgln(context):
         ends_timer(context)
         raise
 
+
 @when("Add Second Address SGLN")
-def add_address_sgln(context):
+def add_sec_address_sgln(context):
     try:
         context.sgln = generate_sgln_from_gln(context.gln)
         context.driver.find_element(by=By.ID, value="TT_UTILS_UI_FORM_UUID__4_gs1_sgln").send_keys(context.sgln)

@@ -27,6 +27,7 @@ def ends_timer(context):
 
     context.driver.close()
 
+
 @given("Is Logged In")
 def is_logged_in(context):
     try:
@@ -41,11 +42,12 @@ def is_logged_in(context):
         ends_timer(context)
         raise
 
+
 @given("Launching Chrome browser")
 def launchBrowser(context):
     try:
         options = Options()
-        options.add_argument("--headless=new")
+        # options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
         options.add_argument("--ignore-certificate-errors")
         context.driver = webdriver.Chrome(

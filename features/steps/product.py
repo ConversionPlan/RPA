@@ -4,6 +4,7 @@ from selenium.webdriver.common.keys import Keys
 from features.steps.utils import *
 from features.steps.auth import ends_timer
 
+
 @when("Open dashboard page")
 def open_dashboard_page(context):
     try:
@@ -345,7 +346,8 @@ def disable_leaf_product(context):
 @then("Product should be saved")
 def product_saved(context):
     try:
-        context.driver.find_element(by=By.XPATH, value=f"//*[contains(text(),'{context.product_name}') or contains(text(), 'GTIN14 already exist for product')]")
+        context.driver.find_element(by=By.XPATH,
+                                    value=f"//*[contains(text(),'{context.product_name}') or contains(text(), 'GTIN14 already exist for product')]")
     except:
         ends_timer(context)
         raise
