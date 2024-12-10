@@ -1,7 +1,7 @@
 @Location_Management
 Feature: Location Management
 
-  Scenario: Create a new customer's location
+  Scenario: Create a Customer's Location
     Given User exists
     And Is Logged In
     When Open dashboard page
