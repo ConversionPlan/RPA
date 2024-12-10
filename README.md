@@ -24,7 +24,7 @@ After having clone this repository, to install all the necessary packages, go to
 
 Then, to run all the tests at the same time:
 
-```behave --format json --outfile report/results.json```
+```behave --format json.pretty --outfile report/results.json```
 
 Or to run a specific test:
 
