@@ -29,7 +29,7 @@ def select_type_customer(context):
         context.driver.find_element(by=By.XPATH,
                                     value="//select[@rel='type']").click()
         context.driver.find_element(by=By.XPATH,
-                                    value="//option[@value='VENDOR']").click()
+                                    value="//option[@value='CUSTOMER']").click()
     except:
         ends_timer(context)
         raise
@@ -50,7 +50,9 @@ def search_rpa_customer(context):
 def select_customer(context):
     try:
         time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//td[@rel='name']").click()
+        trading_partner = context.driver.find_element(by=By.XPATH, value="//td[@rel='name']")
+        context.tp_name = trading_partner.text
+        trading_partner.click()
     except:
         ends_timer(context)
         raise
@@ -130,7 +132,7 @@ def click_inventory_lookup(context):
 @when("Select Shown Product")
 def select_shown_product(context):
     try:
-        pass
+        context.driver.find_element(by=By.XPATH, value="//img[@alt='Add to picking']").click()
     except:
         ends_timer(context)
         raise
@@ -139,7 +141,7 @@ def select_shown_product(context):
 @when("Select Shown Serial")
 def select_shown_serial(context):
     try:
-        pass
+        context.driver.find_element(by=By.ID, value="_tt_checkbox_field_0").click()
     except:
         ends_timer(context)
         raise
@@ -148,7 +150,7 @@ def select_shown_serial(context):
 @when("Click on Add Selection")
 def click_add_selection(context):
     try:
-        pass
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Add Selection']").click()
     except:
         ends_timer(context)
         raise
@@ -157,7 +159,16 @@ def click_add_selection(context):
 @when("Click on Shipped - Status")
 def click_shipped_status(context):
     try:
-        pass
+        context.driver.find_element(by=By.XPATH, value="//input[@value='SHIPPED']").click()
+    except:
+        ends_timer(context)
+        raise
+
+@when("Click on Save - Confirm Products Quantity")
+def click_shipped_status(context):
+    try:
+        context.driver.find_element(by=By.XPATH,
+                                    value="(//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Save'])[2]").click()
     except:
         ends_timer(context)
         raise
@@ -166,7 +177,7 @@ def click_shipped_status(context):
 @when("Click on Shipped - Dashboard")
 def click_shipped_dashboard(context):
     try:
-        pass
+        context.driver.find_element(by=By.XPATH, value="//label[text()='Shipped']").click()
     except:
         ends_timer(context)
         raise
@@ -175,7 +186,8 @@ def click_shipped_dashboard(context):
 @then("Outbound should be saved")
 def outbound_saved(context):
     try:
-        pass
+        context.driver.find_element(by=By.XPATH,
+                                    value=f"//*[contains(text(),'{context.tp_name}')]")
     except:
         ends_timer(context)
         raise

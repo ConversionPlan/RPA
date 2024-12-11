@@ -28,13 +28,6 @@ jobs:
       - name: Run tests
         run: |
           behave --format json --outfile report/results.json
-      - name: Upload Screenshot
-        if: success() || failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: screenshot
-          path: |
-            screenshots
       - name: Run bot
         if: success() || failure()
         run: |
