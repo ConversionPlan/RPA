@@ -3,7 +3,48 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from features.steps.utils import *
 from features.steps.auth import ends_timer
+from product import open_dashboard_page, open_sandwich_menu
 import time
+
+
+@given("There is an Inbound done")
+def do_inbound(context):
+    open_dashboard_page(context)
+    open_sandwich_menu(context)
+    click_inbound(context)
+    click_manual_inbound_shipment(context)
+    click_change_location(context)
+    search_rpa_location(context)
+    select_location(context)
+    click_change_seller(context)
+    select_type(context)
+    search_rpa_seller(context)
+    select_seller(context)
+    click_yes(context)
+    add_po_number(context)
+    click_sold_by_tab(context)
+    select_sold_by_main_address(context)
+    select_ship_from(context)
+    click_line_items_tab(context)
+    click_add_product_manual_inbound_shipment(context)
+    search_rpa_product(context)
+    select_rpa_product(context)
+    add_quantity(context)
+    click_ok_product_selection(context)
+    click_add_lot_source(context)
+    add_lot_number(context)
+    click_serial_based(context)
+    click_ok_lot_source(context)
+    click_ok_product_information(context)
+    get_product_gtin(context)
+    click_aggregation_tab(context)
+    click_on_add_aggregation(context)
+    select_product_radio_button(context)
+    choose_product_aggregation(context)
+    choose_lot_aggregation(context)
+    add_serial_numbers(context)
+    click_ok_aggregation(context)
+    click_ok_manual_inbound_shipment(context)
 
 @when("Click on Inbound")
 def click_inbound(context):
@@ -50,6 +91,7 @@ def search_rpa_location(context):
 def select_location(context):
     try:
         time.sleep(1)
+        context.inbounded_location = context.driver.find_element(by=By.XPATH, value="//td[@rel='name']").text
         context.driver.find_element(by=By.XPATH, value="//img[@alt='Select']").click()
     except:
         ends_timer(context)
@@ -93,9 +135,9 @@ def search_rpa_seller(context):
 def select_seller(context):
     try:
         time.sleep(1)
-        vendor = context.driver.find_element(by=By.XPATH, value="//td[@rel='name']")
-        context.tp_name = vendor.text
-        vendor.click()
+        seller_name = context.driver.find_element(by=By.XPATH, value="//td[@rel='name']")
+        context.tp_name = seller_name.text
+        seller_name.click()
     except:
         ends_timer(context)
         raise
@@ -240,6 +282,7 @@ def click_serial_based(context):
 @when("Click on OK - Lot/Source")
 def click_ok_lot_source(context):
     try:
+        time.sleep(2)
         context.driver.find_element(by=By.XPATH, value="(//span[text()='OK'])[3]").click()
     except:
         ends_timer(context)

@@ -11,16 +11,18 @@ All tests in order:
 3. Trading Partners Feature.
    1. Create a Vendor
    2. Create a Customer
-3. Location Feature.
+4. Location Feature.
    1. Create a Customer's Location
-4. Inbound.
+5. Inbound.
    1. Create a Manual Inbound Shipment
+6. Outbound
+   1. Create a SO by Picking and Shipping at Once
 
 # Run Locally
 
 In order to run this repository locally, you need to have [Python](https://www.python.org/downloads/) installed.
 
-After having clone this repository, to install all the necessary packages, go to the root directory and run:
+After having cloned this repository, to install all the necessary packages, go to the root directory and run:
 
 ```pip install -r requirements.txt```
 
@@ -30,9 +32,9 @@ Then, to run all the tests at the same time:
 
 Or to run a specific test:
 
-```behave .\features\{SPECEFICI_TEST_PY}.feature --format json --outfile report/results.json```
+```behave .\features\{SPECIFIC_FEATURE} --format json --outfile report/results.json```
 
-And replace {SPECIFIC_TEST_PY} by the name of the test you want to run.
+And replace {SPECIFIC_FEATURE} by the name of the feature file you want to run, such as `01-login.feature`.
 
 Then, to generate the PDF Report:
 
