@@ -310,7 +310,9 @@ def click_ok_manual_inbound_shipment(context):
 @when("Get Product GTIN")
 def get_product_gtin(context):
     try:
-        context.gtin = context.driver.find_element(by=By.XPATH, value="//td[@rel='gtin14' and @tblrel='line_items']/span[@class='tt_utils_forms-table-cell-responsive-value']").text
+        context.gs1_id = generate_gs1_id()
+        context.cp = generate_company_prefix()
+        context.gtin = generate_gtin_with_cp_id(context.cp, context.gs1_id)
     except:
         ends_timer(context)
         raise

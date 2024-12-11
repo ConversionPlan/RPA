@@ -261,7 +261,6 @@ def click_add_address(context):
 @when("Click on Save")
 def click_save_tp(context):
     try:
-        context.driver.save_screenshot("screenshots/entire_page.png")
         context.driver.find_element(by=By.XPATH,
                                     value="//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Save']").click()
     except:

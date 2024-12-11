@@ -25,6 +25,7 @@ Feature: Outbound
     And Click on Add Selection
     And Click on Save
     And Click on Shipped - Status
+    And Click on Save - Confirm Products Quantity
     And Click on Shipped - Dashboard
     Then Outbound should be saved
     And End test
