@@ -8,12 +8,26 @@ from datetime import datetime
 
 
 def generate_pdf():
+    # Get Test Data
+    with open("report/results.json", "r") as file:
+        results_json = json.load(file)
+
+    with open("report/test_times.json", "r") as file:
+        times_json = json.load(file)
+
+    has_failures = False
+
     # Texts for the PDF
     portal: str = "QA Assurance"
     reference_report: str = "ReportRPA_01"
     current_date: str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
     author: str = "Violeta Carvalho"
     output_path: str = "report/Track_Validation.pdf"
+
+    for feature in results_json:
+        for scenario in feature["elements"]:
+            if scenario["status"] == "failed":
+                has_failures = True
 
     # PDF styles
     font_name = "Arial"
@@ -67,7 +81,10 @@ def generate_pdf():
     cnv.drawString(left_margin, 510, "3. Deviations and Corrective Actions")
 
     cnv.setFont(font_name, small_font)
-    cnv.drawString(left_margin, 480, "No deviations were observed during the validation process.")
+    if has_failures == False:
+        cnv.drawString(left_margin, 480, "No deviations were observed during the validation process.")
+    else:
+        cnv.drawString(left_margin, 480, "Deviations were observed during the validation process.")
 
     cnv.setFont(font_name, medium_font)
     cnv.drawString(left_margin, 420, "4. Methodology")
@@ -84,13 +101,6 @@ def generate_pdf():
     cnv.setFont(font_name, medium_font)
     y = 750
     cnv.drawString(left_margin, y, "5. Detailed RPA Process")
-
-    # Get Test Data
-    with open("report/results.json", "r") as file:
-        results_json = json.load(file)
-
-    with open("report/test_times.json", "r") as file:
-        times_json = json.load(file)
 
     index = 0
     last_module = None
@@ -118,7 +128,7 @@ def generate_pdf():
 
         # Run through each test from a module
         for element in result["elements"]:
-            y -= 20
+            y -= 30
             if y <= 70:
                 cnv.showPage()
                 y = 750
@@ -132,6 +142,14 @@ def generate_pdf():
             index += 1
 
             cnv.drawString(left_margin, y, f"Start Time: {time_json["start"]} / End Time: {time_json["end"]}")
+            if result == "Failed":
+                y -= 20
+                for step in element["steps"]:
+                    try:
+                        if step["result"]["status"] == "failed":
+                            cnv.drawString(left_margin, y, f"Error in Step: {step["name"]}")
+                    except KeyError:
+                        pass
 
     cnv.save()
 
