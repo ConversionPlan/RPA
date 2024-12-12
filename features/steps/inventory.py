@@ -219,6 +219,48 @@ def click_on_destruct_inventory(context):
         ends_timer(context)
         raise
 
+@when("Click on Missing/Stolen")
+def click_missing_stolen(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//a[@href='/adjustments/misc_adjustment']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Click on Add Missing/Stolen Item")
+def click_add_missing_stolen_item(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Add Missing/Stolen Items']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Click on Add - Report Missing/Stolen")
+def click_add_report_missing_stolen(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Add']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@then("Item should be reported")
+def item_should_be_reported(context):
+    try:
+        time.sleep(5)
+        context.driver.find_element(by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search").click()
+        time.sleep(1)
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Date']").click()
+        time.sleep(1)
+        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
+        context.driver.find_element(by=By.XPATH,
+                                    value=f"//p[@class='location_name' and text()='{context.inbounded_location}']")
+    except:
+        ends_timer(context)
+        raise
+
 
 @then("Item should be quarantined")
 def item_should_be_quarantined(context):

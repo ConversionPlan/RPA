@@ -66,3 +66,25 @@ Feature: Inventory
     And Click on OK - Transfer Items
     Then Item should be destroyed
     And End test
+
+  Scenario: Report Missing/Stolen Item
+    Given User exists
+    And Is Logged In
+    And There is an Inbound done
+    When Return to dashboard page
+    And Open sandwich menu
+    And Click on Inventory Adjustments
+    And Click on Missing/Stolen
+    And Click on Add Missing/Stolen Item
+    And Change Current Location
+    And Set Inventory Adjustment Reason
+    And Add Reference
+    And Click on Items Tab
+    And Click on Add with Item Look Up
+    And Search Inbounded Item by Name
+    And Click on Inbounded Item
+    And Select Lot and Expiration Date
+    And Select Inbounded Item
+    And Click on Add - Report Missing/Stolen
+    Then Item should be reported
+    And End test
