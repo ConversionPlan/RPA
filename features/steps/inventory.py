@@ -75,6 +75,17 @@ def set_reason(context):
         ends_timer(context)
         raise
 
+@when("Set Inventory Adjustment Reason")
+def set_reason(context):
+    try:
+        select_reason = context.driver.find_element(by=By.XPATH, value="//select[contains(@id, '_reason_uuid')]")
+        select_reason.click()
+        select_reason.send_keys(Keys.ARROW_DOWN)
+        select_reason.send_keys(Keys.ENTER)
+    except:
+        ends_timer(context)
+        raise
+
 
 @when("Add Reference")
 def add_reference(context):
@@ -182,6 +193,33 @@ def click_on_items_in_quarantine(context):
         raise
 
 
+@when("Click on Inventory Adjustments")
+def click_on_inventory_adjustments(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//a[@href='/adjustments/']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Click on Destructions")
+def click_on_destructions(context):
+    try:
+        context.driver.find_element(by=By.CLASS_NAME, value="destructions").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Click on Destruct Inventory")
+def click_on_destruct_inventory(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Destruct Inventory']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
 @then("Item should be quarantined")
 def item_should_be_quarantined(context):
     try:
@@ -199,6 +237,22 @@ def item_should_be_transferred(context):
     try:
         time.sleep(5)
         context.driver.find_element(by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search").click()
+        time.sleep(1)
+        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
+        context.driver.find_element(by=By.XPATH,
+                                    value=f"//p[@class='location_name' and text()='{context.inbounded_location}']")
+    except:
+        ends_timer(context)
+        raise
+
+
+@then("Item should be destroyed")
+def item_should_be_destroyed(context):
+    try:
+        time.sleep(5)
+        context.driver.find_element(by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search").click()
+        time.sleep(1)
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Date']").click()
         time.sleep(1)
         context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
         context.driver.find_element(by=By.XPATH,

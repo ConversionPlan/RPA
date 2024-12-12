@@ -44,3 +44,25 @@ Feature: Inventory
     And Click on Items in Quarantine
     Then Item should be quarantined
     And End test
+
+  Scenario: Destroy Item
+    Given User exists
+    And Is Logged In
+    And There is an Inbound done
+    When Return to dashboard page
+    And Open sandwich menu
+    And Click on Inventory Adjustments
+    And Click on Destructions
+    And Click on Destruct Inventory
+    And Change Current Location
+    And Set Inventory Adjustment Reason
+    And Add Reference
+    And Click on Items Tab
+    And Click on Add with Item Look Up
+    And Search Inbounded Item by Name
+    And Click on Inbounded Item
+    And Select Lot and Expiration Date
+    And Select Inbounded Item
+    And Click on OK - Transfer Items
+    Then Item should be destroyed
+    And End test

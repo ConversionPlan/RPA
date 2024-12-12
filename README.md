@@ -20,6 +20,7 @@ All tests in order:
 7. Inventory.
    1. Transfer Item
    2. Quaratine Item
+   3. Destroy Item
 
 # Run Locally
 
