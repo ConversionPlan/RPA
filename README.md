@@ -19,6 +19,7 @@ All tests in order:
    1. Create a SO by Picking and Shipping at Once
 7. Inventory.
    1. Transfer Item
+   2. Quaratine Item
 
 # Run Locally
 

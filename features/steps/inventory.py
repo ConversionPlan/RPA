@@ -154,6 +154,45 @@ def click_ok_transfer_items(context):
         ends_timer(context)
         raise
 
+@when("Click on Quarantine")
+def click_on_quarantine(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//a[@href='/quarantine/']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Click on Quarantine Items")
+def click_on_quarantine_items(context):
+    try:
+        context.driver.find_element(by=By.CLASS_NAME, value="quarantine_items").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Click on Items in Quarantine")
+def click_on_items_in_quarantine(context):
+    try:
+        time.sleep(5)
+        context.driver.find_element(by=By.CLASS_NAME, value="items_in_quarantine").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@then("Item should be quarantined")
+def item_should_be_quarantined(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
+        context.driver.find_element(by=By.XPATH,
+                                    value=f"//p[@class='location_name' and text()='{context.inbounded_location}']")
+
+    except:
+        ends_timer(context)
+        raise
+
 
 @then("Item should be transferred")
 def item_should_be_transferred(context):
