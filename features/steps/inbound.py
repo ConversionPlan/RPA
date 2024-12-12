@@ -34,9 +34,9 @@ def do_inbound(context):
     click_add_lot_source(context)
     add_lot_number(context)
     click_serial_based(context)
+    add_expiration_date(context)
     click_ok_lot_source(context)
     click_ok_product_information(context)
-    get_product_gtin(context)
     click_aggregation_tab(context)
     click_on_add_aggregation(context)
     select_product_radio_button(context)
@@ -82,6 +82,8 @@ def search_rpa_location(context):
         location_name = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
         location_name.send_keys("[RPA]")
         location_name.send_keys(Keys.ENTER)
+        time.sleep(2)
+
     except:
         ends_timer(context)
         raise
@@ -126,6 +128,7 @@ def search_rpa_seller(context):
         vendor_name = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
         vendor_name.send_keys("[RPA]")
         vendor_name.send_keys(Keys.ENTER)
+        time.sleep(2)
     except:
         ends_timer(context)
         raise
@@ -227,8 +230,10 @@ def search_rpa_product(context):
 @when("Select an RPA Product")
 def select_rpa_product(context):
     try:
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//td[@rel='name']").click()
+        time.sleep(3)
+        product = context.driver.find_element(by=By.XPATH, value="//td[@rel='name']")
+        context.inbounded_product = product.text
+        product.click()
     except:
         ends_timer(context)
         raise
@@ -278,6 +283,13 @@ def click_serial_based(context):
         ends_timer(context)
         raise
 
+@when("Add Expiration Date")
+def add_expiration_date(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//input[contains(@id,'expiration_date')]").send_keys("12-12-2030")
+    except:
+        ends_timer(context)
+        raise
 
 @when("Click on OK - Lot/Source")
 def click_ok_lot_source(context):
@@ -306,16 +318,6 @@ def click_ok_manual_inbound_shipment(context):
         ends_timer(context)
         raise
 
-
-@when("Get Product GTIN")
-def get_product_gtin(context):
-    try:
-        context.gs1_id = generate_gs1_id()
-        context.cp = generate_company_prefix()
-        context.gtin = generate_gtin_with_cp_id(context.cp, context.gs1_id)
-    except:
-        ends_timer(context)
-        raise
 
 @when("Click on Aggregation Tab - Inbound")
 def click_aggregation_tab(context):
@@ -372,7 +374,8 @@ def choose_lot_aggregation(context):
 @when("Add the Serial Numbers")
 def add_serial_numbers(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//textarea[@rel='serial']").send_keys(context.gtin)
+        serial = generate_x_length_number(22)
+        context.driver.find_element(by=By.XPATH, value="//textarea[@rel='serial']").send_keys(serial)
     except:
         ends_timer(context)
         raise

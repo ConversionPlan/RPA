@@ -29,9 +29,9 @@ Feature: Inbound
     And Click on Add Lot/Source
     And Add Lot Number
     And Click on Serial Based
+    And Add Expiration Date
     And Click on OK - Lot/Source
     And Click on OK - Product Information
-    And Get Product GTIN
     And Click on Aggregation Tab - Inbound
     And Click on Add - Aggregation
     And Select Product Radio Button
