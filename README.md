@@ -22,6 +22,7 @@ All tests in order:
    2. Quaratine Item
    3. Destroy Item
    4. Report Missing/Stolen Item
+   5. Dispense Item
 
 # Run Locally
 

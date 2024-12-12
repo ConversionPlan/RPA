@@ -75,6 +75,7 @@ def set_reason(context):
         ends_timer(context)
         raise
 
+
 @when("Set Inventory Adjustment Reason")
 def set_reason(context):
     try:
@@ -130,7 +131,8 @@ def search_inbounded_item_by_name(context):
 def click_inbounded_item(context):
     try:
         time.sleep(3)
-        context.driver.find_element(by=By.XPATH, value=f"//td[@rel='name' and text()='{context.inbounded_product}']").click()
+        context.driver.find_element(by=By.XPATH,
+                                    value=f"//td[@rel='name' and text()='{context.inbounded_product}']").click()
     except:
         ends_timer(context)
         raise
@@ -164,6 +166,7 @@ def click_ok_transfer_items(context):
     except:
         ends_timer(context)
         raise
+
 
 @when("Click on Quarantine")
 def click_on_quarantine(context):
@@ -219,6 +222,25 @@ def click_on_destruct_inventory(context):
         ends_timer(context)
         raise
 
+
+@when("Click on Dispenses")
+def click_on_dispenses(context):
+    try:
+        context.driver.find_element(by=By.CLASS_NAME, value="dispense").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Click on Dispense Inventory")
+def click_on_dispense_inventory(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Dispense Inventory']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
 @when("Click on Missing/Stolen")
 def click_missing_stolen(context):
     try:
@@ -240,7 +262,8 @@ def click_add_missing_stolen_item(context):
 @when("Click on Add - Report Missing/Stolen")
 def click_add_report_missing_stolen(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Add']").click()
+        context.driver.find_element(by=By.XPATH,
+                                    value="//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Add']").click()
     except:
         ends_timer(context)
         raise
@@ -290,6 +313,22 @@ def item_should_be_transferred(context):
 
 @then("Item should be destroyed")
 def item_should_be_destroyed(context):
+    try:
+        time.sleep(5)
+        context.driver.find_element(by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search").click()
+        time.sleep(1)
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Date']").click()
+        time.sleep(1)
+        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
+        context.driver.find_element(by=By.XPATH,
+                                    value=f"//p[@class='location_name' and text()='{context.inbounded_location}']")
+    except:
+        ends_timer(context)
+        raise
+
+
+@then("Item should be dispensed")
+def item_should_be_dispensed(context):
     try:
         time.sleep(5)
         context.driver.find_element(by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search").click()
