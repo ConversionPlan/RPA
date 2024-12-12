@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from features.steps.utils import *
 from features.steps.auth import ends_timer
-
+from time import sleep
 
 @when("Open dashboard page")
 def open_dashboard_page(context):
@@ -18,6 +18,7 @@ def open_dashboard_page(context):
 def open_sandwich_menu(context):
     try:
         context.driver.find_element(by=By.XPATH, value="//div[contains(@class, 'sidebar_menu_toggle_dis')]/a").click()
+        sleep(2)
     except:
         ends_timer(context)
         raise
