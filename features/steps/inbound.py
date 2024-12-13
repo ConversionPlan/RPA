@@ -46,6 +46,7 @@ def do_inbound(context):
     click_ok_aggregation(context)
     click_ok_manual_inbound_shipment(context)
 
+
 @when("Click on Inbound")
 def click_inbound(context):
     try:
@@ -251,7 +252,8 @@ def add_quantity(context):
 @when("Click on OK - Product Selection")
 def click_ok_product_selection(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-m')]//span[text()='OK']").click()
+        context.driver.find_element(by=By.XPATH,
+                                    value="//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-m')]//span[text()='OK']").click()
     except:
         ends_timer(context)
         raise
@@ -283,13 +285,16 @@ def click_serial_based(context):
         ends_timer(context)
         raise
 
+
 @when("Add Expiration Date")
 def add_expiration_date(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//input[contains(@id,'expiration_date')]").send_keys("12-12-2030")
+        context.driver.find_element(by=By.XPATH, value="//input[contains(@id,'expiration_date')]").send_keys(
+            "12-12-2030")
     except:
         ends_timer(context)
         raise
+
 
 @when("Click on OK - Lot/Source")
 def click_ok_lot_source(context):

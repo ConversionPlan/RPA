@@ -5,6 +5,7 @@ from features.steps.utils import *
 from features.steps.auth import ends_timer
 import time
 
+
 @when("Return to dashboard page")
 def return_dashboard_page(context):
     try:
@@ -12,6 +13,7 @@ def return_dashboard_page(context):
     except:
         ends_timer(context)
         raise
+
 
 @when("Click on Create sales order by picking")
 def click_create_so_by_picking(context):
@@ -67,6 +69,7 @@ def search_location_inbound(context):
     except:
         ends_timer(context)
         raise
+
 
 @when("Add SO Number")
 def add_so_number(context):
@@ -163,6 +166,7 @@ def click_shipped_status(context):
     except:
         ends_timer(context)
         raise
+
 
 @when("Click on Save - Confirm Products Quantity")
 def click_shipped_status(context):

@@ -100,6 +100,7 @@ def generate_po() -> str:
     po = "PO#" + generate_x_length_number(9)
     return po
 
+
 def generate_ref_number() -> str:
     ref = "REF#" + generate_x_length_number(9)
     return ref
