@@ -5,6 +5,7 @@ from features.steps.utils import *
 from features.steps.auth import ends_timer
 from time import sleep
 
+
 @when("Open dashboard page")
 def open_dashboard_page(context):
     try:
@@ -339,6 +340,36 @@ def disable_leaf_product(context):
     try:
         context.driver.find_element(by=By.XPATH,
                                     value="//label[text()='This product is seen as a leaf item in the product composition']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save RPA Product Name")
+def save_rpa_product_name(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
+        context.product_name = context.driver.find_element(by=By.CLASS_NAME, value="field__name").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save RPA Product SKU")
+def save_rpa_product_sku(context):
+    try:
+        context.product_sku = context.driver.find_element(by=By.CLASS_NAME, value="field__sku").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save RPA Product GTIN")
+def save_rpa_product_gtin(context):
+    try:
+        gcp = context.driver.find_element(by=By.CLASS_NAME, value="field__gs1_company_prefix").text
+        gs1_id = context.driver.find_element(by=By.CLASS_NAME, value="field__gs1_id").text
+        context.product_gtin = f"{gcp}.{gs1_id}"
     except:
         ends_timer(context)
         raise

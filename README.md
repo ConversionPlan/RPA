@@ -15,6 +15,7 @@ All tests in order:
    1. Create a Customer's Location
 5. Inbound.
    1. Create a Manual Inbound Shipment
+   2. Create a Manual Electronic File Inbound Shipment
 6. Outbound.
    1. Create a SO by Picking and Shipping at Once
 7. Inventory.

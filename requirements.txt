@@ -5,3 +5,4 @@ reportlab
 faker
 slack-sdk
 python-dotenv
+regex

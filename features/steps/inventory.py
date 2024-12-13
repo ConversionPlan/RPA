@@ -122,6 +122,7 @@ def search_inbounded_item_by_name(context):
         name_input = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
         name_input.send_keys(context.inbounded_product)
         name_input.send_keys(Keys.ENTER)
+        time.sleep(3)
     except:
         ends_timer(context)
         raise

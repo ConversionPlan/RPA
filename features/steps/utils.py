@@ -1,7 +1,13 @@
 from faker import Faker
 from random import randint
+from typing import List, TypedDict
+import regex as re
 
 fake = Faker()
+
+class FoundLineDict(TypedDict):
+    value: str
+    index: int
 
 
 def generate_product_name() -> str:
@@ -100,6 +106,42 @@ def generate_po() -> str:
     po = "PO#" + generate_x_length_number(9)
     return po
 
+
 def generate_ref_number() -> str:
     ref = "REF#" + generate_x_length_number(9)
     return ref
+
+def read_xml(filename: str) -> List[str]:
+    with open(f"files/{filename}", "r") as file:
+        file_lines = file.read().split("\n")
+
+    return file_lines
+
+
+def change_xml_attribute_value(tag: str, attribute: str, new_value: str) -> str:
+    pattern = fr'(<[^>]*\s{attribute}\s*=\s*["\'])([^"\']*)(["\'])'
+    updated_tag = re.sub(pattern, lambda match: f"{match.group(1)}{new_value}{match.group(3)}", tag)
+    return updated_tag
+
+
+def change_xml_tag_value(tag: str, new_value: str) -> str:
+    pattern = r'(<\s*[^>/]+?>)(.*?)(<\s*/\s*[^>]+?>)'
+    updated_tag = re.sub(pattern, lambda match: f"{match.group(1)}{new_value}{match.group(3)}", tag)
+    return updated_tag
+
+def find_lines_with_tag_name(xml: List[str], tag_name: str) -> List[FoundLineDict]:
+    lines = []
+    index = 0
+    for line in xml:
+        if tag_name in line:
+            line_dict = { "value": line, "index": index }
+            lines.append(line_dict)
+
+        index += 1
+
+    return lines
+
+def save_xml(xml: List[str], filename: str) -> None:
+    string_xml = '\n'.join(xml)
+    with open(f"files/{filename}", "w") as file:
+        file.write(string_xml)

@@ -181,6 +181,7 @@ def select_sold_by_main_address(context):
         sold_by_input = context.driver.find_element(by=By.XPATH, value="//input[@class='select2-search__field']")
         sold_by_input.send_keys("Main Address")
         sold_by_input.send_keys(Keys.ENTER)
+        time.sleep(3)
     except:
         ends_timer(context)
         raise
@@ -193,6 +194,7 @@ def select_ship_from(context):
         sold_by_input = context.driver.find_element(by=By.XPATH, value="//input[@class='select2-search__field']")
         sold_by_input.send_keys("Ship From")
         sold_by_input.send_keys(Keys.ENTER)
+        time.sleep(3)
     except:
         ends_timer(context)
         raise
@@ -222,6 +224,7 @@ def search_rpa_product(context):
         product_name_input = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
         product_name_input.send_keys("[RPA]")
         product_name_input.send_keys(Keys.ENTER)
+        time.sleep(3)
     except:
         ends_timer(context)
         raise
@@ -353,7 +356,7 @@ def choose_product_aggregation(context):
         select_product.click()
         select_product.send_keys(Keys.ARROW_DOWN)
         select_product.send_keys(Keys.ENTER)
-
+        time.sleep(3)
     except:
         ends_timer(context)
         raise

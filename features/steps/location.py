@@ -26,6 +26,80 @@ def click_locations_management(context):
         raise
 
 
+@when("Click on Close")
+def click_close(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="(//span[text()='Close'])[2]").click()
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Close']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save RPA location")
+def search_rpa_location(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
+        context.receiver_sgln = context.driver.find_element(by=By.XPATH, value="//div[contains(@class,'field__gs1_sgln')]").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Location's Name")
+def save_location_name(context):
+    try:
+        context.location_name = context.driver.find_element(by=By.XPATH, value="//div[contains(@class,'field__name')]").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("View Location's First Address' Details")
+def view_location_address_details(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value=f"//span[text()='{context.location_name}']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Location's Address Line 1")
+def save_location_address(context):
+    try:
+        context.location_address = context.driver.find_element(by=By.XPATH, value="//div[contains(@class,'field__line1')]").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Location's City")
+def save_location_city(context):
+    try:
+        context.location_city = context.driver.find_element(by=By.XPATH, value="//div[contains(@class,'field__city')]").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Location's State")
+def save_location_state(context):
+    try:
+        context.location_state = context.driver.find_element(by=By.XPATH, value="//div[contains(@class,'field__state')]").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Location's Zip")
+def save_location_zip(context):
+    try:
+        context.location_zip = context.driver.find_element(by=By.XPATH, value="//div[contains(@class,'field__zip')]").text
+    except:
+        ends_timer(context)
+        raise
+
+
 @when("Click on Add - Location Management Page")
 def click_add_location_management(context):
     try:
@@ -74,6 +148,7 @@ def search_location_name(context):
         name_input_field = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
         name_input_field.send_keys(context.location_name)
         name_input_field.send_keys(Keys.ENTER)
+        time.sleep(3)
     except:
         ends_timer(context)
         raise

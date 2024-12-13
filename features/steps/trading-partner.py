@@ -26,6 +26,87 @@ def click_add_trading_partner(context):
         raise
 
 
+@when("Search for an RPA Vendor")
+def search_rpa_vendor(context):
+    try:
+        type_input = context.driver.find_element(by=By.XPATH, value="//select[@rel='type']")
+        type_input.click()
+        type_input.send_keys(Keys.ARROW_DOWN)
+        type_input.send_keys(Keys.ENTER)
+
+        name_input = context.driver.find_element(by=By.CLASS_NAME, value="search_criteria__name")
+        name_input.click()
+        name_input.send_keys("[RPA]")
+        name_input.send_keys(Keys.ENTER)
+        time.sleep(3)
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Vendor's location")
+def search_rpa_vendor(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
+        context.vendor_sgln = context.driver.find_element(by=By.CLASS_NAME, value="field__gs1_sgln").text
+    except:
+        ends_timer(context)
+        raise
+
+@when("Save Vendor's Name")
+def save_vendor_name(context):
+    try:
+        context.vendor_name = context.driver.find_element(by=By.CLASS_NAME, value="field__name").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("View Vendor's First Address' Details")
+def view_vendor_address_details(context):
+    try:
+        context.driver.find_element(by=By.XPATH, value="//span[text()='Ship From']").click()
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Vendor's Address Line 1")
+def save_vendor_address(context):
+    try:
+        context.vendor_address = context.driver.find_element(by=By.CLASS_NAME, value="field__line1").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Vendor's City")
+def save_vendor_city(context):
+    try:
+        context.vendor_city = context.driver.find_element(by=By.CLASS_NAME, value="field__city").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Vendor's State")
+def save_vendor_state(context):
+    try:
+        context.vendor_state = context.driver.find_element(by=By.CLASS_NAME, value="field__state").text
+    except:
+        ends_timer(context)
+        raise
+
+
+@when("Save Vendor's Zip")
+def save_vendor_zip(context):
+    try:
+        context.vendor_zip = context.driver.find_element(by=By.CLASS_NAME, value="field__zip").text
+    except:
+        ends_timer(context)
+        raise
+
+
 @when("Add Trading Partner Name")
 def input_trading_partner_name(context):
     try:

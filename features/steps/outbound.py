@@ -41,6 +41,7 @@ def search_rpa_customer(context):
         vendor_name = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
         vendor_name.send_keys("[RPA]")
         vendor_name.send_keys(Keys.ENTER)
+        time.sleep(3)
     except:
         ends_timer(context)
         raise
@@ -64,6 +65,7 @@ def search_location_inbound(context):
         location_name = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
         location_name.send_keys(context.inbounded_location)
         location_name.send_keys(Keys.ENTER)
+        time.sleep(3)
     except:
         ends_timer(context)
         raise

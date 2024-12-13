@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<epcis:EPCISDocument xmlns:epcis="urn:epcglobal:epcis:xsd:1" xmlns:sbdh="http://www.unece.org/cefact/namespaces/StandardBusinessDocumentHeader" xmlns:cbvmda="urn:epcglobal:cbv:mda" xmlns:gs1ushc="http://epcis.gs1us.org/hc/ns" schemaVersion="1.2" creationDate="2014-05-30T15:14:27.574-04:00">
+  <EPCISHeader>
+    <sbdh:StandardBusinessDocumentHeader>
+      <sbdh:HeaderVersion>1.0</sbdh:HeaderVersion>
+      <sbdh:Sender>
+        <sbdh:Identifier Authority="SGLN">urn:epc:id:sgln:030000.000000.0</sbdh:Identifier>
+      </sbdh:Sender>
+      <sbdh:Receiver>
+        <sbdh:Identifier Authority="SGLN">urn:epc:id:sgln:0614141.00000.0</sbdh:Identifier>
+      </sbdh:Receiver>
+      <sbdh:DocumentIdentification>
+        <sbdh:Standard>EPCglobal</sbdh:Standard>
+        <sbdh:TypeVersion>1.0</sbdh:TypeVersion>
+        <sbdh:InstanceIdentifier>1234567890</sbdh:InstanceIdentifier>
+        <sbdh:Type>Events</sbdh:Type>
+        <sbdh:CreationDateAndTime>2014-05-30T15:14:27.574-04:00</sbdh:CreationDateAndTime>
+      </sbdh:DocumentIdentification>
+    </sbdh:StandardBusinessDocumentHeader>
+    <extension>
+      <VocabularyList>
+        <Vocabulary type="urn:epcglobal:epcis:vtype:EPCClass">
+          <VocabularyElementList>
+            <VocabularyElement id="urn:epc:class:lgtin:030000.0000001.L1">
+              <attribute id="urn:epcglobal:cbv:mda#itemExpirationDate">2015-10-31</attribute>
+            </VocabularyElement>
+            <VocabularyElement id="urn:epc:idpat:sgtin:030000.0000001.*">
+              <attribute id="urn:epcglobal:cbv:mda#additionalTradeItemIdentification">00000000001</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#additionalTradeItemIdentificationTypeCode">US_NDC</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#regulatedProductName">Epcistra</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#manufacturerOfTradeItemPartyName">GS1 Pharma LLC</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#dosageFormType">PILL</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#strengthDescription">100mg</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#netContentDescription">500 pills</attribute>
+            </VocabularyElement>
+          </VocabularyElementList>
+        </Vocabulary>
+        <Vocabulary type="urn:epcglobal:epcis:vtype:Location">
+          <VocabularyElementList>
+            <VocabularyElement id="urn:epc:id:sgln:030000.000000.0">
+              <attribute id="urn:epcglobal:cbv:mda#name">GS1 Pharma LLC</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#streetAddressOne">1295 S George Ave</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#city">Washington</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#state">DC</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#postalCode">12345-6789</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#countryCode">US</attribute>
+            </VocabularyElement>
+            <VocabularyElement id="urn:epc:id:sgln:0614141.00000.0">
+              <attribute id="urn:epcglobal:cbv:mda#name">GS1 Drug Distro LLC</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#streetAddressOne">230 Park Ave S</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#city">New York</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#state">NY</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#postalCode">10003-1502</attribute>
+              <attribute id="urn:epcglobal:cbv:mda#countryCode">US</attribute>
+            </VocabularyElement>
+          </VocabularyElementList>
+        </Vocabulary>
+      </VocabularyList>
+    </extension>
+    <gs1ushc:dscsaTransactionStatement>
+      <gs1ushc:affirmTransactionStatement>true</gs1ushc:affirmTransactionStatement>
+      <gs1ushc:legalNotice>Seller has complied with each applicable subsection of FDCA Sec. 581(27)(A)&#x2013;(G).</gs1ushc:legalNotice>
+    </gs1ushc:dscsaTransactionStatement>
+  </EPCISHeader>
+  <EPCISBody>
+    <EventList>
+      <ObjectEvent>
+        <eventTime>2022-07-12T18:42:34Z</eventTime>
+        <eventTimeZoneOffset>-04:00</eventTimeZoneOffset>
+        <epcList>
+            <epc>urn:epc:id:sgtin:030000.0000001.92206099005803533499</epc>
+        </epcList>
+        <action>ADD</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:commissioning</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:active</disposition>
+        <readPoint>
+          <id>urn:epc:id:sgln:7612098.00000.1</id>
+        </readPoint>
+        <bizLocation>
+          <id>urn:epc:id:sgln:7612098.00000.1</id>
+        </bizLocation>
+        <extension>
+          <ilmd>
+            <cbvmda:lotNumber>22071201</cbvmda:lotNumber>
+            <cbvmda:itemExpirationDate>2022-12-31</cbvmda:itemExpirationDate>
+          </ilmd>
+        </extension>
+      </ObjectEvent>
+      <ObjectEvent>
+        <eventTime>2014-04-01T10:11:12Z</eventTime>
+        <eventTimeZoneOffset>-05:00</eventTimeZoneOffset>
+        <epcList/>
+        <action>OBSERVE</action>
+        <bizStep>urn:epcglobal:cbv:bizstep:shipping</bizStep>
+        <disposition>urn:epcglobal:cbv:disp:in_transit</disposition>
+        <readPoint>
+          <id>urn:epc:id:sgln:030000.000000.0</id>
+        </readPoint>
+        <extension>
+          <quantityList>
+            <quantityElement>
+              <epcClass>urn:epc:class:lgtin:030000.0000001.L1</epcClass>
+              <quantity>100</quantity>
+            </quantityElement>
+          </quantityList>
+          <sourceList>
+            <source type="urn:epcglobal:cbv:sdt:owning_party">urn:epc:id:sgln:030000.000000.0</source>
+          </sourceList>
+          <destinationList>
+            <destination type="urn:epcglobal:cbv:sdt:owning_party">urn:epc:id:sgln:0614141.00000.0</destination>
+          </destinationList>
+        </extension>
+      </ObjectEvent>
+    </EventList>
+  </EPCISBody>
+</epcis:EPCISDocument>
