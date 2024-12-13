@@ -12,6 +12,7 @@ channel_id = "C084F8LFU94"
 
 client = WebClient(token=slack_bot_token)
 
+
 def format_results():
     any_errors = False
     status_names = {
@@ -19,7 +20,6 @@ def format_results():
         "failed": ":x: Failed",
         "skipped": ":ballot_box_with_check: Skipped"
     }
-
 
     today = datetime.now().strftime("%B %d, %Y")
     formatted_results = [
@@ -45,7 +45,7 @@ def format_results():
         json_data = json.load(file)
 
     for feature in json_data:
-        formatted_results.append({ "type": "divider" })
+        formatted_results.append({"type": "divider"})
         formatted_results.append({
             "type": "section",
             "text": {

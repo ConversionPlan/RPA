@@ -5,6 +5,7 @@ from features.steps.utils import *
 from features.steps.auth import ends_timer
 from time import sleep
 
+
 @when("Open dashboard page")
 def open_dashboard_page(context):
     try:
