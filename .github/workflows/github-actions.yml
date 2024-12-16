@@ -64,7 +64,7 @@ jobs:
           access_key: ${{ secrets.MINIO_ACCESS_KEY }}
           secret_key: ${{ secrets.MINIO_SECRET_KEY }}
           bucket: ${{ secrets.MINIO_BUCKET }}
-          source: 'report/results_${{ env.DATE }}.pdf'
+          source: 'report/results_${{ env.DATE }}.json'
           target: '/'
       - name: Check out repository code
         uses: actions/checkout@v4
