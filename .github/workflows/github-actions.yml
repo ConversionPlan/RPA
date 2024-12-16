@@ -56,6 +56,9 @@ jobs:
       - name: Rename Results JSON
         if: success() || failure()
         run: mv report/results.json report/results_${{ env.DATE }}.json
+      - name: List Folder Content
+        if: success() || failure()
+        run: ls report/
       - name: Upload JSON
         if: success() || failure()
         uses: yakubique/minio-upload@v1.1.3
