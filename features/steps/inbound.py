@@ -1,6 +1,7 @@
 from behave import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
 from features.steps.utils import *
 from features.steps.auth import ends_timer
 from product import open_dashboard_page, open_sandwich_menu
@@ -50,8 +51,11 @@ def do_inbound(context):
 @when("Click on Inbound")
 def click_inbound(context):
     try:
-        context.driver.find_element(by=By.XPATH,
-                                    value="//a[contains(@href, '/receiving/')]/span[contains(text(), 'Inbound')]").click()
+        inbound_button = context.driver.find_element(by=By.XPATH,
+                                    value="//a[contains(@href, '/receiving/')]/span[contains(text(), 'Inbound')]")
+        wait = WebDriverWait(context.driver, timeout=5)
+        wait.until(lambda d: inbound_button.is_displayed())
+        inbound_button.click()
     except:
         ends_timer(context)
         raise

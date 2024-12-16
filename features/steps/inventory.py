@@ -289,8 +289,8 @@ def item_should_be_reported(context):
 def item_should_be_quarantined(context):
     try:
         context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
-        context.driver.find_element(by=By.XPATH,
-                                    value=f"//p[@class='location_name' and text()='{context.inbounded_location}']")
+        context.driver.find_element(by=By.XPATH, value="//li[@rel='items']").click()
+        context.driver.find_element(by=By.XPATH, value=f"//span[contains(text(),'{context.inbounded_product}')]")
 
     except:
         ends_timer(context)
@@ -304,8 +304,8 @@ def item_should_be_transferred(context):
         context.driver.find_element(by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search").click()
         time.sleep(1)
         context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
-        context.driver.find_element(by=By.XPATH,
-                                    value=f"//p[@class='location_name' and text()='{context.inbounded_location}']")
+        context.driver.find_element(by=By.XPATH, value="//li[@rel='items']").click()
+        context.driver.find_element(by=By.XPATH, value=f"//span[text()='{context.inbounded_product}']")
     except:
         ends_timer(context)
         raise
