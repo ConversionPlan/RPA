@@ -1,7 +1,9 @@
-selenium
-webdriver-manager
+#selenium
+#webdriver-manager
 behave
 reportlab
 faker
 slack-sdk
 python-dotenv
+locust
+locust-plugins
