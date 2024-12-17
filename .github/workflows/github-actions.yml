@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - develop
+      - locust
 
   schedule:
     - cron: "0 6 * * *"
@@ -25,46 +25,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-      - name: Run tests
+      - name: Run Locust
         run: |
-          behave --format json --outfile report/results.json
-      - name: Run bot
-        if: success() || failure()
-        run: |
-          python report/bot.py
-      - name: Generate PDF file
-        if: success() || failure()
-        run: |
-          python report/generate_pdf.py
-      - name: Get current date
-        if: success() || failure()
-        id: DATE
-        run: echo "DATE=$(date +'%m%d%YT%H%M%S')" >> $GITHUB_ENV
-      - name: Rename PDF
-        if: success() || failure()
-        run: mv report/Track_Validation.pdf report/Track_Validation_${{ env.DATE }}.pdf
-      - name: Upload PDF
-        if: success() || failure()
-        uses: yakubique/minio-upload@v1.1.3
-        with:
-          endpoint: ${{ secrets.MINIO_ENDPOINT }}
-          access_key: ${{ secrets.MINIO_ACCESS_KEY }}
-          secret_key: ${{ secrets.MINIO_SECRET_KEY }}
-          bucket: ${{ secrets.MINIO_BUCKET }}
-          source: 'report/Track_Validation_${{ env.DATE }}.pdf'
-          target: '/'
-      - name: Rename Results JSON
-        if: success() || failure()
-        run: mv report/results.json report/results_${{ env.DATE }}.json
-      - name: Upload JSON
-        if: success() || failure()
-        uses: yakubique/minio-upload@v1.1.3
-        with:
-          endpoint: ${{ secrets.MINIO_ENDPOINT }}
-          access_key: ${{ secrets.MINIO_ACCESS_KEY }}
-          secret_key: ${{ secrets.MINIO_SECRET_KEY }}
-          bucket: ${{ secrets.MINIO_BUCKET }}
-          source: 'report/results_${{ env.DATE }}.json'
-          target: '/'
+          locust --headless --users 2
       - name: Check out repository code
         uses: actions/checkout@v4
