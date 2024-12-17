@@ -8,6 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
 from datetime import datetime
 import json
+import os
 
 
 @given("User exists")
@@ -50,46 +51,58 @@ def launchBrowser(context):
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
         options.add_argument("--ignore-certificate-errors")
+        options.add_argument("--remote-debugging-port=9222")
         context.driver = webdriver.Chrome(
-            service=Service(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()),
-            options=options)
+            service=Service(
+                ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+            ),
+            options=options,
+        )
+
     except:
         ends_timer(context)
         raise
 
 
-@when('Open Portal Login page {url}')
+@when("Open Portal Login page {url}")
 def openLoginURL(context, url):
     try:
         context.driver.maximize_window()
         context.driver.get(url)
+
     except:
         ends_timer(context)
         raise
 
 
-@when('Enter Username {email}')
+@when("Enter Username {email}")
 def enterEmail(context, email):
     try:
-        context.driver.find_element(by=By.ID, value="auth__login_form__username").send_keys(email)
+        context.driver.find_element(
+            by=By.ID, value="auth__login_form__username"
+        ).send_keys(email)
     except:
         ends_timer(context)
         raise
 
 
-@when('Click Next to Login')
+@when("Click Next to Login")
 def clickNextToLogin(context):
     try:
-        context.driver.find_element(by=By.ID, value="auth__login_form__step1_next_btn").click()
+        context.driver.find_element(
+            by=By.ID, value="auth__login_form__step1_next_btn"
+        ).click()
     except:
         ends_timer(context)
         raise
 
 
-@when('Enter Password {password}')
+@when("Enter Password {password}")
 def enterPassword(context, password):
     try:
-        password_input = context.driver.find_element(by=By.ID, value="auth__login_form__password")
+        password_input = context.driver.find_element(
+            by=By.ID, value="auth__login_form__password"
+        )
         wait = WebDriverWait(context.driver, timeout=3)
         wait.until(lambda d: password_input.is_displayed())
         password_input.send_keys(password)
@@ -98,19 +111,23 @@ def enterPassword(context, password):
         raise
 
 
-@when('click on the Login button')
+@when("click on the Login button")
 def clickSubmitButton(context):
     try:
-        context.driver.find_element(by=By.ID, value="auth__login_form__step2_next_btn").click()
+        context.driver.find_element(
+            by=By.ID, value="auth__login_form__step2_next_btn"
+        ).click()
     except:
         ends_timer(context)
         raise
 
 
-@then('User must login successfully')
+@then("User must login successfully")
 def assertLogin(context):
     try:
-        WebDriverWait(context.driver, 10).until(lambda x: x.find_element(by=By.CLASS_NAME, value="dashboard_icon"))
+        WebDriverWait(context.driver, 10).until(
+            lambda x: x.find_element(by=By.CLASS_NAME, value="dashboard_icon")
+        )
     except:
         ends_timer(context)
         raise

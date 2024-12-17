@@ -18,8 +18,9 @@ def return_dashboard_page(context):
 @when("Click on Create sales order by picking")
 def click_create_so_by_picking(context):
     try:
-        context.driver.find_element(by=By.XPATH,
-                                    value="//label[text()='Create sales order by picking']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//label[text()='Create sales order by picking']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -28,10 +29,10 @@ def click_create_so_by_picking(context):
 @when("Select Type Customer")
 def select_type_customer(context):
     try:
-        context.driver.find_element(by=By.XPATH,
-                                    value="//select[@rel='type']").click()
-        context.driver.find_element(by=By.XPATH,
-                                    value="//option[@value='CUSTOMER']").click()
+        context.driver.find_element(by=By.XPATH, value="//select[@rel='type']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//option[@value='CUSTOMER']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -40,7 +41,9 @@ def select_type_customer(context):
 @when("Search for an RPA Customer")
 def search_rpa_customer(context):
     try:
-        vendor_name = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
+        vendor_name = context.driver.find_element(
+            by=By.XPATH, value="//input[@rel='name']"
+        )
         vendor_name.send_keys("[RPA]")
         vendor_name.send_keys(Keys.ENTER)
     except:
@@ -52,7 +55,9 @@ def search_rpa_customer(context):
 def select_customer(context):
     try:
         time.sleep(1)
-        trading_partner = context.driver.find_element(by=By.XPATH, value="//td[@rel='name']")
+        trading_partner = context.driver.find_element(
+            by=By.XPATH, value="//td[@rel='name']"
+        )
         context.tp_name = trading_partner.text
         trading_partner.click()
     except:
@@ -63,7 +68,9 @@ def select_customer(context):
 @when("Search for Location with Inbound")
 def search_location_inbound(context):
     try:
-        location_name = context.driver.find_element(by=By.XPATH, value="//input[@rel='name']")
+        location_name = context.driver.find_element(
+            by=By.XPATH, value="//input[@rel='name']"
+        )
         location_name.send_keys(context.inbounded_location)
         location_name.send_keys(Keys.ENTER)
     except:
@@ -75,7 +82,9 @@ def search_location_inbound(context):
 def add_so_number(context):
     try:
         context.po = generate_po()
-        context.driver.find_element(by=By.XPATH, value="//input[@rel='po_nbr']").send_keys(context.po)
+        context.driver.find_element(
+            by=By.XPATH, value="//input[@rel='po_nbr']"
+        ).send_keys(context.po)
     except:
         ends_timer(context)
         raise
@@ -84,7 +93,9 @@ def add_so_number(context):
 @when("Click on Bought By/Ship To Tab")
 def click_bought_by_tab(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Bought By/Ship To']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//span[text()='Bought By/Ship To']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -93,8 +104,12 @@ def click_bought_by_tab(context):
 @when("Select Bought By Location as Main Address")
 def select_bought_by_main_address(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[contains(@id, 'billing_address_uuid')]").click()
-        sold_by_input = context.driver.find_element(by=By.XPATH, value="//input[@class='select2-search__field']")
+        context.driver.find_element(
+            by=By.XPATH, value="//span[contains(@id, 'billing_address_uuid')]"
+        ).click()
+        sold_by_input = context.driver.find_element(
+            by=By.XPATH, value="//input[@class='select2-search__field']"
+        )
         sold_by_input.send_keys("Main Address")
         sold_by_input.send_keys(Keys.ENTER)
     except:
@@ -105,8 +120,12 @@ def select_bought_by_main_address(context):
 @when("Select Ship To as Ship To")
 def select_ship_to(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[contains(@id, 'ship_to_address_uuid')]").click()
-        sold_by_input = context.driver.find_element(by=By.XPATH, value="//input[@class='select2-search__field']")
+        context.driver.find_element(
+            by=By.XPATH, value="//span[contains(@id, 'ship_to_address_uuid')]"
+        ).click()
+        sold_by_input = context.driver.find_element(
+            by=By.XPATH, value="//input[@class='select2-search__field']"
+        )
         sold_by_input.send_keys("Ship To")
         sold_by_input.send_keys(Keys.ENTER)
     except:
@@ -117,7 +136,9 @@ def select_ship_to(context):
 @when("Click on Picking Tab")
 def click_picking_tab(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Picking']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//span[text()='Picking']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -126,7 +147,9 @@ def click_picking_tab(context):
 @when("Click on Inventory Lookup")
 def click_inventory_lookup(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//a[text()='Inventory Lookup']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//a[text()='Inventory Lookup']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -135,7 +158,9 @@ def click_inventory_lookup(context):
 @when("Select Shown Product")
 def select_shown_product(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//img[@alt='Add to picking']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//img[@alt='Add to picking']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -153,7 +178,9 @@ def select_shown_serial(context):
 @when("Click on Add Selection")
 def click_add_selection(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Add Selection']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//span[text()='Add Selection']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -162,7 +189,9 @@ def click_add_selection(context):
 @when("Click on Shipped - Status")
 def click_shipped_status(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//input[@value='SHIPPED']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//input[@value='SHIPPED']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -171,8 +200,10 @@ def click_shipped_status(context):
 @when("Click on Save - Confirm Products Quantity")
 def click_shipped_status(context):
     try:
-        context.driver.find_element(by=By.XPATH,
-                                    value="(//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Save'])[2]").click()
+        context.driver.find_element(
+            by=By.XPATH,
+            value="(//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Save'])[2]",
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -181,7 +212,9 @@ def click_shipped_status(context):
 @when("Click on Shipped - Dashboard")
 def click_shipped_dashboard(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//label[text()='Shipped']").click()
+        context.driver.find_element(
+            by=By.XPATH, value="//label[text()='Shipped']"
+        ).click()
     except:
         ends_timer(context)
         raise
@@ -190,8 +223,9 @@ def click_shipped_dashboard(context):
 @then("Outbound should be saved")
 def outbound_saved(context):
     try:
-        context.driver.find_element(by=By.XPATH,
-                                    value=f"//*[contains(text(),'{context.tp_name}')]")
+        context.driver.find_element(
+            by=By.XPATH, value=f"//*[contains(text(),'{context.tp_name}')]"
+        )
     except:
         ends_timer(context)
         raise

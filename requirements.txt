@@ -5,5 +5,3 @@ reportlab
 faker
 slack-sdk
 python-dotenv
-locust
-locust-plugins

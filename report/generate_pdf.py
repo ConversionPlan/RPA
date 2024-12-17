@@ -40,7 +40,8 @@ def generate_pdf():
     # Create First Document Page
     cnv = canvas.Canvas(output_path, pagesize=A4)
     pdfmetrics.registerFont(
-        TTFont('Arial', 'report/arial.ttf'))  # Replace 'arial.ttf' with the actual path to your Arial font file
+        TTFont("Arial", "report/arial.ttf")
+    )  # Replace 'arial.ttf' with the actual path to your Arial font file
 
     # Add Logo
     image_path = os.path.join("report", "Logo_TrackTraceRX.png")
@@ -65,33 +66,54 @@ def generate_pdf():
     cnv.drawString(left_margin, 750, "1. Executive Summary")
 
     cnv.setFont(font_name, small_font)
-    cnv.drawString(left_margin, 720,
-                   "This report details the validation activities performed from " + current_date + " for the Customers")
+    cnv.drawString(
+        left_margin,
+        720,
+        "This report details the validation activities performed from "
+        + current_date
+        + " for the Customers",
+    )
     cnv.drawString(left_margin, 700, "Portal capturing findings from the RPA phases.")
 
     cnv.setFont(font_name, medium_font)
     cnv.drawString(left_margin, 620, "2. Introduction")
 
     cnv.setFont(font_name, small_font)
-    cnv.drawString(left_margin, 590,
-                   "The validation activities are intended to confirm that the TrackRX Portal is installed, operates,")
-    cnv.drawString(left_margin, 570, "and performs according to manufacturer specifications and company requirements.")
+    cnv.drawString(
+        left_margin,
+        590,
+        "The validation activities are intended to confirm that the TrackRX Portal is installed, operates,",
+    )
+    cnv.drawString(
+        left_margin,
+        570,
+        "and performs according to manufacturer specifications and company requirements.",
+    )
 
     cnv.setFont(font_name, medium_font)
     cnv.drawString(left_margin, 510, "3. Deviations and Corrective Actions")
 
     cnv.setFont(font_name, small_font)
     if has_failures == False:
-        cnv.drawString(left_margin, 480, "No deviations were observed during the validation process.")
+        cnv.drawString(
+            left_margin,
+            480,
+            "No deviations were observed during the validation process.",
+        )
     else:
-        cnv.drawString(left_margin, 480, "Deviations were observed during the validation process.")
+        cnv.drawString(
+            left_margin, 480, "Deviations were observed during the validation process."
+        )
 
     cnv.setFont(font_name, medium_font)
     cnv.drawString(left_margin, 420, "4. Methodology")
 
     cnv.setFont(font_name, small_font)
-    cnv.drawString(left_margin, 390,
-                   "You can find the entire detailed process that was performed by Track Trace RPA on the")
+    cnv.drawString(
+        left_margin,
+        390,
+        "You can find the entire detailed process that was performed by Track Trace RPA on the",
+    )
     cnv.drawString(left_margin, 370, "next page.")
 
     # Save Second Document Page
@@ -106,6 +128,8 @@ def generate_pdf():
     last_module = None
     for result in results_json:
         # Module
+        if scenario["tags"][0] == "Ignore":
+            continue
         tag = result["tags"][0].replace("_", " ")
 
         y -= 10
@@ -141,13 +165,19 @@ def generate_pdf():
             time_json = times_json[index]
             index += 1
 
-            cnv.drawString(left_margin, y, f"Start Time: {time_json["start"]} / End Time: {time_json["end"]}")
+            cnv.drawString(
+                left_margin,
+                y,
+                f"Start Time: {time_json["start"]} / End Time: {time_json["end"]}",
+            )
             if result == "Failed":
                 y -= 20
                 for step in element["steps"]:
                     try:
                         if step["result"]["status"] == "failed":
-                            cnv.drawString(left_margin, y, f"Error in Step: {step["name"]}")
+                            cnv.drawString(
+                                left_margin, y, f"Error in Step: {step["name"]}"
+                            )
                     except KeyError:
                         pass
 
