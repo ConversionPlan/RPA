@@ -1,1 +1,2 @@
-report/results.json
+report/output/*
+report/test_times.json

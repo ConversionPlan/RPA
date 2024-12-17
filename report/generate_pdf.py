@@ -128,7 +128,7 @@ def generate_pdf():
     last_module = None
     for result in results_json:
         # Module
-        if scenario["tags"][0] == "Ignore":
+        if result["tags"][0] == "Ignore":
             continue
         tag = result["tags"][0].replace("_", " ")
 

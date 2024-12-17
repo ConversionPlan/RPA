@@ -42,6 +42,8 @@ def format_results():
         json_data = json.load(file)
 
     for feature in json_data:
+        if feature["tags"][0] == "Ignore":
+            continue
         formatted_results.append({"type": "divider"})
         formatted_results.append(
             {
@@ -54,9 +56,6 @@ def format_results():
         )
 
         for scenario in feature["elements"]:
-            if scenario["tags"][0] == "Ignore":
-                continue
-
             status = status_names[scenario["status"]]
             formatted_results.append(
                 {
@@ -133,7 +132,6 @@ def format_results():
 def send_message():
     try:
         message = format_results()
-
         response = client.chat_postMessage(channel=channel_id, blocks=message)
 
         print("Message sent successfully!", response["ts"])

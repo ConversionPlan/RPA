@@ -41,7 +41,7 @@ def generate_gtin_with_cp_id(company_prefix: str, gs1_id: str) -> str:
     return gtin
 
 
-def generate_ndc():
+def generate_ndc() -> str:
     ndc = f"{generate_x_length_number(3)}-{generate_x_length_number(4)}"
     return ndc
 
