@@ -7,6 +7,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+# https://docs.locust.io/en/stable/quickstart.html
+# https://docs.locust.io/en/stable/writing-a-locustfile.html#writing-a-locustfile
+# https://www.gamebreaking.com/posts/scenario-performance-tests
+# https://github.com/SvenskaSpel/locust-plugins/blob/master/examples/webdriver_ex.py
+
 class MyUser(WebdriverUser):
     wait_time = constant(2)
     option_args = [
