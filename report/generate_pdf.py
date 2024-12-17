@@ -9,7 +9,7 @@ from datetime import datetime
 
 def generate_pdf():
     # Get Test Data
-    with open("report/results.json", "r") as file:
+    with open("report/output/results.json", "r") as file:
         results_json = json.load(file)
 
     with open("report/test_times.json", "r") as file:
@@ -22,7 +22,7 @@ def generate_pdf():
     reference_report: str = "ReportRPA_01"
     current_date: str = datetime.now().strftime("%m/%d/%Y %H:%M:%S")
     author: str = "Violeta Carvalho"
-    output_path: str = "report/Track_Validation.pdf"
+    output_path: str = "report/output/Track_Validation.pdf"
 
     for feature in results_json:
         for scenario in feature["elements"]:

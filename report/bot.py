@@ -38,7 +38,7 @@ def format_results():
         },
     ]
 
-    with open("./report/results.json", "r") as file:
+    with open("./report/output/results.json", "r") as file:
         json_data = json.load(file)
 
     for feature in json_data:
