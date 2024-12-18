@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - lighthouse
 
   schedule:
     - cron: "0 6 * * *"
