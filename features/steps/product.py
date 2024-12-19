@@ -174,6 +174,7 @@ def input_gs1_company_prefix(context):
         context.driver.find_element(
             by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_gs1_company_prefix"
         ).send_keys(context.company_prefix)
+
     except:
         ends_timer(context)
         raise
@@ -255,7 +256,6 @@ def add_generic_name(context):
         context.driver.find_element(
             by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_generic_name"
         ).send_keys(context.product_name)
-
     except:
         ends_timer(context)
         raise
@@ -267,7 +267,6 @@ def add_strength(context):
         context.driver.find_element(
             by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_strength"
         ).send_keys("RPA Strength")
-
     except:
         ends_timer(context)
         raise

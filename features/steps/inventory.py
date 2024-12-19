@@ -341,7 +341,6 @@ def item_should_be_quarantined(context):
         context.driver.find_element(
             by=By.XPATH, value=f"//span[contains(text(),'{context.inbounded_product}')]"
         )
-
     except:
         ends_timer(context)
         raise

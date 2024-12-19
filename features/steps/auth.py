@@ -58,7 +58,7 @@ def launchBrowser(context):
             ),
             options=options,
         )
-
+        
     except:
         ends_timer(context)
         raise
