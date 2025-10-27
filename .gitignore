@@ -1,0 +1,4 @@
+report/output/*
+report/test_times.json
+*.xml
+features/steps/__pycache__
