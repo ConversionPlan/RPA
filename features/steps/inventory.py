@@ -523,16 +523,15 @@ def click_on_quarantine_items(context):
 @when("Click on Items in Quarantine")
 def click_on_items_in_quarantine(context):
     try:
-        try:
-            context.driver.find_element(
-                by=By.XPATH, value="//span[text()='Dismiss']"
-            ).click()
-            time.sleep(1)
-        except:
-            pass
-        context.driver.find_element(
-            by=By.CLASS_NAME, value="items_in_quarantine"
-        ).click()
+        # Tentar fechar modal Dismiss se existir
+        dismiss_modal_if_present(context.driver)
+
+        # Clicar em items_in_quarantine com wait robusto
+        wait_and_click(
+            context.driver,
+            By.CLASS_NAME,
+            "items_in_quarantine"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -626,23 +625,27 @@ def click_add_report_missing_stolen(context):
 @then("Item should be reported")
 def item_should_be_reported(context):
     try:
-        try:
-            context.driver.find_element(
-                by=By.XPATH, value="//span[text()='Dismiss']"
-            ).click()
-        except:
-            pass
-        time.sleep(1)
-        context.driver.find_element(
-            by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search"
-        ).click()
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Date']").click()
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
-        context.driver.find_element(
-            by=By.XPATH,
-            value=f"//p[@class='location_name' and text()='{context.inbounded_location}']",
+        # Tentar fechar modal Dismiss se existir
+        dismiss_modal_if_present(context.driver)
+
+        # Clicar em buscar com wait robusto
+        wait_and_click(
+            context.driver,
+            By.CLASS_NAME,
+            "tt_utils_ui_search-search-criterias-btns-search"
+        )
+
+        # Clicar em Date para ordenar
+        wait_and_click(context.driver, By.XPATH, "//span[text()='Date']")
+
+        # Clicar em View
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='View']")
+
+        # Verificar location name aparece
+        wait_and_find(
+            context.driver,
+            By.XPATH,
+            f"//p[@class='location_name' and text()='{context.inbounded_location}']"
         )
     except Exception as e:
         ends_timer(context, e)
@@ -652,21 +655,23 @@ def item_should_be_reported(context):
 @then("Item should be quarantined")
 def item_should_be_quarantined(context):
     try:
-        try:
-            context.driver.find_element(
-                by=By.XPATH, value="//span[text()='Dismiss']"
-            ).click()
-        except:
-            pass
-        time.sleep(1)
-        context.driver.find_element(
-            by=By.XPATH, value="//th[@rel='created_on']/span"
-        ).click()
-        time.sleep(2)
-        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
-        context.driver.find_element(by=By.XPATH, value="//li[@rel='items']").click()
-        context.driver.find_element(
-            by=By.XPATH, value=f"//span[contains(text(),'{context.inbounded_product}')]"
+        # Tentar fechar modal Dismiss se existir
+        dismiss_modal_if_present(context.driver)
+
+        # Clicar em created_on para ordenar
+        wait_and_click(context.driver, By.XPATH, "//th[@rel='created_on']/span")
+
+        # Clicar em View
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='View']")
+
+        # Clicar na tab items
+        wait_and_click(context.driver, By.XPATH, "//li[@rel='items']")
+
+        # Verificar produto aparece
+        wait_and_find(
+            context.driver,
+            By.XPATH,
+            f"//span[contains(text(),'{context.inbounded_product}')]"
         )
     except Exception as e:
         ends_timer(context, e)
@@ -676,23 +681,30 @@ def item_should_be_quarantined(context):
 @then("Item should be transferred")
 def item_should_be_transferred(context):
     try:
-        try:
-            context.driver.find_element(
-                by=By.XPATH, value="//span[text()='Dismiss']"
-            ).click()
-        except:
-            pass
-        time.sleep(1)
-        context.driver.find_element(
-            by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search"
-        ).click()
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Date']").click()
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
-        context.driver.find_element(by=By.XPATH, value="//li[@rel='items']").click()
-        context.driver.find_element(
-            by=By.XPATH, value=f"//span[text()='{context.inbounded_product}']"
+        # Tentar fechar modal Dismiss se existir
+        dismiss_modal_if_present(context.driver)
+
+        # Clicar em buscar
+        wait_and_click(
+            context.driver,
+            By.CLASS_NAME,
+            "tt_utils_ui_search-search-criterias-btns-search"
+        )
+
+        # Clicar em Date para ordenar
+        wait_and_click(context.driver, By.XPATH, "//span[text()='Date']")
+
+        # Clicar em View
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='View']")
+
+        # Clicar na tab items
+        wait_and_click(context.driver, By.XPATH, "//li[@rel='items']")
+
+        # Verificar produto aparece
+        wait_and_find(
+            context.driver,
+            By.XPATH,
+            f"//span[text()='{context.inbounded_product}']"
         )
     except Exception as e:
         ends_timer(context, e)
@@ -702,23 +714,27 @@ def item_should_be_transferred(context):
 @then("Item should be destroyed")
 def item_should_be_destroyed(context):
     try:
-        try:
-            context.driver.find_element(
-                by=By.XPATH, value="//span[text()='Dismiss']"
-            ).click()
-        except:
-            pass
-        time.sleep(1)
-        context.driver.find_element(
-            by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search"
-        ).click()
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Date']").click()
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
-        context.driver.find_element(
-            by=By.XPATH,
-            value=f"//p[@class='location_name' and text()='{context.inbounded_location}']",
+        # Tentar fechar modal Dismiss se existir
+        dismiss_modal_if_present(context.driver)
+
+        # Clicar em buscar
+        wait_and_click(
+            context.driver,
+            By.CLASS_NAME,
+            "tt_utils_ui_search-search-criterias-btns-search"
+        )
+
+        # Clicar em Date para ordenar
+        wait_and_click(context.driver, By.XPATH, "//span[text()='Date']")
+
+        # Clicar em View
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='View']")
+
+        # Verificar location name aparece
+        wait_and_find(
+            context.driver,
+            By.XPATH,
+            f"//p[@class='location_name' and text()='{context.inbounded_location}']"
         )
     except Exception as e:
         ends_timer(context, e)
@@ -728,23 +744,27 @@ def item_should_be_destroyed(context):
 @then("Item should be dispensed")
 def item_should_be_dispensed(context):
     try:
-        try:
-            context.driver.find_element(
-                by=By.XPATH, value="//span[text()='Dismiss']"
-            ).click()
-        except:
-            pass
-        time.sleep(1)
-        context.driver.find_element(
-            by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search"
-        ).click()
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Date']").click()
-        time.sleep(1)
-        context.driver.find_element(by=By.XPATH, value="//img[@alt='View']").click()
-        context.driver.find_element(
-            by=By.XPATH,
-            value=f"//p[@class='location_name' and text()='{context.inbounded_location}']",
+        # Tentar fechar modal Dismiss se existir
+        dismiss_modal_if_present(context.driver)
+
+        # Clicar em buscar
+        wait_and_click(
+            context.driver,
+            By.CLASS_NAME,
+            "tt_utils_ui_search-search-criterias-btns-search"
+        )
+
+        # Clicar em Date para ordenar
+        wait_and_click(context.driver, By.XPATH, "//span[text()='Date']")
+
+        # Clicar em View
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='View']")
+
+        # Verificar location name aparece
+        wait_and_find(
+            context.driver,
+            By.XPATH,
+            f"//p[@class='location_name' and text()='{context.inbounded_location}']"
         )
     except Exception as e:
         ends_timer(context, e)
@@ -754,16 +774,21 @@ def item_should_be_dispensed(context):
 @then("Item should be transformed")
 def item_should_be_transformed(context):
     try:
-        context.driver.find_element(
-            by=By.CLASS_NAME, value="inventory_transformation_log"
-        ).click()
-        time.sleep(2)
-        context.driver.find_element(
-            by=By.XPATH, value="//th[@rel='created_on']/span"
-        ).click()
-        time.sleep(2)
-        context.driver.find_element(
-            by=By.XPATH, value=f"//span[text()='{context.recipe_name}']"
+        # Clicar em inventory_transformation_log
+        wait_and_click(
+            context.driver,
+            By.CLASS_NAME,
+            "inventory_transformation_log"
+        )
+
+        # Clicar em created_on para ordenar
+        wait_and_click(context.driver, By.XPATH, "//th[@rel='created_on']/span")
+
+        # Verificar recipe name aparece
+        wait_and_find(
+            context.driver,
+            By.XPATH,
+            f"//span[text()='{context.recipe_name}']"
         )
 
     except Exception as e:

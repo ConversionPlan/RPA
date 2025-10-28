@@ -1,5 +1,14 @@
 from faker import Faker
 from random import randint
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import (
+    TimeoutException,
+    StaleElementReferenceException,
+    ElementClickInterceptedException,
+    NoSuchElementException
+)
+import time
 
 fake = Faker()
 
@@ -112,3 +121,171 @@ def generate_po() -> str:
 def generate_ref_number() -> str:
     ref = "REF#" + generate_x_length_number(9)
     return ref
+
+
+# ============ FUNCOES DE WAIT E RETRY LOGIC ============
+
+def wait_for_element(driver, by, value, timeout=15):
+    """Espera um elemento estar presente no DOM"""
+    try:
+        element = WebDriverWait(driver, timeout).until(
+            EC.presence_of_element_located((by, value))
+        )
+        return element
+    except TimeoutException:
+        print(f"[TIMEOUT] Elemento nao encontrado: {by}={value}")
+        raise
+
+
+def wait_for_clickable(driver, by, value, timeout=15):
+    """Espera um elemento estar clicavel"""
+    try:
+        element = WebDriverWait(driver, timeout).until(
+            EC.element_to_be_clickable((by, value))
+        )
+        return element
+    except TimeoutException:
+        print(f"[TIMEOUT] Elemento nao clicavel: {by}={value}")
+        raise
+
+
+def wait_and_click(driver, by, value, timeout=15, retries=3):
+    """
+    Espera elemento estar clicavel e clica com retry logic.
+    Lida com StaleElement, ElementClickIntercepted e outros erros comuns.
+    """
+    for attempt in range(retries):
+        try:
+            # Aguardar elemento estar clicavel
+            element = WebDriverWait(driver, timeout).until(
+                EC.element_to_be_clickable((by, value))
+            )
+
+            # Pequeno delay para evitar race conditions
+            time.sleep(0.3)
+
+            # Tentar clicar
+            element.click()
+
+            print(f"[OK] Clicou em {by}={value} na tentativa {attempt + 1}")
+            return element
+
+        except ElementClickInterceptedException:
+            print(f"[Tentativa {attempt + 1}] Elemento interceptado: {by}={value}")
+
+            # Tentar scroll ate o elemento
+            try:
+                element = driver.find_element(by, value)
+                driver.execute_script("arguments[0].scrollIntoView(true);", element)
+                time.sleep(0.5)
+                element.click()
+                print(f"[OK] Clicou apos scroll na tentativa {attempt + 1}")
+                return element
+            except Exception as scroll_error:
+                print(f"[ERRO] Scroll falhou: {scroll_error}")
+
+        except StaleElementReferenceException:
+            print(f"[Tentativa {attempt + 1}] Elemento stale: {by}={value}")
+            time.sleep(0.5)  # Aguardar DOM atualizar
+
+        except TimeoutException:
+            print(f"[Tentativa {attempt + 1}] Timeout esperando: {by}={value}")
+
+        except Exception as e:
+            print(f"[Tentativa {attempt + 1}] Erro ao clicar: {e}")
+
+        # Aguardar antes de retry
+        if attempt < retries - 1:
+            time.sleep(1)
+
+    # Se chegou aqui, todas as tentativas falharam
+    raise Exception(f"[FALHA] Nao foi possivel clicar em {by}={value} apos {retries} tentativas")
+
+
+def wait_and_send_keys(driver, by, value, keys, timeout=15, retries=3):
+    """
+    Espera elemento estar disponivel e envia keys com retry logic.
+    Lida com StaleElement e outros erros comuns.
+    """
+    for attempt in range(retries):
+        try:
+            # Aguardar elemento estar presente
+            element = WebDriverWait(driver, timeout).until(
+                EC.presence_of_element_located((by, value))
+            )
+
+            # Aguardar estar visivel
+            WebDriverWait(driver, timeout).until(
+                EC.visibility_of_element_located((by, value))
+            )
+
+            # Pequeno delay
+            time.sleep(0.3)
+
+            # Limpar campo antes de enviar keys
+            element.clear()
+            element.send_keys(keys)
+
+            print(f"[OK] Enviou keys para {by}={value} na tentativa {attempt + 1}")
+            return element
+
+        except StaleElementReferenceException:
+            print(f"[Tentativa {attempt + 1}] Elemento stale: {by}={value}")
+            time.sleep(0.5)
+
+        except TimeoutException:
+            print(f"[Tentativa {attempt + 1}] Timeout esperando: {by}={value}")
+
+        except Exception as e:
+            print(f"[Tentativa {attempt + 1}] Erro ao enviar keys: {e}")
+
+        # Aguardar antes de retry
+        if attempt < retries - 1:
+            time.sleep(1)
+
+    # Se chegou aqui, todas as tentativas falharam
+    raise Exception(f"[FALHA] Nao foi possivel enviar keys para {by}={value} apos {retries} tentativas")
+
+
+def wait_and_find(driver, by, value, timeout=15, retries=3):
+    """
+    Espera e busca elemento com retry logic.
+    Retorna o elemento quando encontrado.
+    """
+    for attempt in range(retries):
+        try:
+            element = WebDriverWait(driver, timeout).until(
+                EC.presence_of_element_located((by, value))
+            )
+            print(f"[OK] Encontrou {by}={value} na tentativa {attempt + 1}")
+            return element
+
+        except TimeoutException:
+            print(f"[Tentativa {attempt + 1}] Timeout esperando: {by}={value}")
+
+        except Exception as e:
+            print(f"[Tentativa {attempt + 1}] Erro ao buscar: {e}")
+
+        if attempt < retries - 1:
+            time.sleep(1)
+
+    raise Exception(f"[FALHA] Nao foi possivel encontrar {by}={value} apos {retries} tentativas")
+
+
+def dismiss_modal_if_present(driver, timeout=3):
+    """
+    Tenta fechar modal de 'Dismiss' se estiver presente.
+    Nao falha se o modal nao existir.
+    """
+    try:
+        from selenium.webdriver.common.by import By
+        dismiss_button = WebDriverWait(driver, timeout).until(
+            EC.element_to_be_clickable((By.XPATH, "//span[text()='Dismiss']"))
+        )
+        dismiss_button.click()
+        time.sleep(0.5)
+        print("[OK] Modal 'Dismiss' fechado")
+        return True
+    except:
+        # Modal nao presente, tudo bem
+        return False

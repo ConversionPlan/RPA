@@ -33,12 +33,48 @@ def ends_timer(context, e=None):
     with open("report/test_times.json", "w") as file:
         file.write(json.dumps(time_json))
 
-    # Verificar se o driver foi inicializado antes de tentar fechar
+    # Melhorado: Cleanup robusto do driver com retry logic
     if hasattr(context, 'driver') and context.driver is not None:
-        try:
-            context.driver.close()
-        except Exception as close_error:
-            print(f"Erro ao fechar o driver: {close_error}")
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                # Aguardar um pouco antes de fechar para evitar race conditions
+                time.sleep(0.5)
+
+                # Primeiro fecha todas as janelas
+                try:
+                    context.driver.close()
+                except Exception as close_error:
+                    print(f"[Tentativa {attempt + 1}] Erro ao fechar janela: {close_error}")
+
+                # Depois encerra a sessao do WebDriver completamente
+                time.sleep(0.3)
+                context.driver.quit()
+
+                # Marca driver como None para evitar reutilizacao
+                context.driver = None
+
+                print(f"[OK] Driver fechado com sucesso na tentativa {attempt + 1}")
+                break
+
+            except Exception as quit_error:
+                print(f"[Tentativa {attempt + 1}] Erro ao encerrar driver: {quit_error}")
+
+                if attempt == max_retries - 1:
+                    print("[AVISO] Falha ao fechar driver apos 3 tentativas")
+                    # Forcar limpeza do driver mesmo com erro
+                    context.driver = None
+
+                    # No Windows, tentar matar processos orfaos do Chrome
+                    if os.name == 'nt':
+                        try:
+                            os.system('taskkill /F /IM chrome.exe /T 2>nul')
+                            os.system('taskkill /F /IM chromedriver.exe /T 2>nul')
+                            print("[INFO] Processos Chrome orfaos eliminados")
+                        except Exception as kill_error:
+                            print(f"[AVISO] Erro ao matar processos: {kill_error}")
+                else:
+                    time.sleep(1)  # Aguardar antes de retry
     else:
         print("Driver não inicializado, pulando fechamento.")
 
