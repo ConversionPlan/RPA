@@ -1,6 +1,7 @@
 selenium
 webdriver-manager
 behave
+behavex
 reportlab
 faker
 slack-sdk
