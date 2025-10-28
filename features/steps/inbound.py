@@ -266,13 +266,22 @@ def search_rpa_product(context):
 @when("Select an Each RPA Product")
 def select_rpa_product(context):
     try:
-        time.sleep(3)
-        product = context.driver.find_element(
-            by=By.XPATH,
-            value="//td[@rel='name' and contains(text(), 'EACH') and not(contains(text(), 'Able Ahead'))]",
+        # Aguardar produto EACH aparecer na lista
+        product = wait_and_find(
+            context.driver,
+            By.XPATH,
+            "//td[@rel='name' and contains(text(), 'EACH') and not(contains(text(), 'Able Ahead'))]",
+            timeout=20
         )
         context.inbounded_product = product.text
-        product.click()
+        print(f"[INFO] Produto selecionado: {context.inbounded_product}")
+
+        # Clicar no produto com retry
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//td[@rel='name' and contains(text(), 'EACH') and not(contains(text(), 'Able Ahead'))]"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -281,24 +290,35 @@ def select_rpa_product(context):
 @when("Select an Case RPA Product")
 def select_case_rpa_product(context):
     try:
-        time.sleep(3)
-        product = context.driver.find_element(
-            by=By.XPATH, value="//td[@rel='name' and contains(text(), 'CASE')]"
+        # Aguardar produto CASE aparecer na lista
+        product = wait_and_find(
+            context.driver,
+            By.XPATH,
+            "//td[@rel='name' and contains(text(), 'CASE')]",
+            timeout=20
         )
         context.inbounded_product = product.text
-        product.click()
+        print(f"[INFO] Produto selecionado: {context.inbounded_product}")
+
+        # Clicar no produto com retry
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//td[@rel='name' and contains(text(), 'CASE')]"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
 
 
 @when("Click on Magnifying Glass")
-def select_case_rpa_product(context):
+def click_magnifying_glass(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//div[@class='tt_utils_forms-action-icon tt_utils_forms-action-icon-status-enabled']/img[@alt='View']",
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//div[@class='tt_utils_forms-action-icon tt_utils_forms-action-icon-status-enabled']/img[@alt='View']"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise

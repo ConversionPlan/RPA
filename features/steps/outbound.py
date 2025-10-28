@@ -56,9 +56,11 @@ def return_dashboard_page(context):
 @when("Click on Outbound")
 def click_outbound(context):
     try:
-        context.driver.find_element(
-            By.XPATH, "//a[@href='/shipments/outbound_shipments/']/span"
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//a[@href='/shipments/outbound_shipments/']/span"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -67,7 +69,7 @@ def click_outbound(context):
 @when("Delete Created Outbound")
 def delete_created_outbound(context):
     try:
-        context.driver.find_element(By.XPATH, "//img[@alt='Delete']").click()
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='Delete']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -76,9 +78,11 @@ def delete_created_outbound(context):
 @when("Click on Create sales order by picking")
 def click_create_so_by_picking(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//label[text()='Create sales order by picking']"
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//label[text()='Create sales order by picking']"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -87,10 +91,8 @@ def click_create_so_by_picking(context):
 @when("Select Type Customer")
 def select_type_customer(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//select[@rel='type']").click()
-        context.driver.find_element(
-            by=By.XPATH, value="//option[@value='CUSTOMER']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//select[@rel='type']")
+        wait_and_click(context.driver, By.XPATH, "//option[@value='CUSTOMER']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -99,10 +101,13 @@ def select_type_customer(context):
 @when("Search for an RPA Customer")
 def search_rpa_customer(context):
     try:
-        vendor_name = context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='name']"
+        wait_and_send_keys(
+            context.driver,
+            By.XPATH,
+            "//input[@rel='name']",
+            "[RPA]"
         )
-        vendor_name.send_keys("[RPA]")
+        vendor_name = wait_and_find(context.driver, By.XPATH, "//input[@rel='name']")
         vendor_name.send_keys(Keys.ENTER)
     except Exception as e:
         ends_timer(context, e)
@@ -112,12 +117,9 @@ def search_rpa_customer(context):
 @when("Select a Customer")
 def select_customer(context):
     try:
-        time.sleep(1)
-        trading_partner = context.driver.find_element(
-            by=By.XPATH, value="//td[@rel='name']"
-        )
+        trading_partner = wait_and_find(context.driver, By.XPATH, "//td[@rel='name']")
         context.tp_name = trading_partner.text
-        trading_partner.click()
+        wait_and_click(context.driver, By.XPATH, "//td[@rel='name']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -126,10 +128,13 @@ def select_customer(context):
 @when("Search for Location with Inbound")
 def search_location_inbound(context):
     try:
-        location_name = context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='name']"
+        wait_and_send_keys(
+            context.driver,
+            By.XPATH,
+            "//input[@rel='name']",
+            context.inbounded_location
         )
-        location_name.send_keys(context.inbounded_location)
+        location_name = wait_and_find(context.driver, By.XPATH, "//input[@rel='name']")
         location_name.send_keys(Keys.ENTER)
     except Exception as e:
         ends_timer(context, e)
@@ -140,9 +145,12 @@ def search_location_inbound(context):
 def add_so_number(context):
     try:
         context.po = generate_po()
-        context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='po_nbr']"
-        ).send_keys(context.po)
+        wait_and_send_keys(
+            context.driver,
+            By.XPATH,
+            "//input[@rel='po_nbr']",
+            context.po
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -151,9 +159,7 @@ def add_so_number(context):
 @when("Click on Bought By/Ship To Tab")
 def click_bought_by_tab(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[text()='Bought By/Ship To']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//span[text()='Bought By/Ship To']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -162,11 +168,15 @@ def click_bought_by_tab(context):
 @when("Select Bought By Location as Main Address")
 def select_bought_by_main_address(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[contains(@id, 'billing_address_uuid')]"
-        ).click()
-        sold_by_input = context.driver.find_element(
-            by=By.XPATH, value="//input[@class='select2-search__field']"
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//span[contains(@id, 'billing_address_uuid')]"
+        )
+        sold_by_input = wait_and_find(
+            context.driver,
+            By.XPATH,
+            "//input[@class='select2-search__field']"
         )
         sold_by_input.send_keys("Main Address")
         sold_by_input.send_keys(Keys.ENTER)
@@ -178,11 +188,15 @@ def select_bought_by_main_address(context):
 @when("Select Ship To as Ship To")
 def select_ship_to(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[contains(@id, 'ship_to_address_uuid')]"
-        ).click()
-        sold_by_input = context.driver.find_element(
-            by=By.XPATH, value="//input[@class='select2-search__field']"
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//span[contains(@id, 'ship_to_address_uuid')]"
+        )
+        sold_by_input = wait_and_find(
+            context.driver,
+            By.XPATH,
+            "//input[@class='select2-search__field']"
         )
         sold_by_input.send_keys("Ship To")
         sold_by_input.send_keys(Keys.ENTER)
@@ -194,9 +208,7 @@ def select_ship_to(context):
 @when("Click on Picking Tab")
 def click_picking_tab(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[text()='Picking']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//span[text()='Picking']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -205,9 +217,7 @@ def click_picking_tab(context):
 @when("Click on Inventory Lookup")
 def click_inventory_lookup(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//a[text()='Inventory Lookup']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//a[text()='Inventory Lookup']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -216,9 +226,7 @@ def click_inventory_lookup(context):
 @when("Select Shown Product")
 def select_shown_product(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//img[@alt='Add to picking']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='Add to picking']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -227,7 +235,7 @@ def select_shown_product(context):
 @when("Select Shown Serial")
 def select_shown_serial(context):
     try:
-        context.driver.find_element(by=By.ID, value="_tt_checkbox_field_0").click()
+        wait_and_click(context.driver, By.ID, "_tt_checkbox_field_0")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -236,9 +244,7 @@ def select_shown_serial(context):
 @when("Click on Add Selection")
 def click_add_selection(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[text()='Add Selection']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//span[text()='Add Selection']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -247,9 +253,7 @@ def click_add_selection(context):
 @when("Click on Shipped - Status")
 def click_shipped_status(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//input[@value='SHIPPED']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//input[@value='SHIPPED']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -258,10 +262,11 @@ def click_shipped_status(context):
 @when("Click on Save - Confirm Products Quantity")
 def click_save_confirm_products(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="(//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Save'])[2]",
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "(//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Save'])[2]"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -270,10 +275,7 @@ def click_save_confirm_products(context):
 @when("Click on Shipped - Dashboard")
 def click_shipped_dashboard(context):
     try:
-        time.sleep(2)
-        context.driver.find_element(
-            by=By.XPATH, value="//label[text()='Shipped']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//label[text()='Shipped']")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -282,8 +284,10 @@ def click_shipped_dashboard(context):
 @then("Outbound should be saved")
 def outbound_saved(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value=f"//*[contains(text(),'{context.tp_name}')]"
+        wait_and_find(
+            context.driver,
+            By.XPATH,
+            f"//*[contains(text(),'{context.tp_name}')]"
         )
     except Exception as e:
         ends_timer(context, e)
@@ -293,11 +297,15 @@ def outbound_saved(context):
 @then("Outbound should be deleted")
 def outbound_deleted(context):
     try:
-        time.sleep(5)
-        records_text = context.driver.find_element(
-            By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results"
-        ).text
+        records_element = wait_and_find(
+            context.driver,
+            By.CLASS_NAME,
+            "tt_utils_ui_search-footer-nb-results",
+            timeout=15
+        )
+        records_text = records_element.text
         new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
+        print(f"[INFO] Registros antes: {context.total_records}, depois: {new_total_records}")
         assert context.total_records - new_total_records == 1
     except Exception as e:
         ends_timer(context, e)

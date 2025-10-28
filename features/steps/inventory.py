@@ -315,7 +315,7 @@ def click_ok_outcome_products(context):
 @when("Click on Inventory button")
 def click_inventory_button(context):
     try:
-        context.driver.find_element(by=By.CLASS_NAME, value="inventory_block").click()
+        wait_and_click(context.driver, By.CLASS_NAME, "inventory_block")
     except Exception as e:
         ends_timer(context, e)
         raise
