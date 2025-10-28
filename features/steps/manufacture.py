@@ -159,19 +159,16 @@ def click_ok_commission(context):
 @when("Click on Manufacture Lot and Serial Request")
 def click_manufacture_lot_serial_request(context):
     try:
-        try:
-            close_button = WebDriverWait(context.driver, 3).until(
-                EC.element_to_be_clickable((By.XPATH, "//span[text()='Close']"))
-            )
-            close_button.click()
-        except:
-            pass
+        # Tentar fechar modal Close se existir
+        dismiss_modal_if_present(context.driver)
 
-        # Aguardar o elemento estar clicável antes de interagir
-        manufacture_button = WebDriverWait(context.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//label[text()='Manufacture Lot and Serial Request']"))
+        # Usar wait_and_click com timeout aumentado
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//label[text()='Manufacture Lot and Serial Request']",
+            timeout=20  # Aumentado de 10s para 20s
         )
-        manufacture_button.click()
     except Exception as e:
         print(f"Erro ao clicar em 'Manufacture Lot and Serial Request': {str(e)}")
         ends_timer(context, e)
@@ -181,10 +178,11 @@ def click_manufacture_lot_serial_request(context):
 @when("Click on Add Serialized Lot")
 def click_add_serialized_lot(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//span[text()='Add Serialized Lot']",
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//span[text()='Add Serialized Lot']"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
