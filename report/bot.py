@@ -174,24 +174,39 @@ def format_results():
 
 def send_message():
     try:
+        print(f"[DEBUG] Attempting to send message to Slack")
+        print(f"[DEBUG] Channel ID: {channel_id}")
+        print(f"[DEBUG] Token present: {'Yes' if slack_bot_token else 'No'}")
+        print(f"[DEBUG] Token length: {len(slack_bot_token) if slack_bot_token else 0}")
+
         message = format_results()
+        print(f"[DEBUG] Message formatted successfully with {len(message)} blocks")
+
         response = client.chat_postMessage(channel=channel_id, blocks=message)
 
-        print("Message sent successfully!", response["ts"])
+        print(f"[SUCCESS] Message sent successfully! Timestamp: {response['ts']}")
+        print(f"[SUCCESS] Check your Slack channel: {channel_id}")
     except SlackApiError as e:
-        response = client.chat_postMessage(
-            channel=channel_id,
-            blocks=[
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": f":alert: @here There was an error with the tests, but it couldn't be sent, check the https://github.com/ConversionPlan/RPA/actions/. :alert:",
-                    },
-                }
-            ],
-        )
-        print(f"Error sending message: {e.response['error']}")
+        print(f"[ERROR] SlackApiError occurred: {e.response['error']}")
+        print(f"[ERROR] Full error details: {e}")
+        try:
+            response = client.chat_postMessage(
+                channel=channel_id,
+                blocks=[
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": f":alert: @here There was an error with the tests, but it couldn't be sent, check the https://github.com/ConversionPlan/RPA/actions/. :alert:",
+                        },
+                    }
+                ],
+            )
+            print(f"[INFO] Fallback message sent successfully")
+        except Exception as fallback_error:
+            print(f"[ERROR] Could not send fallback message: {fallback_error}")
+    except Exception as e:
+        print(f"[ERROR] Unexpected error: {type(e).__name__}: {e}")
 
 
 if __name__ == "__main__":
