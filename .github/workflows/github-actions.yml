@@ -49,7 +49,10 @@ jobs:
             report/output
       - name: Run bot
         if: success() || failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
+          echo "[INFO] Running Slack bot..."
           python report/bot.py
       - name: Generate PDF file
         if: success() || failure()

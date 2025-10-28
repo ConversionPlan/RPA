@@ -1,6 +1,8 @@
 from behave import *
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from features.steps.utils import *
 from features.steps.auth import ends_timer
 from time import sleep
@@ -34,11 +36,35 @@ def there_is_product_created(context):
 @when("Open dashboard page")
 def open_dashboard_page(context):
     try:
+        # Wait for page to be ready - try different selectors
+        selectors_to_try = [
+            (By.XPATH, "//div[@class='client_logo']/a"),
+            (By.XPATH, "//div[contains(@class, 'sidebar')]"),
+            (By.XPATH, "//div[contains(@class, 'dashboard')]"),
+        ]
+
         from selenium.webdriver.support.wait import WebDriverWait
-        wait = WebDriverWait(context.driver, timeout=20)
-        # Suporta ambos portais: com logo e sem logo
-        wait.until(lambda d: d.find_element(by=By.XPATH, value="//div[@class='client_logo']/a | //h1[@class='client_with_no_logo']/a"))
-        sleep(3)
+        from selenium.webdriver.support import expected_conditions as EC
+
+        element_found = False
+        for by, selector in selectors_to_try:
+            try:
+                WebDriverWait(context.driver, 5).until(
+                    EC.presence_of_element_located((by, selector))
+                )
+                element_found = True
+                break
+            except:
+                continue
+
+        if not element_found:
+            # If we're already on the dashboard URL, that's OK
+            if "tracktraceweb.com" in context.driver.current_url:
+                print(f"Dashboard page - current URL: {context.driver.current_url}")
+            else:
+                raise Exception(f"Could not verify dashboard page at URL: {context.driver.current_url}")
+
+        sleep(2)  # Give page time to load fully
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -47,20 +73,46 @@ def open_dashboard_page(context):
 @when("Open sandwich menu")
 def open_sandwich_menu(context):
     try:
-        from selenium.webdriver.support.wait import WebDriverWait
-        from selenium.webdriver.support import expected_conditions as EC
+        # Close any open modals first
         try:
-            sleep(3)
-            context.driver.find_element(
-                by=By.XPATH,
-                value="//span[text()='Close']",
-            ).click()
+            sleep(2)
+            close_btn = WebDriverWait(context.driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, "//span[text()='Close']"))
+            )
+            close_btn.click()
+            sleep(1)
         except:
             pass
-        wait = WebDriverWait(context.driver, timeout=20)
-        # Tenta com o seletor atualizado que funciona quando o menu está habilitado
-        menu_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, 'sidebar_menu_toggle')]/a")))
-        menu_button.click()
+
+        # Wait for page to be ready
+        sleep(3)
+
+        # Try multiple selectors for the menu toggle
+        menu_toggle = None
+        selectors = [
+            "//div[contains(@class, 'sidebar_menu_toggle_dis')]/a",
+            "//div[contains(@class, 'sidebar_menu_toggle')]/a",
+            "//a[contains(@class, 'sidebar-toggle')]",
+            "//*[@id='sidebar-toggle']"
+        ]
+
+        for selector in selectors:
+            try:
+                menu_toggle = WebDriverWait(context.driver, 5).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                break
+            except:
+                continue
+
+        if menu_toggle is None:
+            # Last resort: take screenshot and try to find any clickable element
+            context.driver.save_screenshot("report/output/menu_not_found.png")
+            print(f"Current URL: {context.driver.current_url}")
+            print(f"Page source length: {len(context.driver.page_source)}")
+            raise Exception("Menu toggle not found with any selector")
+
+        menu_toggle.click()
         sleep(2)
     except Exception as e:
         ends_timer(context, e)
@@ -385,9 +437,31 @@ def input_name_each_product(context):
 @when("Click on Product Name")
 def click_product_name(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//table[@class='display']//td[contains(text(),' EACH')]"
-        ).click()
+        from selenium.webdriver.support.wait import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Try multiple selectors
+        selectors = [
+            (By.XPATH, "//table[@class='display']//td[contains(text(),' EACH')]"),
+            (By.XPATH, "//table//td[contains(text(),' EACH')]"),
+            (By.XPATH, "//td[@rel='name' and contains(text(), 'EACH')]"),
+            (By.XPATH, "//span[contains(text(), 'EACH')]"),
+        ]
+
+        element_clicked = False
+        for by, selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 5).until(
+                    EC.element_to_be_clickable((by, selector))
+                )
+                element.click()
+                element_clicked = True
+                break
+            except:
+                continue
+
+        if not element_clicked:
+            raise Exception("Could not find Product Name element with any selector")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -452,13 +526,44 @@ def disable_leaf_product(context):
 @when("Click on RPA Product")
 def click_rpa_product(context):
     try:
-        sleep(2)
-        product = context.driver.find_element(
-            by=By.XPATH,
-            value="//span[@class='tt_utils_ui_search-table-cell-responsive-value' and contains(text(), '[RPA]') and contains(text(), 'EACH')]",
-        )
+        from selenium.webdriver.support.wait import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Wait for search results to load
+        sleep(3)
+
+        # Try multiple selectors for RPA Product
+        selectors = [
+            (By.XPATH, "//span[@class='tt_utils_ui_search-table-cell-responsive-value' and contains(text(), '[RPA]') and contains(text(), 'EACH')]"),
+            (By.XPATH, "//td[contains(text(), '[RPA]') and contains(text(), 'EACH')]"),
+            (By.XPATH, "//span[contains(text(), '[RPA]') and contains(text(), 'EACH')]"),
+            (By.XPATH, "//*[contains(text(), '[RPA]') and contains(text(), 'EACH')]"),
+            (By.XPATH, "//tr[contains(., '[RPA]') and contains(., 'EACH')]//td[@rel='name']"),
+            (By.XPATH, "//table//tbody//tr//td[contains(text(), '[RPA]')]"),
+            (By.XPATH, "//td[@rel='name' and contains(text(), '[RPA]')]"),
+        ]
+
+        product = None
+        for by, selector in selectors:
+            try:
+                product = WebDriverWait(context.driver, 10).until(
+                    EC.element_to_be_clickable((by, selector))
+                )
+                print(f"[OK] Found RPA Product with selector: {selector}")
+                break
+            except:
+                print(f"[FAIL] Could not find RPA Product with selector: {selector}")
+                continue
+
+        if product is None:
+            # Save screenshot for debugging
+            context.driver.save_screenshot("report/output/rpa_product_not_found.png")
+            print(f"Current URL: {context.driver.current_url}")
+            raise Exception("Could not find RPA Product with any selector")
+
         context.product_name = product.text
         product.click()
+        sleep(1)
     except Exception as e:
         ends_timer(context, e)
         raise

@@ -7,7 +7,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-slack_bot_token = os.environ["SLACK_BOT_TOKEN"]
+# Try to get token from environment variable first, then from .env file
+slack_bot_token = os.environ.get("SLACK_BOT_TOKEN")
+if not slack_bot_token:
+    print("[WARNING] SLACK_BOT_TOKEN not found in environment variables, checking .env file...")
+    from dotenv import dotenv_values
+    config = dotenv_values(".env")
+    slack_bot_token = config.get("SLACK_BOT_TOKEN")
+    if not slack_bot_token:
+        print("[ERROR] SLACK_BOT_TOKEN not found in .env file either!")
+
 channel_id = "C084F8LFU94"
 
 client = WebClient(token=slack_bot_token)
