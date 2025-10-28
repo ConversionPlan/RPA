@@ -85,7 +85,6 @@ jobs:
           access_key: ${{ secrets.MINIO_ACCESS_KEY }}
           secret_key: ${{ secrets.MINIO_SECRET_KEY }}
           bucket: ${{ secrets.MINIO_BUCKET }}
-          source: 'report/output/*'
+          source: 'report/output'
           target: '/'
-      - name: Check out repository code
-        uses: actions/checkout@v4
+          recursive: true
