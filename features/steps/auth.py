@@ -26,12 +26,25 @@ def ends_timer(context, e=None):
             file.write(traceback.format_exc() + "\n\n")
 
     context.final_time = datetime.now().strftime("%H:%M:%S")
-    with open("report/test_times.json", "r") as file:
-        time_json = json.load(file)
+
+    # Load test times if file exists, otherwise create empty list
+    time_json = []
+    times_path = "report/test_times.json"
+    if os.path.exists(times_path):
+        try:
+            with open(times_path, "r") as file:
+                time_json = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError) as read_error:
+            print(f"[WARNING] Could not load test_times.json: {read_error}")
+            time_json = []
 
     time_json.append({"start": context.initial_time, "end": context.final_time})
-    with open("report/test_times.json", "w") as file:
-        file.write(json.dumps(time_json))
+
+    try:
+        with open(times_path, "w") as file:
+            file.write(json.dumps(time_json))
+    except Exception as write_error:
+        print(f"[WARNING] Could not write test_times.json: {write_error}")
 
     # Melhorado: Cleanup robusto do driver com retry logic
     if hasattr(context, 'driver') and context.driver is not None:
