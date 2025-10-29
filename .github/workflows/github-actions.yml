@@ -51,8 +51,22 @@ jobs:
         if: success() || failure()
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REF: ${{ github.ref }}
+          GITHUB_WORKFLOW: ${{ github.workflow }}
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT }}
+          MINIO_BUCKET: ${{ secrets.MINIO_BUCKET }}
         run: |
-          echo "[INFO] Running Slack bot..."
+          echo "[INFO] Running Slack bot with enhanced reporting..."
+          echo "[INFO] Repository: $GITHUB_REPOSITORY"
+          echo "[INFO] Run ID: $GITHUB_RUN_ID"
+          echo "[INFO] Triggered by: $GITHUB_ACTOR"
           python report/bot.py
       - name: Generate PDF file
         if: success() || failure()
