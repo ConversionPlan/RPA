@@ -27,13 +27,22 @@ def ends_timer(context, e=None):
 
     context.final_time = datetime.now().strftime("%H:%M:%S")
 
-    # Load test times if file exists, otherwise create empty list
+    # Load test times - ensure it's always a list
     time_json = []
     times_path = "report/test_times.json"
     if os.path.exists(times_path):
         try:
             with open(times_path, "r") as file:
-                time_json = json.load(file)
+                loaded_data = json.load(file)
+                # Ensure loaded_data is a list, convert dict to empty list if needed
+                if isinstance(loaded_data, list):
+                    time_json = loaded_data
+                elif isinstance(loaded_data, dict):
+                    # Corrupted data (dict instead of list), start fresh
+                    print(f"[WARNING] test_times.json contains dict instead of list, resetting")
+                    time_json = []
+                else:
+                    time_json = []
         except (FileNotFoundError, json.JSONDecodeError) as read_error:
             print(f"[WARNING] Could not load test_times.json: {read_error}")
             time_json = []
