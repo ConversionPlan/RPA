@@ -431,7 +431,9 @@ def format_results():
         ] + formatted_results[-20:]
 
     print(f"[INFO] Final message has {len(formatted_results)} blocks")
-    return formatted_results, any_errors
+
+    # Return also failure details for thread
+    return formatted_results, any_errors, failure_details if has_failures else []
 
 
 def send_message():
@@ -442,9 +444,10 @@ def send_message():
         print(f"[DEBUG] Token present: {'Yes' if slack_bot_token else 'No'}")
         print(f"[DEBUG] GitHub Context: Repository={github_context['repository']}, Run={github_context['run_number']}")
 
-        message, has_errors = format_results()
+        message, has_errors, failure_details = format_results()
         print(f"[DEBUG] Message formatted successfully with {len(message)} blocks")
         print(f"[DEBUG] Test status: {'FAILED' if has_errors else 'PASSED'}")
+        print(f"[DEBUG] Failures to show in thread: {len(failure_details)}")
 
         # Send main message
         response = client.chat_postMessage(
@@ -456,18 +459,51 @@ def send_message():
         print(f"[SUCCESS] Message sent successfully! Timestamp: {response['ts']}")
         print(f"[SUCCESS] Channel: {channel_id}")
 
-        # Add thread with additional context if needed
+        # Add thread with detailed failures
+        if failure_details:
+            try:
+                # Send all failure details in thread (split if needed)
+                if len(failure_details) <= 5:
+                    # Send all in one message
+                    thread_text = ":thread: *Complete Failure Details*\n\n" + "\n\n".join(failure_details)
+                    client.chat_postMessage(
+                        channel=channel_id,
+                        thread_ts=response['ts'],
+                        text=thread_text,
+                    )
+                else:
+                    # Send in batches
+                    client.chat_postMessage(
+                        channel=channel_id,
+                        thread_ts=response['ts'],
+                        text=f":thread: *Complete Failure Details* ({len(failure_details)} failures total)",
+                    )
+
+                    # Split into chunks of 5
+                    for i in range(0, len(failure_details), 5):
+                        chunk = failure_details[i:i+5]
+                        client.chat_postMessage(
+                            channel=channel_id,
+                            thread_ts=response['ts'],
+                            text="\n\n".join(chunk),
+                        )
+
+                print(f"[SUCCESS] Thread with {len(failure_details)} failure details added")
+            except Exception as thread_error:
+                print(f"[WARNING] Could not add failure details thread: {thread_error}")
+
+        # Add quick actions thread if failures exist
         if has_errors and github_context["run_id"]:
             actions_url = f"{github_context['server_url']}/{github_context['repository']}/actions/runs/{github_context['run_id']}"
             try:
                 client.chat_postMessage(
                     channel=channel_id,
                     thread_ts=response['ts'],
-                    text=f":point_right: Quick actions:\n• View full logs: {actions_url}\n• Download artifacts: {actions_url}#artifacts\n• Check workflow file: {github_context['server_url']}/{github_context['repository']}/blob/main/.github/workflows/github-actions.yml",
+                    text=f":link: *Quick Actions*\n• View full logs: {actions_url}\n• Download artifacts: {actions_url}#artifacts\n• Check workflow file: {github_context['server_url']}/{github_context['repository']}/blob/main/.github/workflows/github-actions.yml",
                 )
                 print(f"[SUCCESS] Thread with quick actions added")
             except Exception as thread_error:
-                print(f"[WARNING] Could not add thread: {thread_error}")
+                print(f"[WARNING] Could not add quick actions thread: {thread_error}")
 
         return True
 
