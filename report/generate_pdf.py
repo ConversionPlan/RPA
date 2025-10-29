@@ -44,8 +44,19 @@ def generate_pdf():
     # Get Test Data
     results_json = load_and_convert_results()
 
-    with open("report/test_times.json", "r") as file:
-        times_json = json.load(file)
+    # Load test times if available, otherwise use empty dict
+    times_json = {}
+    times_path = "report/test_times.json"
+    if os.path.exists(times_path):
+        try:
+            with open(times_path, "r") as file:
+                times_json = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError) as e:
+            print(f"[WARNING] Could not load test_times.json: {e}")
+            print(f"[INFO] Continuing without test times data...")
+    else:
+        print(f"[WARNING] test_times.json not found at {times_path}")
+        print(f"[INFO] Continuing without test times data...")
 
     has_failures = False
 
@@ -210,14 +221,21 @@ def generate_pdf():
             cnv.drawString(left_margin, y, f"Report: {report} - {result}")
 
             y -= 20
-            time_json = times_json[index]
+            # Only show times if available
+            if times_json and index < len(times_json):
+                time_json = times_json[index]
+                cnv.drawString(
+                    left_margin,
+                    y,
+                    f"Start Time: {time_json['start']} / End Time: {time_json['end']}",
+                )
+            else:
+                cnv.drawString(
+                    left_margin,
+                    y,
+                    f"Time: Not available",
+                )
             index += 1
-
-            cnv.drawString(
-                left_margin,
-                y,
-                f"Start Time: {time_json["start"]} / End Time: {time_json["end"]}",
-            )
             if result == "Failed":
                 y -= 20
                 for step in element["steps"]:
@@ -231,9 +249,14 @@ def generate_pdf():
 
     cnv.save()
 
-    # Reset Test Times json
-    with open("report/test_times.json", "w") as file:
-        file.write("[]")
+    # Reset Test Times json if it exists
+    if os.path.exists("report/test_times.json"):
+        try:
+            with open("report/test_times.json", "w") as file:
+                file.write("[]")
+            print("[INFO] Test times reset successfully")
+        except Exception as e:
+            print(f"[WARNING] Could not reset test_times.json: {e}")
 
 
 generate_pdf()
