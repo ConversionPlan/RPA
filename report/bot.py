@@ -247,7 +247,7 @@ def format_results():
 
     formatted_results.append({"type": "divider"})
 
-    # Feature-by-feature breakdown
+    # Feature-by-feature breakdown (compact format)
     formatted_results.append({
         "type": "section",
         "text": {
@@ -256,21 +256,29 @@ def format_results():
         },
     })
 
-    # Feature details with statistics
+    # Combine feature details into fewer blocks (max 10 lines per block)
+    feature_lines = []
     for feature_stat in stats["feature_details"]:
         feature_emoji = ":white_check_mark:" if feature_stat["failed"] == 0 else ":x:"
+        feature_lines.append(f"{feature_emoji} *{feature_stat['name']}* - {feature_stat['passed']}/{feature_stat['total']} ({feature_stat['success_rate']:.0f}%)")
+
+    # Split into blocks of 10 features each
+    for i in range(0, len(feature_lines), 10):
+        chunk = feature_lines[i:i+10]
         formatted_results.append({
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f"{feature_emoji} *{feature_stat['name']}*\n{feature_stat['passed']}/{feature_stat['total']} passed ({feature_stat['success_rate']:.0f}%)",
+                "text": "\n".join(chunk),
             },
         })
 
     formatted_results.append({"type": "divider"})
 
-    # Detailed scenario results (for failures)
+    # Detailed scenario results (for failures) - Compact format
     has_failures = False
+    failure_details = []
+
     for feature in json_data:
         if feature.get("tags") and len(feature["tags"]) > 0:
             first_tag = feature["tags"][0]
@@ -282,54 +290,52 @@ def format_results():
         if "elements" not in feature:
             continue
 
-        feature_has_failures = False
         for scenario in feature["elements"]:
             if scenario["status"] in ["failed", "error"]:
-                if not has_failures:
-                    formatted_results.append({
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "*:mag: Failed Scenarios Details*",
-                        },
-                    })
-                    has_failures = True
-
-                if not feature_has_failures:
-                    formatted_results.append({"type": "divider"})
-                    formatted_results.append({
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": f":x: *{feature['name']}*",
-                        },
-                    })
-                    feature_has_failures = True
-
                 any_errors = True
-                status = status_names.get(scenario["status"], ":question: Unknown")
-                formatted_results.append({
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": f"• *{scenario['name']}*: {status}",
-                    },
-                })
+                has_failures = True
 
-                # Show failed steps
+                # Collect failure info
+                error_info = f":x: *{feature['name']}* → {scenario['name']}"
+
+                # Find first failed step
                 for step in scenario.get("steps", []):
                     try:
                         if step["result"]["status"] == "failed":
                             error_message = "\n".join(step["result"]["error_message"])
-                            formatted_results.append({
-                                "type": "section",
-                                "text": {
-                                    "type": "mrkdwn",
-                                    "text": f"  *Step:* `{step['name']}`\n  *Error:*\n```{error_message[:300]}```",
-                                },
-                            })
+                            error_info += f"\n`{step['name']}`\n```{error_message[:200]}```"
+                            break  # Only show first failed step
                     except (KeyError, TypeError):
                         pass
+
+                failure_details.append(error_info)
+
+    # Add failures section if any
+    if has_failures:
+        formatted_results.append({
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "*:mag: Failed Scenarios Details*",
+            },
+        })
+
+        # Combine all failures into one or two blocks
+        formatted_results.append({
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "\n\n".join(failure_details[:5]),  # Max 5 failures shown
+            },
+        })
+
+        if len(failure_details) > 5:
+            formatted_results.append({
+                "type": "context",
+                "elements": [
+                    {"type": "mrkdwn", "text": f"_...and {len(failure_details) - 5} more failures. Check artifacts for full details._"}
+                ],
+            })
 
     formatted_results.append({"type": "divider"})
 
@@ -407,6 +413,24 @@ def format_results():
             ],
         })
 
+    # Slack has a limit of 50 blocks per message
+    if len(formatted_results) > 50:
+        print(f"[WARNING] Message has {len(formatted_results)} blocks, exceeding Slack's 50 block limit!")
+        print(f"[WARNING] Trimming message to fit within limit...")
+        # Keep header, stats, and conclusion, trim the middle
+        formatted_results = formatted_results[:25] + [
+            {"type": "divider"},
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "_Message truncated due to Slack's 50 block limit. Check GitHub Actions for full details._",
+                },
+            },
+            {"type": "divider"},
+        ] + formatted_results[-20:]
+
+    print(f"[INFO] Final message has {len(formatted_results)} blocks")
     return formatted_results, any_errors
 
 
