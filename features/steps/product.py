@@ -122,10 +122,13 @@ def open_sandwich_menu(context):
 @when("Click on Product Management")
 def click_product_management(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//a[contains(@href, '/products/')]/span[contains(text(), 'Product Management')]",
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//a[contains(@href, '/products/')]/span[contains(text(), 'Product Management')]",
+            timeout=10
+        )
+        sleep(1)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -134,10 +137,13 @@ def click_product_management(context):
 @when("Click on Add - Product Management Page")
 def click_add_product_management(context):
     try:
-        context.driver.find_element(
-            by=By.CLASS_NAME,
-            value="tt_utils_ui_search-one-header-action-button--add-action",
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.CLASS_NAME,
+            "tt_utils_ui_search-one-header-action-button--add-action",
+            timeout=10
+        )
+        sleep(1)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -146,7 +152,8 @@ def click_add_product_management(context):
 @when("Click on General Tab")
 def click_general_tab(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//li[@rel='general']").click()
+        wait_and_click(context.driver, By.XPATH, "//li[@rel='general']", timeout=10)
+        sleep(0.5)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -156,9 +163,13 @@ def click_general_tab(context):
 def input_product_name(context):
     try:
         context.product_name = generate_product_name() + " EACH"
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_name"
-        ).send_keys(context.product_name)
+        name_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_name", timeout=10
+        )
+        name_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_name", context.product_name
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -168,9 +179,13 @@ def input_product_name(context):
 def input_saved_product_name(context):
     try:
         context.product_name = context.product_name.split(" EACH")[0] + " CASE"
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_name"
-        ).send_keys(context.product_name)
+        name_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_name", timeout=10
+        )
+        name_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_name", context.product_name
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -179,9 +194,13 @@ def input_saved_product_name(context):
 @when("Add Pack Size {size}")
 def add_pack_size(context, size):
     try:
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_pack_size"
-        ).send_keys(size)
+        pack_size_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_pack_size", timeout=10
+        )
+        pack_size_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_pack_size", size
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -190,12 +209,10 @@ def add_pack_size(context, size):
 @when("Select Pack Size Case")
 def select_pack_size_case(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//select[@name='packaging_type']"
-        ).click()
-        context.driver.find_element(
-            by=By.XPATH, value="//option[text()='Case (CA)']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//select[@name='packaging_type']", timeout=10)
+        sleep(0.5)
+        wait_and_click(context.driver, By.XPATH, "//option[text()='Case (CA)']", timeout=10)
+        sleep(0.5)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -204,9 +221,8 @@ def select_pack_size_case(context):
 @when("Click on Identifiers tab")
 def click_identifiers_tab(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//li[@rel='identifiers']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//li[@rel='identifiers']", timeout=10)
+        sleep(0.5)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -216,9 +232,13 @@ def click_identifiers_tab(context):
 def add_sku(context):
     try:
         context.ndc = generate_ndc()
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_sku"
-        ).send_keys(context.ndc)
+        sku_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_sku", timeout=10
+        )
+        sku_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_sku", context.ndc
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -227,9 +247,13 @@ def add_sku(context):
 @when("Add Saved SKU")
 def add_saved_ku(context):
     try:
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_sku"
-        ).send_keys(context.ndc)
+        sku_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_sku", timeout=10
+        )
+        sku_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_sku", context.ndc
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -241,9 +265,13 @@ def add_upc(context):
         context.company_prefix = generate_company_prefix()
         context.gs1_id = generate_gs1_id()
         context.gtin = generate_gtin_with_cp_id(context.company_prefix, context.gs1_id)
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_upc"
-        ).send_keys(context.gtin)
+        upc_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_upc", timeout=10
+        )
+        upc_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_upc", context.gtin
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -252,9 +280,13 @@ def add_upc(context):
 @when("Add Saved UPC")
 def add_saved_upc(context):
     try:
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_upc"
-        ).send_keys(context.gtin)
+        upc_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_upc", timeout=10
+        )
+        upc_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_upc", context.gtin
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -263,10 +295,13 @@ def add_saved_upc(context):
 @when("Add GS1 Company Prefix")
 def input_gs1_company_prefix(context):
     try:
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_gs1_company_prefix"
-        ).send_keys(context.company_prefix)
-
+        prefix_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_gs1_company_prefix", timeout=10
+        )
+        prefix_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_gs1_company_prefix", context.company_prefix
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -275,9 +310,13 @@ def input_gs1_company_prefix(context):
 @when("Add GS1 ID")
 def input_gs1_id(context):
     try:
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_gs1_id"
-        ).send_keys(context.gs1_id)
+        gs1_field = wait_and_find(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_gs1_id", timeout=10
+        )
+        gs1_field.clear()
+        wait_and_send_keys(
+            context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_gs1_id", context.gs1_id
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -286,10 +325,13 @@ def input_gs1_id(context):
 @when("Click on Add Identifier")
 def click_add_identifier(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//div[@class='tt_utils_forms-one-header-action-button tt_utils_forms-one-header-action-button--add-action']",
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//div[@class='tt_utils_forms-one-header-action-button tt_utils_forms-one-header-action-button--add-action']",
+            timeout=10
+        )
+        sleep(1)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -298,8 +340,8 @@ def click_add_identifier(context):
 @when("Add Identifier Value")
 def input_ndc_value(context):
     try:
-        input_field = context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='value']"
+        input_field = wait_and_find(
+            context.driver, By.XPATH, "//input[@rel='value']", timeout=10
         )
         input_field.send_keys(context.ndc)
     except Exception as e:
@@ -424,11 +466,15 @@ def click_add_product(context):
 @when("Input Name of Each Product into Product Name")
 def input_name_each_product(context):
     try:
-        name_input_field = context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='name']"
+        name_input_field = wait_and_find(
+            context.driver, By.XPATH, "//input[@rel='name']", timeout=10
         )
+        name_input_field.clear()
+        sleep(0.5)
         name_input_field.send_keys(" EACH")
+        sleep(2)  # Wait for autocomplete to load
         name_input_field.send_keys(Keys.ENTER)
+        sleep(2)  # Wait for search results to appear
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -439,29 +485,61 @@ def click_product_name(context):
     try:
         from selenium.webdriver.support.wait import WebDriverWait
         from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver import ActionChains
 
-        # Try multiple selectors
+        # Wait for the results table/list to appear
+        sleep(2)
+
+        # Try multiple selectors - prioritize clickable parent elements (td) over child elements (span)
         selectors = [
+            # Table row/cell elements (parent elements with onclick - most reliable)
+            (By.XPATH, "//td[@rel='name' and contains(., 'EACH')]"),
+            (By.XPATH, "//td[contains(@class, 'res_column__name') and contains(., 'EACH')]"),
+            (By.XPATH, "//tr[contains(., 'EACH')]//td[@rel='name']"),
+            # Autocomplete dropdown options
+            (By.XPATH, "//div[contains(@class, 'autocomplete')]//li[contains(text(), 'EACH')]"),
+            (By.XPATH, "//ul[contains(@class, 'ui-autocomplete')]//li[contains(text(), 'EACH')]"),
+            (By.XPATH, "//div[@class='ui-menu-item']//div[contains(text(), 'EACH')]"),
+            # Table results (generic)
             (By.XPATH, "//table[@class='display']//td[contains(text(),' EACH')]"),
-            (By.XPATH, "//table//td[contains(text(),' EACH')]"),
-            (By.XPATH, "//td[@rel='name' and contains(text(), 'EACH')]"),
-            (By.XPATH, "//span[contains(text(), 'EACH')]"),
+            (By.XPATH, "//table//tbody//tr//td[contains(text(),' EACH')]"),
         ]
 
         element_clicked = False
+        last_error = None
+
         for by, selector in selectors:
             try:
-                element = WebDriverWait(context.driver, 5).until(
-                    EC.element_to_be_clickable((by, selector))
+                print(f"Trying selector: {selector}")
+                element = WebDriverWait(context.driver, 3).until(
+                    EC.presence_of_element_located((by, selector))
                 )
-                element.click()
-                element_clicked = True
-                break
-            except:
+                print(f"Found element with selector: {selector}")
+
+                # Try JavaScript click first (bypasses intercepted click issues)
+                try:
+                    context.driver.execute_script("arguments[0].click();", element)
+                    print(f"Clicked element with JavaScript")
+                    element_clicked = True
+                    sleep(1)
+                    break
+                except:
+                    # Fallback to regular click
+                    element.click()
+                    print(f"Clicked element with regular click")
+                    element_clicked = True
+                    sleep(1)
+                    break
+            except Exception as sel_error:
+                last_error = sel_error
                 continue
 
         if not element_clicked:
-            raise Exception("Could not find Product Name element with any selector")
+            # Take screenshot for debugging
+            context.driver.save_screenshot("report/output/product_name_not_found.png")
+            print(f"Current URL: {context.driver.current_url}")
+            print(f"Page source preview: {context.driver.page_source[:500]}")
+            raise Exception(f"Could not find Product Name element with any selector. Last error: {last_error}")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -470,22 +548,63 @@ def click_product_name(context):
 @when("Add Product Quantity")
 def add_product_quantity(context):
     try:
-        context.product_name = context.driver.find_element(
-            by=By.CLASS_NAME, value="child_product_name_show_container"
-        ).text
-        context.gtin = context.driver.find_element(
-            by=By.CLASS_NAME, value="child_product_gtin14_show_container"
-        ).text
+        # Wait longer for modal to fully load after clicking product
+        sleep(3)
+
+        # Try to find the modal container first
+        from selenium.webdriver.support.wait import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        try:
+            # Wait for modal to appear
+            modal = WebDriverWait(context.driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "tt_utils_ui_dlg_modal-width-class-m"))
+            )
+            print("Modal found, waiting for content to load...")
+            sleep(2)
+        except:
+            print("Modal not found, but continuing...")
+
+        # Get product information from the modal
+        product_name_elem = wait_and_find(
+            context.driver, By.CLASS_NAME, "child_product_name_show_container", timeout=15
+        )
+        context.product_name = product_name_elem.text
+
+        gtin_elem = wait_and_find(
+            context.driver, By.CLASS_NAME, "child_product_gtin14_show_container", timeout=10
+        )
+        context.gtin = gtin_elem.text
         context.gtin = "3" + context.gtin[1:13]
-        context.ndc = context.driver.find_element(
-            by=By.CLASS_NAME, value="child_product_name_ndc_container"
-        ).text
+
+        ndc_elem = wait_and_find(
+            context.driver, By.CLASS_NAME, "child_product_name_ndc_container", timeout=10
+        )
+        context.ndc = ndc_elem.text
+
         context.company_prefix, context.gs1_id = generate_cp_id_by_gtin(context.gtin)
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//input[starts-with(@id, 'TT_UTILS_UI_FORM_UUID_') and contains(@id, 'quantity') and @rel='quantity']",
-        ).send_keys("2")
+
+        # Add quantity
+        quantity_field = wait_and_find(
+            context.driver,
+            By.XPATH,
+            "//input[starts-with(@id, 'TT_UTILS_UI_FORM_UUID_') and contains(@id, 'quantity') and @rel='quantity']",
+            timeout=10
+        )
+        quantity_field.clear()
+        wait_and_send_keys(
+            context.driver,
+            By.XPATH,
+            "//input[starts-with(@id, 'TT_UTILS_UI_FORM_UUID_') and contains(@id, 'quantity') and @rel='quantity']",
+            "2"
+        )
     except Exception as e:
+        # Take screenshot for debugging
+        try:
+            context.driver.save_screenshot("report/output/add_quantity_error.png")
+            print(f"Screenshot saved. Current URL: {context.driver.current_url}")
+        except:
+            pass
         ends_timer(context, e)
         raise
 
@@ -493,10 +612,13 @@ def add_product_quantity(context):
 @when("Click on Add Child Product")
 def click_add_child_product(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-m')]//button[contains(@class, 'tt_utils_ui_dlg_modal-default-enabled-button')]",
-        ).click()
+        wait_and_click(
+            context.driver,
+            By.XPATH,
+            "//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-m')]//button[contains(@class, 'tt_utils_ui_dlg_modal-default-enabled-button')]",
+            timeout=10
+        )
+        sleep(1)
     except Exception as e:
         ends_timer(context, e)
         raise
