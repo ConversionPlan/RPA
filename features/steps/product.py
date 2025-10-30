@@ -73,47 +73,71 @@ def open_dashboard_page(context):
 @when("Open sandwich menu")
 def open_sandwich_menu(context):
     try:
-        # Close any open modals first
-        try:
-            sleep(2)
-            close_btn = WebDriverWait(context.driver, 5).until(
-                EC.element_to_be_clickable((By.XPATH, "//span[text()='Close']"))
-            )
-            close_btn.click()
-            sleep(1)
-        except:
-            pass
+        # Close any open modals/overlays/toasts first - try multiple methods
+        sleep(2)
 
-        # Wait for page to be ready
-        sleep(3)
+        # Try to close various types of overlays
+        close_selectors = [
+            "//span[text()='Close']",
+            "//button[text()='Close']",
+            "//button[contains(@class, 'close')]",
+            "//a[text()='Close']",
+            "//div[contains(@class, 'modal')]//button[contains(@class, 'close')]",
+            "//div[contains(@class, 'tt_utils_ui_dlg_modal')]//span[text()='Close']",
+            "//*[contains(@class, 'close-button')]",
+            "//*[@aria-label='Close']"
+        ]
 
-        # Try multiple selectors for the menu toggle
+        for close_selector in close_selectors:
+            try:
+                close_btn = WebDriverWait(context.driver, 2).until(
+                    EC.element_to_be_clickable((By.XPATH, close_selector))
+                )
+                close_btn.click()
+                print(f"Closed overlay with selector: {close_selector}")
+                sleep(1)
+            except:
+                continue
+
+        # Wait for page transitions to complete
+        sleep(2)
+
+        # Try multiple selectors for the menu toggle with increased timeout
         menu_toggle = None
         selectors = [
             "//div[contains(@class, 'sidebar_menu_toggle_dis')]/a",
+            "//div[contains(@class, 'sidebar_menu_toggle_en')]/a",  # Enabled state
             "//div[contains(@class, 'sidebar_menu_toggle')]/a",
             "//a[contains(@class, 'sidebar-toggle')]",
-            "//*[@id='sidebar-toggle']"
+            "//*[@id='sidebar-toggle']",
+            "//i[contains(@class, 'fa-bars')]/parent::a"  # Font-awesome bars icon
         ]
 
         for selector in selectors:
             try:
-                menu_toggle = WebDriverWait(context.driver, 5).until(
-                    EC.element_to_be_clickable((By.XPATH, selector))
+                print(f"Trying menu selector: {selector}")
+                menu_toggle = WebDriverWait(context.driver, 3).until(
+                    EC.presence_of_element_located((By.XPATH, selector))
                 )
-                break
-            except:
+                # Try JavaScript click if regular click might be intercepted
+                try:
+                    context.driver.execute_script("arguments[0].click();", menu_toggle)
+                    print(f"Clicked menu with JavaScript using: {selector}")
+                except:
+                    menu_toggle.click()
+                    print(f"Clicked menu with regular click using: {selector}")
+                sleep(2)
+                return  # Success, exit function
+            except Exception as sel_error:
+                print(f"Failed with selector {selector}: {str(sel_error)[:100]}")
                 continue
 
-        if menu_toggle is None:
-            # Last resort: take screenshot and try to find any clickable element
-            context.driver.save_screenshot("report/output/menu_not_found.png")
-            print(f"Current URL: {context.driver.current_url}")
-            print(f"Page source length: {len(context.driver.page_source)}")
-            raise Exception("Menu toggle not found with any selector")
+        # If we reach here, menu toggle was not found
+        context.driver.save_screenshot("report/output/menu_not_found.png")
+        print(f"Current URL: {context.driver.current_url}")
+        print(f"Page source length: {len(context.driver.page_source)}")
+        raise Exception("Menu toggle not found with any selector after trying all options")
 
-        menu_toggle.click()
-        sleep(2)
     except Exception as e:
         ends_timer(context, e)
         raise
