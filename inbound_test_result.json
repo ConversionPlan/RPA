@@ -1,0 +1,789 @@
+[
+{
+  "elements": [
+    {
+      "keyword": "Scenario",
+      "location": "features/05-inbound.feature:95",
+      "name": "Manual Upload of EPCIS File",
+      "status": "passed",
+      "steps": [
+        {
+          "keyword": "Given",
+          "location": "features/05-inbound.feature:96",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:17"
+          },
+          "name": "User exists",
+          "result": {
+            "duration": 0.0003819465637207031,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:97",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:104"
+          },
+          "name": "Is Logged In",
+          "result": {
+            "duration": 9.771828889846802,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "When",
+          "location": "features/05-inbound.feature:98",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:36"
+          },
+          "name": "Open dashboard page",
+          "result": {
+            "duration": 12.200623273849487,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:99",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:73"
+          },
+          "name": "Open sandwich menu",
+          "result": {
+            "duration": 8.168910026550293,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:100",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:122"
+          },
+          "name": "Click on Product Management",
+          "result": {
+            "duration": 1.8885271549224854,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:101",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/inbound.py:253"
+          },
+          "name": "Search for an RPA Product",
+          "result": {
+            "duration": 0.08619070053100586,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:102",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:648"
+          },
+          "name": "Click on RPA Product",
+          "result": {
+            "duration": 4.100175619125366,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:103",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:221"
+          },
+          "name": "Click on Identifiers tab",
+          "result": {
+            "duration": 0.905156135559082,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:104",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:694"
+          },
+          "name": "Save GS1 Info",
+          "result": {
+            "duration": 0.03403520584106445,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:105",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:706"
+          },
+          "name": "Close Modal",
+          "result": {
+            "duration": 1.0647797584533691,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:106",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:73"
+          },
+          "name": "Open sandwich menu",
+          "result": {
+            "duration": 12.112905263900757,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:107",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/trading_partner.py:9"
+          },
+          "name": "Click on Trading Partners",
+          "result": {
+            "duration": 0.544743537902832,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:108",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/inbound.py:140"
+          },
+          "name": "Search for an RPA Seller",
+          "result": {
+            "duration": 2.209134340286255,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:109",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/trading_partner.py:109"
+          },
+          "name": "Click on RPA Seller",
+          "result": {
+            "duration": 0.09777235984802246,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:110",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/trading_partner.py:121"
+          },
+          "name": "Save the Seller Name",
+          "result": {
+            "duration": 1.3339171409606934,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:111",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/trading_partner.py:133"
+          },
+          "name": "Save the Seller SGLN",
+          "result": {
+            "duration": 1.0219910144805908,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:112",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:706"
+          },
+          "name": "Close Modal",
+          "result": {
+            "duration": 1.0851263999938965,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:113",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:73"
+          },
+          "name": "Open sandwich menu",
+          "result": {
+            "duration": 12.100976943969727,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:114",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/location.py:9"
+          },
+          "name": "Click on Company Management",
+          "result": {
+            "duration": 0.5979437828063965,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:115",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/location.py:21"
+          },
+          "name": "Click on Locations Management",
+          "result": {
+            "duration": 0.39754819869995117,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:116",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/inbound.py:89"
+          },
+          "name": "Search for an RPA Location",
+          "result": {
+            "duration": 2.224863290786743,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:117",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/location.py:56"
+          },
+          "name": "Click on RPA Location",
+          "result": {
+            "duration": 0.0741262435913086,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:118",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/location.py:68"
+          },
+          "name": "Save Location Name",
+          "result": {
+            "duration": 1.1632378101348877,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:119",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/location.py:80"
+          },
+          "name": "Save Location SGLN",
+          "result": {
+            "duration": 0.02165985107421875,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:120",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:706"
+          },
+          "name": "Close Modal",
+          "result": {
+            "duration": 1.0705878734588623,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:121",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:10"
+          },
+          "name": "Open a new tab",
+          "result": {
+            "duration": 0.05976724624633789,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:122",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:20"
+          },
+          "name": "Open EPCIS Generator",
+          "result": {
+            "duration": 1.9757273197174072,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:123",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:29"
+          },
+          "name": "Click on Generate Random Data",
+          "result": {
+            "duration": 1.406925916671753,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:124",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:40"
+          },
+          "name": "Click on Sender Main Location Information",
+          "result": {
+            "duration": 0.06881475448608398,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:125",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:51"
+          },
+          "name": "Replace SGLN with Location's saved SGLN",
+          "result": {
+            "duration": 1.2691059112548828,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:126",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:68"
+          },
+          "name": "Replace Location Name with Location's saved name",
+          "result": {
+            "duration": 0.729010820388794,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:127",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:85"
+          },
+          "name": "Click on Receiver Main Location Information",
+          "result": {
+            "duration": 0.08628034591674805,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:128",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:96"
+          },
+          "name": "Replace SGLN with Seller's saved SGLN",
+          "result": {
+            "duration": 0.7592997550964355,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:129",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:113"
+          },
+          "name": "Replace Location Name with Seller's saved name",
+          "result": {
+            "duration": 0.39693760871887207,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:130",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:130"
+          },
+          "name": "Click on #1 Product Information",
+          "result": {
+            "duration": 0.10243725776672363,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:131",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:158"
+          },
+          "name": "Replace Product Name with Product's saved name",
+          "result": {
+            "duration": 0.8000504970550537,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:132",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:141"
+          },
+          "name": "Replace SGTIN's with a new SGTIN GCP and GS1 ID",
+          "result": {
+            "duration": 0.3561439514160156,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:133",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:175"
+          },
+          "name": "Click on Submit",
+          "result": {
+            "duration": 0.07296490669250488,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:134",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:184"
+          },
+          "name": "Download EPCIS file",
+          "result": {
+            "duration": 2.7437210083007812,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:135",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/epcis-generator.py:196"
+          },
+          "name": "Close the tab",
+          "result": {
+            "duration": 0.07001399993896484,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:136",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:73"
+          },
+          "name": "Open sandwich menu",
+          "result": {
+            "duration": 12.12761378288269,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:137",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/inbound.py:559"
+          },
+          "name": "Click on Utilities",
+          "result": {
+            "duration": 0.5370190143585205,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:138",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/inbound.py:570"
+          },
+          "name": "Click on Manual EPCIS (XML) / X12 EDI (XML) File Upload",
+          "result": {
+            "duration": 0.07910990715026855,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:139",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/inbound.py:582"
+          },
+          "name": "Upload EPCIS file",
+          "result": {
+            "duration": 6.312518835067749,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "Then",
+          "location": "features/05-inbound.feature:140",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/inbound.py:603"
+          },
+          "name": "Manual File Inbound should be saved",
+          "result": {
+            "duration": 0.0003509521484375,
+            "status": "passed"
+          },
+          "step_type": "then"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:141",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:22"
+          },
+          "name": "End test",
+          "result": {
+            "duration": 2.9991424083709717,
+            "status": "passed"
+          },
+          "step_type": "then"
+        }
+      ],
+      "tags": [],
+      "type": "scenario"
+    },
+    {
+      "keyword": "Scenario",
+      "location": "features/05-inbound.feature:143",
+      "name": "Delete Inbound",
+      "status": "error",
+      "steps": [
+        {
+          "keyword": "Given",
+          "location": "features/05-inbound.feature:144",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:17"
+          },
+          "name": "User exists",
+          "result": {
+            "duration": 0.000396728515625,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:145",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:104"
+          },
+          "name": "Is Logged In",
+          "result": {
+            "duration": 9.079583883285522,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:146",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/inbound.py:12"
+          },
+          "name": "There is an Inbound done",
+          "result": {
+            "duration": 39.648940086364746,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "When",
+          "location": "features/05-inbound.feature:147",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/outbound.py:47"
+          },
+          "name": "Return to dashboard page",
+          "result": {
+            "duration": 1.118805170059204,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:148",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:73"
+          },
+          "name": "Open sandwich menu",
+          "result": {
+            "duration": 33.284849405288696,
+            "status": "error"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:149",
+          "name": "Click on Inbound",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:150",
+          "name": "Search for All Delivery Status",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:151",
+          "name": "Save Amount of Records",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:152",
+          "name": "Click on Delete button",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:153",
+          "name": "Click on Yes - Confirmation",
+          "step_type": "when"
+        },
+        {
+          "keyword": "Then",
+          "location": "features/05-inbound.feature:154",
+          "name": "Inbound should be deleted",
+          "step_type": "then"
+        },
+        {
+          "keyword": "And",
+          "location": "features/05-inbound.feature:155",
+          "name": "End test",
+          "step_type": "then"
+        }
+      ],
+      "tags": [],
+      "type": "scenario"
+    }
+  ],
+  "keyword": "Feature",
+  "location": "features/05-inbound.feature:2",
+  "name": "Inbound",
+  "status": "error",
+  "tags": [
+    "Inbound"
+  ]
+}
+]

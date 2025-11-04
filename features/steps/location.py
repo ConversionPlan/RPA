@@ -4,14 +4,14 @@ from selenium.webdriver.common.keys import Keys
 from features.steps.utils import *
 from features.steps.auth import ends_timer
 import time
+from features.steps.utils import wait_and_click, wait_and_find, wait_and_send_keys
+
 
 
 @when("Click on Company Management")
 def click_company_management(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//a[contains(@href, '/company_mgt/')]/span[contains(text(), 'Company Management')]",
+        wait_and_find(context.driver, By.XPATH, "//a[contains(@href, '/company_mgt/', timeout=30)]/span[contains(text(), 'Company Management')]",
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -21,8 +21,7 @@ def click_company_management(context):
 @when("Click on Locations Management")
 def click_locations_management(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//a[contains(@href, '/company_mgt/locations')]"
+        wait_and_find(context.driver, By.XPATH, "//a[contains(@href, '/company_mgt/locations', timeout=30)]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -32,10 +31,8 @@ def click_locations_management(context):
 @when("Click on Add - Location Management Page")
 def click_add_location_management(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//div[@class='tt_utils_ui_search-one-header-action-button tt_utils_ui_search-one-header-action-button--add-action']/span",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//div[@class='tt_utils_ui_search-one-header-action-button tt_utils_ui_search-one-header-action-button--add-action']/span",
+        , timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -45,9 +42,8 @@ def click_add_location_management(context):
 def add_location_name(context):
     try:
         context.location_name = generate_trading_partner_name()
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_name"
-        ).send_keys(context.location_name)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_name"
+        , timeout=30).send_keys(context.location_name)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -56,9 +52,7 @@ def add_location_name(context):
 @when("Click on RPA Location")
 def click_rpa_location(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//span[@class='tt_utils_ui_search-table-cell-responsive-value' and contains(text(),'[RPA]')]",
+        wait_and_find(context.driver, By.XPATH, "//span[@class='tt_utils_ui_search-table-cell-responsive-value' and contains(text(, timeout=30),'[RPA]')]",
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -68,9 +62,7 @@ def click_rpa_location(context):
 @when("Save Location Name")
 def click_rpa_location(context):
     try:
-        context.location_name = context.driver.find_element(
-            by=By.XPATH,
-            value="//div[contains(@class,'field__name') and contains(text(), '[RPA]')]",
+        context.location_name = wait_and_find(context.driver, By.XPATH, "//div[contains(@class,'field__name', timeout=30) and contains(text(), '[RPA]')]",
         ).text
     except Exception as e:
         ends_timer(context, e)
@@ -80,8 +72,7 @@ def click_rpa_location(context):
 @when("Save Location SGLN")
 def click_rpa_location(context):
     try:
-        context.location_sgln = context.driver.find_element(
-            by=By.XPATH, value="//div[contains(text(),'urn:epc:id:sgln:')]"
+        context.location_sgln = wait_and_find(context.driver, By.XPATH, "//div[contains(text(, timeout=30),'urn:epc:id:sgln:')]"
         ).text
     except Exception as e:
         ends_timer(context, e)
@@ -93,9 +84,8 @@ def add_location_gln(context, company_prefix):
     try:
         context.company_prefix = company_prefix
         context.gln = generate_gln(context.company_prefix)
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_gs1_id"
-        ).send_keys(context.gln)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_gs1_id"
+        , timeout=30).send_keys(context.gln)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -105,9 +95,8 @@ def add_location_gln(context, company_prefix):
 def add_location_sgln(context):
     try:
         context.sgln = generate_sgln_from_gln(context.gln)
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__1_gs1_sgln"
-        ).send_keys(context.sgln)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_gs1_sgln"
+        , timeout=30).send_keys(context.sgln)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -116,9 +105,8 @@ def add_location_sgln(context):
 @when("Search Location by Name")
 def search_location_name(context):
     try:
-        name_input_field = context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='name']"
-        )
+        name_input_field = wait_and_find(context.driver, By.XPATH, "//input[@rel='name']"
+        , timeout=30)
         name_input_field.send_keys(context.location_name)
         name_input_field.send_keys(Keys.ENTER)
     except Exception as e:
@@ -130,9 +118,8 @@ def search_location_name(context):
 def click_address_tab(context):
     try:
         time.sleep(2)
-        context.driver.find_element(
-            by=By.XPATH, value="//li[@rel='address']/span"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//li[@rel='address']/span"
+        , timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -142,9 +129,7 @@ def click_address_tab(context):
 def click_add_location(context):
     try:
         time.sleep(2)
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//div[contains(@class, 'tt_form__tabs__one_tab_pane') ]//div[@class='tt_utils_forms-one-header-action-button tt_utils_forms-one-header-action-button--add-action']/span[text()='Add']",
+        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_form__tabs__one_tab_pane', timeout=30) ]//div[@class='tt_utils_forms-one-header-action-button tt_utils_forms-one-header-action-button--add-action']/span[text()='Add']",
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -155,9 +140,8 @@ def click_add_location(context):
 def add_customer_address_nickname(context):
     try:
         time.sleep(2)
-        context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='address_nickname']"
-        ).send_keys(context.location_name)
+        wait_and_find(context.driver, By.XPATH, "//input[@rel='address_nickname']"
+        , timeout=30).send_keys(context.location_name)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -166,9 +150,8 @@ def add_customer_address_nickname(context):
 @when("Add Customer Address GLN")
 def add_customer_address_gln(context):
     try:
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__3_gs1_id"
-        ).send_keys(context.gln)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__3_gs1_id"
+        , timeout=30).send_keys(context.gln)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -177,9 +160,8 @@ def add_customer_address_gln(context):
 @when("Add Customer Address SGLN")
 def add_customer_address_sgln(context):
     try:
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__3_gs1_sgln"
-        ).send_keys(context.sgln)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__3_gs1_sgln"
+        , timeout=30).send_keys(context.sgln)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -188,9 +170,8 @@ def add_customer_address_sgln(context):
 @when("Add Customer Address Recipient Name")
 def add_customer_address_name(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='recipient_name']"
-        ).send_keys(context.location_name)
+        wait_and_find(context.driver, By.XPATH, "//input[@rel='recipient_name']"
+        , timeout=30).send_keys(context.location_name)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -200,9 +181,8 @@ def add_customer_address_name(context):
 def add_customer_address_line(context):
     try:
         context.address = generate_address()
-        context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='line1']"
-        ).send_keys(context.address)
+        wait_and_find(context.driver, By.XPATH, "//input[@rel='line1']"
+        , timeout=30).send_keys(context.address)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -212,9 +192,8 @@ def add_customer_address_line(context):
 def add_customer_address_city(context):
     try:
         context.city = generate_city()
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__3_city"
-        ).send_keys(context.city)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__3_city"
+        , timeout=30).send_keys(context.city)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -224,9 +203,8 @@ def add_customer_address_city(context):
 def add_customer_address_city(context):
     try:
         context.zip = generate_zip()
-        context.driver.find_element(
-            by=By.ID, value="TT_UTILS_UI_FORM_UUID__3_zip"
-        ).send_keys(context.zip)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__3_zip"
+        , timeout=30).send_keys(context.zip)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -235,9 +213,7 @@ def add_customer_address_city(context):
 @when("Click on Add - Save Customer Address")
 def click_add_save_customer_address(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//div[contains(@class,'tt_utils_ui_dlg_modal-width-class-xl')]//button/span[text()='Add']",
+        wait_and_find(context.driver, By.XPATH, "//div[contains(@class,'tt_utils_ui_dlg_modal-width-class-xl', timeout=30)]//button/span[text()='Add']",
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -247,9 +223,7 @@ def click_add_save_customer_address(context):
 @when("Click on Save - Location")
 def click_save_location(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//button[@class='tt_utils_ui_dlg_modal-button tt_utils_ui_dlg_modal-default-enabled-button']/span[text()='Save']",
+        wait_and_find(context.driver, By.XPATH, "//button[@class='tt_utils_ui_dlg_modal-button tt_utils_ui_dlg_modal-default-enabled-button']/span[text(, timeout=30)='Save']",
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -259,8 +233,7 @@ def click_save_location(context):
 @then("Location should be saved")
 def location_should_be_saved(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value=f"//*[contains(text(),'{context.location_name}')]"
+        wait_and_find(context.driver, By.XPATH, f"//*[contains(text(, timeout=30),'{context.location_name}')]"
         )
     except Exception as e:
         ends_timer(context, e)

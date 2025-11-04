@@ -1,0 +1,856 @@
+[
+{
+  "elements": [
+    {
+      "keyword": "Scenario",
+      "location": "features/02-product.feature:4",
+      "name": "Create an Each Product",
+      "status": "passed",
+      "steps": [
+        {
+          "keyword": "Given",
+          "location": "features/02-product.feature:5",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:17"
+          },
+          "name": "User exists",
+          "result": {
+            "duration": 0.00046372413635253906,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:6",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:104"
+          },
+          "name": "Is Logged In",
+          "result": {
+            "duration": 13.374075889587402,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "When",
+          "location": "features/02-product.feature:7",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:36"
+          },
+          "name": "Open dashboard page",
+          "result": {
+            "duration": 12.783474683761597,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:8",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:73"
+          },
+          "name": "Open sandwich menu",
+          "result": {
+            "duration": 8.150697946548462,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:9",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:122"
+          },
+          "name": "Click on Product Management",
+          "result": {
+            "duration": 0.48723530769348145,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:10",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:134"
+          },
+          "name": "Click on Add - Product Management Page",
+          "result": {
+            "duration": 0.19632482528686523,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:11",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:155"
+          },
+          "name": "Add Product Name",
+          "result": {
+            "duration": 0.29410433769226074,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:12",
+          "match": {
+            "arguments": [
+              {
+                "name": "size",
+                "value": "1"
+              }
+            ],
+            "location": "features/steps/product.py:179"
+          },
+          "name": "Add Pack Size 1",
+          "result": {
+            "duration": 0.07291197776794434,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:13",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:204"
+          },
+          "name": "Click on Identifiers tab",
+          "result": {
+            "duration": 0.06804347038269043,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:14",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:215"
+          },
+          "name": "Add SKU",
+          "result": {
+            "duration": 0.05138754844665527,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:15",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:238"
+          },
+          "name": "Add UPC",
+          "result": {
+            "duration": 0.04862713813781738,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:16",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:263"
+          },
+          "name": "Add GS1 Company Prefix",
+          "result": {
+            "duration": 0.040384531021118164,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:17",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:275"
+          },
+          "name": "Add GS1 ID",
+          "result": {
+            "duration": 0.041918277740478516,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:18",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:286"
+          },
+          "name": "Click on Add Identifier",
+          "result": {
+            "duration": 0.04891633987426758,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:19",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:310"
+          },
+          "name": "Wait for Identifier Options to Load",
+          "result": {
+            "duration": 1.035536766052246,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:20",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:298"
+          },
+          "name": "Add Identifier Value",
+          "result": {
+            "duration": 0.05150771141052246,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:21",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:322"
+          },
+          "name": "Click on Add NDC",
+          "result": {
+            "duration": 0.04354691505432129,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:22",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:334"
+          },
+          "name": "Click on Requirements Tab",
+          "result": {
+            "duration": 0.21277165412902832,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:23",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:345"
+          },
+          "name": "Add Generic Name",
+          "result": {
+            "duration": 0.07316708564758301,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:24",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:356"
+          },
+          "name": "Add Strength",
+          "result": {
+            "duration": 0.04029536247253418,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:25",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:367"
+          },
+          "name": "Add Net Content Description",
+          "result": {
+            "duration": 0.04306292533874512,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:26",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:378"
+          },
+          "name": "Add Notes",
+          "result": {
+            "duration": 0.06835246086120605,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:27",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:390"
+          },
+          "name": "Click on Add",
+          "result": {
+            "duration": 0.04654240608215332,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "Then",
+          "location": "features/02-product.feature:28",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:634"
+          },
+          "name": "Product should be saved",
+          "result": {
+            "duration": 3.117360830307007,
+            "status": "passed"
+          },
+          "step_type": "then"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:29",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:22"
+          },
+          "name": "End test",
+          "result": {
+            "duration": 3.0546669960021973,
+            "status": "passed"
+          },
+          "step_type": "then"
+        }
+      ],
+      "tags": [],
+      "type": "scenario"
+    },
+    {
+      "keyword": "Scenario",
+      "location": "features/02-product.feature:31",
+      "name": "Create an Aggregation Product",
+      "status": "error",
+      "steps": [
+        {
+          "keyword": "Given",
+          "location": "features/02-product.feature:32",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:17"
+          },
+          "name": "User exists",
+          "result": {
+            "duration": 0.0002510547637939453,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:33",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:104"
+          },
+          "name": "Is Logged In",
+          "result": {
+            "duration": 9.16286826133728,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "When",
+          "location": "features/02-product.feature:34",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:36"
+          },
+          "name": "Open dashboard page",
+          "result": {
+            "duration": 12.334694862365723,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:35",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:73"
+          },
+          "name": "Open sandwich menu",
+          "result": {
+            "duration": 8.18031930923462,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:36",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:122"
+          },
+          "name": "Click on Product Management",
+          "result": {
+            "duration": 0.5170369148254395,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:37",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:134"
+          },
+          "name": "Click on Add - Product Management Page",
+          "result": {
+            "duration": 0.26786136627197266,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:38",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:402"
+          },
+          "name": "Click on Aggregation Tab",
+          "result": {
+            "duration": 0.27713966369628906,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:39",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:413"
+          },
+          "name": "Click on Add Product",
+          "result": {
+            "duration": 0.10637736320495605,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:40",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:424"
+          },
+          "name": "Input Name of Each Product into Product Name",
+          "result": {
+            "duration": 0.14570188522338867,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:41",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:437"
+          },
+          "name": "Click on Product Name",
+          "result": {
+            "duration": 19.276721239089966,
+            "status": "error"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:42",
+          "name": "Add Product Quantity",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:43",
+          "name": "Click on Add Child Product",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:44",
+          "name": "Click on General Tab",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:45",
+          "name": "Add Saved Product Name",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:46",
+          "name": "Add Pack Size 2",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:47",
+          "name": "Select Pack Size Case",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:48",
+          "name": "Click on Identifiers tab",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:49",
+          "name": "Add Saved SKU",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:50",
+          "name": "Add Saved UPC",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:51",
+          "name": "Add GS1 Company Prefix",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:52",
+          "name": "Add GS1 ID",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:53",
+          "name": "Click on Add Identifier",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:54",
+          "name": "Add Identifier Value",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:55",
+          "name": "Wait for Identifier Options to Load",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:56",
+          "name": "Click on Add NDC",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:57",
+          "name": "Click on Requirements Tab",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:58",
+          "name": "Add Generic Name",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:59",
+          "name": "Add Strength",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:60",
+          "name": "Add Net Content Description",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:61",
+          "name": "Add Notes",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:62",
+          "name": "Click on Misc Tab",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:63",
+          "name": "Disable Leaf Product",
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:64",
+          "name": "Click on Add",
+          "step_type": "when"
+        },
+        {
+          "keyword": "Then",
+          "location": "features/02-product.feature:65",
+          "name": "Product should be saved",
+          "step_type": "then"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:66",
+          "name": "End test",
+          "step_type": "then"
+        }
+      ],
+      "tags": [],
+      "type": "scenario"
+    },
+    {
+      "keyword": "Scenario",
+      "location": "features/02-product.feature:68",
+      "name": "Delete a Product",
+      "status": "passed",
+      "steps": [
+        {
+          "keyword": "Given",
+          "location": "features/02-product.feature:69",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:17"
+          },
+          "name": "User exists",
+          "result": {
+            "duration": 0.000110626220703125,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:70",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:104"
+          },
+          "name": "Is Logged In",
+          "result": {
+            "duration": 9.19965147972107,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:71",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:11"
+          },
+          "name": "There is a Product Created",
+          "result": {
+            "duration": 23.620464086532593,
+            "status": "passed"
+          },
+          "step_type": "given"
+        },
+        {
+          "keyword": "When",
+          "location": "features/02-product.feature:72",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:36"
+          },
+          "name": "Open dashboard page",
+          "result": {
+            "duration": 7.0472753047943115,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:73",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:73"
+          },
+          "name": "Open sandwich menu",
+          "result": {
+            "duration": 12.127322435379028,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:74",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:122"
+          },
+          "name": "Click on Product Management",
+          "result": {
+            "duration": 0.5090620517730713,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:75",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/manufacture.py:332"
+          },
+          "name": "Save Amount of Records",
+          "result": {
+            "duration": 1.2086114883422852,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:76",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:597"
+          },
+          "name": "Search for Created Product",
+          "result": {
+            "duration": 3.116593360900879,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:77",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:611"
+          },
+          "name": "Delete Created Product",
+          "result": {
+            "duration": 0.09491372108459473,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:78",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:623"
+          },
+          "name": "Click on Yes - Deletion",
+          "result": {
+            "duration": 0.09036803245544434,
+            "status": "passed"
+          },
+          "step_type": "when"
+        },
+        {
+          "keyword": "Then",
+          "location": "features/02-product.feature:79",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/product.py:652"
+          },
+          "name": "Product should be deleted",
+          "result": {
+            "duration": 7.315983772277832,
+            "status": "passed"
+          },
+          "step_type": "then"
+        },
+        {
+          "keyword": "And",
+          "location": "features/02-product.feature:80",
+          "match": {
+            "arguments": [],
+            "location": "features/steps/auth.py:22"
+          },
+          "name": "End test",
+          "result": {
+            "duration": 3.0012001991271973,
+            "status": "passed"
+          },
+          "step_type": "then"
+        }
+      ],
+      "tags": [],
+      "type": "scenario"
+    }
+  ],
+  "keyword": "Feature",
+  "location": "features/02-product.feature:2",
+  "name": "Product Management",
+  "status": "error",
+  "tags": [
+    "Product_Management"
+  ]
+}
+]

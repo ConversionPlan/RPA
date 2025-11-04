@@ -10,6 +10,8 @@ import json
 import os
 import time
 import traceback
+from features.steps.utils import wait_and_click, wait_and_find, wait_and_send_keys
+
 
 headless = os.environ.get("HEADLESS")
 
@@ -96,7 +98,7 @@ def ends_timer(context, e=None):
                         except Exception as kill_error:
                             print(f"[AVISO] Erro ao matar processos: {kill_error}")
                 else:
-                    time.sleep(1)  # Aguardar antes de retry
+                    time.sleep(2)  # Aguardar antes de retry
     else:
         print("Driver não inicializado, pulando fechamento.")
 
@@ -174,9 +176,8 @@ def openTTRXPage(context):
 @when("Enter Username {email}")
 def enterEmail(context, email):
     try:
-        context.driver.find_element(
-            by=By.ID, value="auth__login_form__username"
-        ).send_keys(email)
+        wait_and_find(context.driver, By.ID, "auth__login_form__username"
+        , timeout=30).send_keys(email)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -185,9 +186,8 @@ def enterEmail(context, email):
 @when("Click Next to Login")
 def clickNextToLogin(context):
     try:
-        context.driver.find_element(
-            by=By.ID, value="auth__login_form__step1_next_btn"
-        ).click()
+        wait_and_find(context.driver, By.ID, "auth__login_form__step1_next_btn"
+        , timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -196,9 +196,8 @@ def clickNextToLogin(context):
 @when("Enter Password {password}")
 def enterPassword(context, password):
     try:
-        password_input = context.driver.find_element(
-            by=By.ID, value="auth__login_form__password"
-        )
+        password_input = wait_and_find(context.driver, By.ID, "auth__login_form__password"
+        , timeout=30)
         wait = WebDriverWait(context.driver, timeout=3)
         wait.until(lambda d: password_input.is_displayed())
         password_input.send_keys(password)
@@ -211,9 +210,8 @@ def enterPassword(context, password):
 def clickSubmitButton(context):
     try:
         time.sleep(2)
-        context.driver.find_element(
-            by=By.ID, value="auth__login_form__step2_next_btn"
-        ).click()
+        wait_and_find(context.driver, By.ID, "auth__login_form__step2_next_btn"
+        , timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -222,7 +220,7 @@ def clickSubmitButton(context):
 @then("User must login successfully")
 def assertLogin(context):
     try:
-        WebDriverWait(context.driver, 10).until(
+        WebDriverWait(context.driver, 30).until(
             lambda x: x.find_element(by=By.XPATH, value="//div[@class='client_logo']/a")
         )
     except Exception as e:

@@ -443,15 +443,3 @@ Secrets are sensitive environment variables configured in GitHub:
 - Slack 50-block limit exceeded
 - Better visibility of detailed failure information
 
-### Previous Commits
-**95135eb** - Fixes MinIO S3 upload in GitHub Actions
-**503511d** - Increases timeout and adds retry in manufacture.py
-**0d051b2** - Fixes critical selectors in outbound, inbound and inventory
-**b99a275** - Improves robustness and stability of RPA tests
-
-**Impact of improvements:**
-- 69% reduction in total tracebacks (62 → 19)
-- 91% reduction in SessionNotCreatedException (23 → 2)
-- 6 exception types completely eliminated
-
----

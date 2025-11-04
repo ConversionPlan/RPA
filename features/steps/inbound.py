@@ -7,6 +7,8 @@ from features.steps.auth import ends_timer
 from product import open_dashboard_page, open_sandwich_menu
 import time
 import os
+from features.steps.utils import wait_and_click, wait_and_find, wait_and_send_keys
+
 
 
 @given("There is an Inbound done")
@@ -52,9 +54,7 @@ def do_inbound(context):
 @when("Click on Inbound")
 def click_inbound(context):
     try:
-        inbound_button = context.driver.find_element(
-            by=By.XPATH,
-            value="//a[contains(@href, '/receiving/')]/span[contains(text(), 'Inbound')]",
+        inbound_button = wait_and_find(context.driver, By.XPATH, "//a[contains(@href, '/receiving/', timeout=30)]/span[contains(text(), 'Inbound')]",
         )
         wait = WebDriverWait(context.driver, timeout=20)
         wait.until(lambda d: inbound_button.is_displayed())
@@ -67,8 +67,7 @@ def click_inbound(context):
 @when("Click on Manual Inbound Shipment")
 def click_manual_inbound_shipment(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[contains(text(), 'Manual Inbound Shipment')]"
+        wait_and_find(context.driver, By.XPATH, "//span[contains(text(, timeout=30), 'Manual Inbound Shipment')]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -78,8 +77,7 @@ def click_manual_inbound_shipment(context):
 @when("Click on Change Location")
 def click_change_location(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//a[contains(text(), 'Change Location')]"
+        wait_and_find(context.driver, By.XPATH, "//a[contains(text(, timeout=30), 'Change Location')]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -89,9 +87,8 @@ def click_change_location(context):
 @when("Search for an RPA Location")
 def search_rpa_location(context):
     try:
-        location_name = context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='name']"
-        )
+        location_name = wait_and_find(context.driver, By.XPATH, "//input[@rel='name']"
+        , timeout=30)
         location_name.send_keys("[RPA]")
         location_name.send_keys(Keys.ENTER)
         time.sleep(2)
@@ -105,10 +102,9 @@ def search_rpa_location(context):
 def select_location(context):
     try:
         time.sleep(1)
-        context.inbounded_location = context.driver.find_element(
-            by=By.XPATH, value="//td[@rel='name']"
-        ).text
-        context.driver.find_element(by=By.XPATH, value="//img[@alt='Select']").click()
+        context.inbounded_location = wait_and_find(context.driver, By.XPATH, "//td[@rel='name']"
+        , timeout=30).text
+        wait_and_find(context.driver, By.XPATH, "//img[@alt='Select']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -117,8 +113,7 @@ def select_location(context):
 @when("Click on Change Seller")
 def click_change_seller(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//a[contains(text(), 'Change Seller')]"
+        wait_and_find(context.driver, By.XPATH, "//a[contains(text(, timeout=30), 'Change Seller')]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -128,10 +123,9 @@ def click_change_seller(context):
 @when("Select Type Vendor")
 def select_type(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//select[@rel='type']").click()
-        context.driver.find_element(
-            by=By.XPATH, value="//option[@value='VENDOR']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//select[@rel='type']", timeout=30).click()
+        wait_and_find(context.driver, By.XPATH, "//option[@value='VENDOR']"
+        , timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -140,9 +134,8 @@ def select_type(context):
 @when("Search for an RPA Seller")
 def search_rpa_seller(context):
     try:
-        vendor_name = context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='name']"
-        )
+        vendor_name = wait_and_find(context.driver, By.XPATH, "//input[@rel='name']"
+        , timeout=30)
         vendor_name.send_keys("[RPA]")
         vendor_name.send_keys(Keys.ENTER)
         time.sleep(2)
@@ -155,9 +148,8 @@ def search_rpa_seller(context):
 def select_seller(context):
     try:
         time.sleep(1)
-        seller_name = context.driver.find_element(
-            by=By.XPATH, value="//td[@rel='name']"
-        )
+        seller_name = wait_and_find(context.driver, By.XPATH, "//td[@rel='name']"
+        , timeout=30)
         context.tp_name = seller_name.text
         seller_name.click()
     except Exception as e:
@@ -168,7 +160,7 @@ def select_seller(context):
 @when("Click on Yes")
 def click_yes(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Yes']").click()
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Yes']").click()
     except:
         pass
 
@@ -177,9 +169,8 @@ def click_yes(context):
 def add_po_number(context):
     try:
         context.po = generate_po()
-        context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='po_nbr']"
-        ).send_keys(context.po)
+        wait_and_find(context.driver, By.XPATH, "//input[@rel='po_nbr']"
+        , timeout=30).send_keys(context.po)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -188,8 +179,7 @@ def add_po_number(context):
 @when("Click on Sold By/Ship From Tab")
 def click_sold_by_tab(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[text()='Sold By/Ship From']"
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Sold By/Ship From']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -199,12 +189,10 @@ def click_sold_by_tab(context):
 @when("Select Sold By Location as Main Address")
 def select_sold_by_main_address(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[contains(@id, 'sold_by_address_uuid')]"
+        wait_and_find(context.driver, By.XPATH, "//span[contains(@id, 'sold_by_address_uuid', timeout=30)]"
         ).click()
-        sold_by_input = context.driver.find_element(
-            by=By.XPATH, value="//input[@class='select2-search__field']"
-        )
+        sold_by_input = wait_and_find(context.driver, By.XPATH, "//input[@class='select2-search__field']"
+        , timeout=30)
         sold_by_input.send_keys("Main Address")
         sold_by_input.send_keys(Keys.ENTER)
     except Exception as e:
@@ -215,12 +203,10 @@ def select_sold_by_main_address(context):
 @when("Select Ship From as Ship From")
 def select_ship_from(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[contains(@id, 'ship_from_address_uuid')]"
+        wait_and_find(context.driver, By.XPATH, "//span[contains(@id, 'ship_from_address_uuid', timeout=30)]"
         ).click()
-        sold_by_input = context.driver.find_element(
-            by=By.XPATH, value="//input[@class='select2-search__field']"
-        )
+        sold_by_input = wait_and_find(context.driver, By.XPATH, "//input[@class='select2-search__field']"
+        , timeout=30)
         sold_by_input.send_keys("Ship From")
         sold_by_input.send_keys(Keys.ENTER)
     except Exception as e:
@@ -231,8 +217,7 @@ def select_ship_from(context):
 @when("Click on Line Items Tab")
 def click_line_items_tab(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[text()='Line Items']"
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Line Items']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -242,8 +227,7 @@ def click_line_items_tab(context):
 @when("Click on Add Product - Manual Inbound Shipment")
 def click_add_product_manual_inbound_shipment(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[text()='Add Product']"
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Add Product']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -253,9 +237,8 @@ def click_add_product_manual_inbound_shipment(context):
 @when("Search for an RPA Product")
 def search_rpa_product(context):
     try:
-        product_name_input = context.driver.find_element(
-            by=By.XPATH, value="//input[@rel='name']"
-        )
+        product_name_input = wait_and_find(context.driver, By.XPATH, "//input[@rel='name']"
+        , timeout=30)
         product_name_input.send_keys("[RPA]")
         product_name_input.send_keys(Keys.ENTER)
     except Exception as e:
@@ -327,9 +310,8 @@ def click_magnifying_glass(context):
 @when("Add Quantity")
 def add_quantity(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//input[@name='quantity']"
-        ).send_keys("1")
+        wait_and_find(context.driver, By.XPATH, "//input[@name='quantity']"
+        , timeout=30).send_keys("1")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -338,9 +320,7 @@ def add_quantity(context):
 @when("Click on OK - Product Selection")
 def click_ok_product_selection(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-m')]//span[text()='OK']",
+        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-m', timeout=30)]//span[text()='OK']",
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -350,8 +330,7 @@ def click_ok_product_selection(context):
 @when("Click on Add Lot/Source")
 def click_add_lot_source(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[text()='Add Lot/Source']"
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Add Lot/Source']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -361,9 +340,8 @@ def click_add_lot_source(context):
 @when("Add Lot Number")
 def add_lot_number(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//input[@name='lot']"
-        ).send_keys(generate_x_length_number(9))
+        wait_and_find(context.driver, By.XPATH, "//input[@name='lot']"
+        , timeout=30).send_keys(generate_x_length_number(9))
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -372,8 +350,7 @@ def add_lot_number(context):
 @when("Click on Serial Based")
 def click_serial_based(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//label[text()='Serial Based']"
+        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Serial Based']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -383,8 +360,7 @@ def click_serial_based(context):
 @when("Add Expiration Date")
 def add_expiration_date(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//input[contains(@id,'expiration_date')]"
+        wait_and_find(context.driver, By.XPATH, "//input[contains(@id,'expiration_date', timeout=30)]"
         ).send_keys("12-12-2030")
     except Exception as e:
         ends_timer(context, e)
@@ -394,15 +370,13 @@ def add_expiration_date(context):
 @when("Search for All Delivery Status")
 def search_all_delivery_status(context):
     try:
-        delivery_status = context.driver.find_element(
-            by=By.XPATH, value="//select[@rel='delivery_status']"
-        )
+        delivery_status = wait_and_find(context.driver, By.XPATH, "//select[@rel='delivery_status']"
+        , timeout=30)
         delivery_status.click()
         delivery_status.send_keys(Keys.ARROW_UP)
         delivery_status.send_keys(Keys.ENTER)
-        context.driver.find_element(
-            by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search"
-        ).click()
+        wait_and_find(context.driver, By.CLASS_NAME, "tt_utils_ui_search-search-criterias-btns-search"
+        , timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -412,8 +386,7 @@ def search_all_delivery_status(context):
 def click_ok_lot_source(context):
     try:
         time.sleep(2)
-        context.driver.find_element(
-            by=By.XPATH, value="(//span[text()='OK'])[3]"
+        wait_and_find(context.driver, By.XPATH, "(//span[text(, timeout=30)='OK'])[3]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -423,8 +396,7 @@ def click_ok_lot_source(context):
 @when("Click on OK - Product Information")
 def click_ok_product_information(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="(//span[text()='OK'])[2]"
+        wait_and_find(context.driver, By.XPATH, "(//span[text(, timeout=30)='OK'])[2]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -434,7 +406,7 @@ def click_ok_product_information(context):
 @when("Click on OK - Manual Inbound Shipment")
 def click_ok_manual_inbound_shipment(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[text()='OK']").click()
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='OK']").click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -443,8 +415,7 @@ def click_ok_manual_inbound_shipment(context):
 @when("Click on Aggregation Tab - Inbound")
 def click_aggregation_tab(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//span[text()='Aggregation']"
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Aggregation']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -454,7 +425,7 @@ def click_aggregation_tab(context):
 @when("Click on Add - Aggregation")
 def click_on_add_aggregation(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[text()='ADD']").click()
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='ADD']").click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -463,8 +434,7 @@ def click_on_add_aggregation(context):
 @when("Click on Add - Case Aggregation")
 def click_on_add_case_aggregation(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="(//span[text()='ADD'])[2]"
+        wait_and_find(context.driver, By.XPATH, "(//span[text(, timeout=30)='ADD'])[2]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -474,8 +444,7 @@ def click_on_add_case_aggregation(context):
 @when("Select Product Radio Button")
 def select_product_radio_button(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//label[text()='Product']"
+        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Product']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -485,9 +454,8 @@ def select_product_radio_button(context):
 @when("Choose the Product")
 def choose_product_aggregation(context):
     try:
-        select_product = context.driver.find_element(
-            by=By.XPATH, value="//select[@rel='product']"
-        )
+        select_product = wait_and_find(context.driver, By.XPATH, "//select[@rel='product']"
+        , timeout=30)
         select_product.click()
         select_product.send_keys(Keys.ARROW_DOWN)
         select_product.send_keys(Keys.ENTER)
@@ -500,9 +468,8 @@ def choose_product_aggregation(context):
 @when("Choose the Lot")
 def choose_lot_aggregation(context):
     try:
-        select_lot = context.driver.find_element(
-            by=By.XPATH, value="//select[@rel='lot_or_source']"
-        )
+        select_lot = wait_and_find(context.driver, By.XPATH, "//select[@rel='lot_or_source']"
+        , timeout=30)
         select_lot.click()
         select_lot.send_keys(Keys.ARROW_DOWN)
         select_lot.send_keys(Keys.ENTER)
@@ -515,9 +482,8 @@ def choose_lot_aggregation(context):
 def add_serial_numbers(context):
     try:
         serial = generate_x_length_number(22)
-        context.driver.find_element(
-            by=By.XPATH, value="//textarea[@rel='serial']"
-        ).send_keys(serial)
+        wait_and_find(context.driver, By.XPATH, "//textarea[@rel='serial']"
+        , timeout=30).send_keys(serial)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -528,9 +494,8 @@ def add_serial_numbers(context):
     try:
         serial_1 = generate_x_length_number(22)
         serial_2 = generate_x_length_number(22)
-        context.driver.find_element(
-            by=By.XPATH, value="//textarea[@rel='serial']"
-        ).send_keys(f"{serial_1}\n{serial_2}")
+        wait_and_find(context.driver, By.XPATH, "//textarea[@rel='serial']"
+        , timeout=30).send_keys(f"{serial_1}\n{serial_2}")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -539,8 +504,7 @@ def add_serial_numbers(context):
 @when("Click on OK - Add Aggregation")
 def click_ok_aggregation(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="(//span[text()='OK'])[2]"
+        wait_and_find(context.driver, By.XPATH, "(//span[text(, timeout=30)='OK'])[2]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -550,7 +514,7 @@ def click_ok_aggregation(context):
 @when("Click on Close - Add Aggregation")
 def click_close_aggregation(context):
     try:
-        context.driver.find_element(by=By.XPATH, value="//span[text()='Close']").click()
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Close']").click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -559,9 +523,8 @@ def click_close_aggregation(context):
 @when("Click on Utilities")
 def click_utilities(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH, value="//a[@href='/utilities/']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//a[@href='/utilities/']"
+        , timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -570,9 +533,7 @@ def click_utilities(context):
 @when("Click on Manual EPCIS (XML) / X12 EDI (XML) File Upload")
 def click_manual_epcis(context):
     try:
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//label[text()='Manual EPCIS (XML) / X12 EDI (XML) File Upload']",
+        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Manual EPCIS (XML) / X12 EDI (XML) File Upload']",
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -582,17 +543,13 @@ def click_manual_epcis(context):
 @when("Upload EPCIS file")
 def upload_epcis_file(context):
     try:
-        file_input = context.driver.find_element(
-            by=By.XPATH,
-            value="//input[@type='file']",
-        )
+        file_input = wait_and_find(context.driver, By.XPATH, "//input[@type='file']",
+        , timeout=30)
         current_path = os.getcwd()
         file_path = os.path.join(current_path, "epcis_file.xml")
         file_input.send_keys(file_path)
         time.sleep(3)
-        context.driver.find_element(
-            by=By.XPATH,
-            value="//span[text()='OK']",
+        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='OK']",
         ).click()
         time.sleep(3)
     except Exception as e:
@@ -613,16 +570,13 @@ def file_inbound_should_be_saved(context):
 def inbound_should_be_saved(context):
     try:
         time.sleep(2)
-        context.driver.find_element(
-            by=By.XPATH, value="//select[@rel='delivery_status']"
-        ).click()
-        context.driver.find_element(by=By.XPATH, value="//option[@value='all']").click()
-        context.driver.find_element(
-            by=By.CLASS_NAME, value="tt_utils_ui_search-search-criterias-btns-search"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//select[@rel='delivery_status']"
+        , timeout=30).click()
+        wait_and_find(context.driver, By.XPATH, "//option[@value='all']", timeout=30).click()
+        wait_and_find(context.driver, By.CLASS_NAME, "tt_utils_ui_search-search-criterias-btns-search"
+        , timeout=30).click()
         time.sleep(3)
-        context.driver.find_element(
-            by=By.XPATH, value=f"//*[contains(text(),'{context.tp_name}')]"
+        wait_and_find(context.driver, By.XPATH, f"//*[contains(text(, timeout=30),'{context.tp_name}')]"
         )
     except Exception as e:
         ends_timer(context, e)
@@ -637,9 +591,9 @@ def inbound_should_be_deleted(context):
         time.sleep(2)
         search_all_delivery_status(context)
         time.sleep(2)
-        records_text = context.driver.find_element(
+        records_text = wait_and_find(context.driver, 
             By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results"
-        ).text
+        , timeout=30).text
         new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
         assert context.total_records - new_total_records == 1
     except Exception as e:
