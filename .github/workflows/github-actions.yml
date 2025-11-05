@@ -23,35 +23,18 @@ jobs:
           python-version: 3.13
       - name: Set up NPM
         uses: actions/setup-node@v4
-      - name: Set up Chrome and dependencies
+      - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
       - run: chrome --version
-      - name: Install system dependencies for Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libatk1.0-0 \
-            libatk-bridge2.0-0 \
-            libcups2 \
-            libxkbcommon-x11-0 \
-            libgtk-3-0 \
-            libnss3 \
-            libgbm-dev \
-            libxss1 \
-            libasound2t64 \
-            xvfb
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
           pip install -r requirements.txt
       - name: Install Lighthouse
         run: |
           npm i -g lighthouse
-      - name: Run tests with virtual display
+      - name: Run tests
         run: |
           mkdir -p report/output
-          export DISPLAY=:99
-          Xvfb :99 -screen 0 1920x1080x24 > /dev/null 2>&1 &
-          sleep 3
           HEADLESS=True behavex --parallel-processes 1 --parallel-scheme scenario -o report/output
       - name: Print errors
         if: failure()

@@ -158,38 +158,16 @@ def launchBrowser(context):
     try:
         options = Options()
 
-        # Configurações essenciais para ambiente CI/CD (GitHub Actions)
-        options.add_argument("--no-sandbox")  # Essencial para containers
-        options.add_argument("--disable-dev-shm-usage")  # Evita problemas de memória compartilhada
-        options.add_argument("--disable-gpu")  # GPU não disponível em CI
-        options.add_argument("--disable-setuid-sandbox")
+        # Detectar se deve usar headless
+        if headless is not None:
+            options.add_argument("--headless=new")
+        elif os.getenv("HEADLESS", "False").lower() == "true":
+            options.add_argument("--headless=new")
+            print("[INFO] Modo headless ativado via variável de ambiente")
 
-        # Detectar ambiente CI/CD automaticamente
-        is_ci = os.getenv("CI", "false").lower() == "true" or os.getenv("HEADLESS", "False").lower() == "true"
-
-        # Configuração do modo headless
-        if headless is not None or is_ci:
-            options.add_argument("--headless")  # Usar modo headless tradicional
-            options.add_argument("--window-size=1920,1080")  # Define tamanho fixo
-            options.add_argument("--disable-web-security")
-            options.add_argument("--disable-features=VizDisplayCompositor")
-            if is_ci:
-                print("[INFO] Ambiente CI detectado, modo headless ativado")
-
-        # Outras configurações para estabilidade
-        options.add_argument("--disable-extensions")
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        if not (headless is not None or is_ci):
-            options.add_argument("--start-maximized")
-        options.add_argument("--disable-infobars")
-        options.add_argument("--disable-browser-side-navigation")
-
-        # Configurações existentes
+        options.add_argument("--disable-gpu")
         options.add_argument("--ignore-certificate-errors")
-        # Usar porta dinâmica para evitar conflitos
-        import random
-        debug_port = random.randint(9223, 9999)
-        options.add_argument(f"--remote-debugging-port={debug_port}")
+        options.add_argument("--remote-debugging-port=9222")
         options.add_argument("--lang=en-US")
         options.add_argument("--allow-running-insecure-content")
         options.add_argument("--unsafely-treat-insecure-origin-as-secure=*")
