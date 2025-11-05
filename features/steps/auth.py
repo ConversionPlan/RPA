@@ -161,8 +161,12 @@ def launchBrowser(context):
         # Detectar se deve usar headless
         if headless is not None:
             options.add_argument("--headless=new")
+            options.add_argument("--no-sandbox")  # Necessário para CI/CD
+            options.add_argument("--disable-dev-shm-usage")  # Evita problemas de memória
         elif os.getenv("HEADLESS", "False").lower() == "true":
             options.add_argument("--headless=new")
+            options.add_argument("--no-sandbox")  # Necessário para CI/CD
+            options.add_argument("--disable-dev-shm-usage")  # Evita problemas de memória
             print("[INFO] Modo headless ativado via variável de ambiente")
 
         options.add_argument("--disable-gpu")
