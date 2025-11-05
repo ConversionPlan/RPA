@@ -75,74 +75,75 @@ def open_dashboard_page(context):
 @when("Open sandwich menu")
 def open_sandwich_menu(context):
     try:
-        # Close any open modals/overlays/toasts first - try multiple methods
-        sleep(2)
-
-        # Try to close various types of overlays
+        # Quick close any open modals - only try most common ones, with short timeout
         close_selectors = [
             "//span[text()='Close']",
-            "//button[text()='Close']",
             "//button[contains(@class, 'close')]",
-            "//a[text()='Close']",
-            "//div[contains(@class, 'modal')]//button[contains(@class, 'close')]",
-            "//div[contains(@class, 'tt_utils_ui_dlg_modal')]//span[text()='Close']",
-            "//*[contains(@class, 'close-button')]",
-            "//*[@aria-label='Close']"
+            "//div[contains(@class, 'tt_utils_ui_dlg_modal')]//span[text()='Close']"
         ]
 
         for close_selector in close_selectors:
             try:
-                close_btn = WebDriverWait(context.driver, 10).until(
+                close_btn = WebDriverWait(context.driver, 1).until(
                     EC.element_to_be_clickable((By.XPATH, close_selector))
                 )
                 close_btn.click()
-                print(f"Closed overlay with selector: {close_selector}")
-                sleep(1)
+                sleep(0.5)
+                break  # Exit after first successful close
             except:
-                continue
+                pass  # Ignore if not found
 
-        # Wait for page transitions to complete
-        sleep(2)
-
-        # Try multiple selectors for the menu toggle with increased timeout
-        menu_toggle = None
-        selectors = [
-            "//div[contains(@class, 'sidebar_menu_toggle_dis')]/a",
-            "//div[contains(@class, 'sidebar_menu_toggle_en')]/a",
-            "//div[contains(@class, 'sidebar_menu_toggle_enabled')]/a",
+        # Try the most common menu selectors first, with element_to_be_clickable
+        primary_selectors = [
             "//div[contains(@class, 'sidebar_menu_toggle')]/a",
             "//a[contains(@class, 'sidebar-toggle')]",
-            "//a[@class='sidebar-toggle']",
-            "//*[@id='sidebar-toggle']",
-            "//i[contains(@class, 'fa-bars')]/parent::a",
-            "//button[contains(@class, 'menu-toggle')]",
-            "//div[@class='menu-toggle']//a"
+            "//i[contains(@class, 'fa-bars')]/parent::a"
         ]
 
-        for selector in selectors:
+        # Try primary selectors with short timeout
+        for selector in primary_selectors:
             try:
-                print(f"Trying menu selector: {selector}")
-                menu_toggle = WebDriverWait(context.driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH, selector))
+                menu_toggle = WebDriverWait(context.driver, 3).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
                 )
-                # Try JavaScript click if regular click might be intercepted
-                try:
-                    context.driver.execute_script("arguments[0].click();", menu_toggle)
-                    print(f"Clicked menu with JavaScript using: {selector}")
-                except:
-                    menu_toggle.click()
-                    print(f"Clicked menu with regular click using: {selector}")
-                sleep(2)
+                # Use JavaScript click to avoid interception issues
+                context.driver.execute_script("arguments[0].click();", menu_toggle)
+                sleep(1)
                 return  # Success, exit function
-            except Exception as sel_error:
-                print(f"Failed with selector {selector}: {str(sel_error)[:100]}")
-                continue
+            except:
+                pass
 
-        # If we reach here, menu toggle was not found
+        # If primary selectors fail, try additional ones with even shorter timeout
+        secondary_selectors = [
+            "//div[contains(@class, 'sidebar_menu_toggle_dis')]/a",
+            "//div[contains(@class, 'sidebar_menu_toggle_en')]/a",
+            "//*[@id='sidebar-toggle']",
+            "//button[contains(@class, 'menu-toggle')]"
+        ]
+
+        for selector in secondary_selectors:
+            try:
+                menu_toggle = WebDriverWait(context.driver, 2).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                context.driver.execute_script("arguments[0].click();", menu_toggle)
+                sleep(1)
+                return
+            except:
+                pass
+
+        # Last resort - try with presence instead of clickable
+        try:
+            menu_toggle = context.driver.find_element(By.XPATH, "//a[contains(@class, 'sidebar')]")
+            context.driver.execute_script("arguments[0].click();", menu_toggle)
+            sleep(1)
+            return
+        except:
+            pass
+
+        # If all fails, take screenshot and raise error
         context.driver.save_screenshot("report/output/menu_not_found.png")
-        print(f"Current URL: {context.driver.current_url}")
-        print(f"Page source length: {len(context.driver.page_source)}")
-        raise Exception("Menu toggle not found with any selector after trying all options")
+        raise Exception("Menu toggle not found after trying all selectors")
 
     except Exception as e:
         ends_timer(context, e)
@@ -382,8 +383,7 @@ def input_ndc_value(context):
 @when("Wait for Identifier Options to Load")
 def wait_identifier_options(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//select[@name='identifier_code']/option[@value='US_NDC']",
-        , timeout=30)
+        wait_and_find(context.driver, By.XPATH, "//select[@name='identifier_code']/option[@value='US_NDC']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -392,8 +392,7 @@ def wait_identifier_options(context):
 @when("Click on Add NDC")
 def click_add_ndc(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-l', timeout=30)]//button[contains(@class, 'tt_utils_ui_dlg_modal-default-enabled-button')]",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-l')]//button[contains(@class, 'tt_utils_ui_dlg_modal-default-enabled-button')]", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -402,8 +401,7 @@ def click_add_ndc(context):
 @when("Click on Requirements Tab")
 def click_requirements_tab(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//li[@rel='requirements']"
-        , timeout=30).click()
+        wait_and_find(context.driver, By.XPATH, "//li[@rel='requirements']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -412,8 +410,7 @@ def click_requirements_tab(context):
 @when("Add Generic Name")
 def add_generic_name(context):
     try:
-        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_generic_name"
-        , timeout=30).send_keys(context.product_name)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_generic_name", timeout=30).send_keys(context.product_name)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -422,8 +419,7 @@ def add_generic_name(context):
 @when("Add Strength")
 def add_strength(context):
     try:
-        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_strength"
-        , timeout=30).send_keys("RPA Strength")
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_strength", timeout=30).send_keys("RPA Strength")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -432,8 +428,7 @@ def add_strength(context):
 @when("Add Net Content Description")
 def add_net_content(context):
     try:
-        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_net_content_desc"
-        , timeout=30).send_keys("RPA Net Content")
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_net_content_desc", timeout=30).send_keys("RPA Net Content")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -443,8 +438,7 @@ def add_net_content(context):
 def add_notes(context):
     try:
         text = generate_text_with_n_chars(30)
-        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_notes"
-        , timeout=30).send_keys(text)
+        wait_and_find(context.driver, By.ID, "TT_UTILS_UI_FORM_UUID__1_notes", timeout=30).send_keys(text)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -453,8 +447,7 @@ def add_notes(context):
 @when("Click on Add")
 def click_add(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//button[contains(@class, 'tt_utils_ui_dlg_modal-default-enabled-button', timeout=30)]",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//button[contains(@class, 'tt_utils_ui_dlg_modal-default-enabled-button')]", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -463,8 +456,7 @@ def click_add(context):
 @when("Click on Aggregation Tab")
 def click_aggregation_tab(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//li[@rel='composition']"
-        , timeout=30).click()
+        wait_and_find(context.driver, By.XPATH, "//li[@rel='composition']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -473,8 +465,7 @@ def click_aggregation_tab(context):
 @when("Click on Add Product")
 def click_add_product(context):
     try:
-        wait_and_find(context.driver, By.CLASS_NAME, "__choose_composition_product"
-        , timeout=30).click()
+        wait_and_find(context.driver, By.CLASS_NAME, "__choose_composition_product", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -653,8 +644,7 @@ def click_misc_tab(context):
 @when("Disable Leaf Product")
 def disable_leaf_product(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='This product is seen as a leaf item in the product composition']",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//label[text()='This product is seen as a leaf item in the product composition']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -709,8 +699,7 @@ def click_rpa_product(context):
 @when("Save GS1 Info")
 def save_gs1_company_prefix(context):
     try:
-        context.product_gtin = wait_and_find(context.driver, By.CLASS_NAME, "field__upc",
-        , timeout=30).text
+        context.product_gtin = wait_and_find(context.driver, By.CLASS_NAME, "field__upc", timeout=30).text
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -720,8 +709,7 @@ def save_gs1_company_prefix(context):
 def close_modal(context):
     try:
         sleep(1)
-        wait_and_find(context.driver, By.XPATH, "//button/span[text(, timeout=30) = 'Close']",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//button/span[text() = 'Close']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -730,8 +718,7 @@ def close_modal(context):
 @when("Search for Created Product")
 def search_created_product(context):
     try:
-        name_search = wait_and_find(context.driver, By.CLASS_NAME, "search_criteria__name"
-        , timeout=30)
+        name_search = wait_and_find(context.driver, By.CLASS_NAME, "search_criteria__name", timeout=30)
         name_search.send_keys(context.product_name)
         name_search.send_keys(Keys.ENTER)
         sleep(3)
@@ -743,8 +730,7 @@ def search_created_product(context):
 @when("Delete Created Product")
 def delete_created_product(context):
     try:
-        wait_and_find(context.driver, By.XPATH, f"//img[@alt='Delete']",
-        , timeout=30).click()
+        wait_and_find(context.driver, By.XPATH, f"//img[@alt='Delete']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -753,8 +739,7 @@ def delete_created_product(context):
 @when("Click on Yes - Deletion")
 def click_yes_deletion(context):
     try:
-        wait_and_find(context.driver, By.XPATH, f"//button/span[text(, timeout=30)='Yes']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, f"//button/span[text()='Yes']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -763,13 +748,11 @@ def click_yes_deletion(context):
 @then("Product should be saved")
 def product_saved(context):
     try:
-        name_search = wait_and_find(context.driver, By.CLASS_NAME, "search_criteria__name"
-        , timeout=30)
+        name_search = wait_and_find(context.driver, By.CLASS_NAME, "search_criteria__name", timeout=30)
         name_search.send_keys(context.product_name)
         name_search.send_keys(Keys.ENTER)
         sleep(3)
-        wait_and_find(context.driver, By.XPATH, f"//*[contains(text(, timeout=30),'{context.product_name}') or contains(text(), 'GTIN14 already exist for product')]",
-        )
+        wait_and_find(context.driver, By.XPATH, f"//*[contains(text(),'{context.product_name}') or contains(text(), 'GTIN14 already exist for product')]", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -782,8 +765,7 @@ def product_deleted(context):
         context.driver.refresh()
         sleep(2)
         records_text = wait_and_find(context.driver, 
-            By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results"
-        , timeout=30).text
+            By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results", timeout=30).text
         new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
         assert context.total_records - new_total_records == 1
     except Exception as e:

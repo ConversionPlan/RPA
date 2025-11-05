@@ -105,17 +105,52 @@ def ends_timer(context, e=None):
 
 @given("Is Logged In")
 def is_logged_in(context):
-    try:
-        launchBrowser(context)
-        context.driver.implicitly_wait(5)
-        openLoginURL(context, "https://qualityportal.qa-test.tracktraceweb.com/auth")
-        enterEmail(context, "teste@teste.com")
-        clickNextToLogin(context)
-        enterPassword(context, "Mudar@12345342")
-        clickSubmitButton(context)
-    except Exception as e:
-        ends_timer(context, e)
-        raise
+    max_attempts = 3
+    for attempt in range(max_attempts):
+        try:
+            launchBrowser(context)
+            # Increase implicit wait for complex pages
+            context.driver.implicitly_wait(15)
+
+            # Clear cookies to ensure clean login
+            context.driver.delete_all_cookies()
+
+            openLoginURL(context, "https://qualityportal.qa-test.tracktraceweb.com/auth")
+
+            # Small wait to ensure page is loaded
+            time.sleep(2)
+
+            enterEmail(context, "teste@teste.com")
+            clickNextToLogin(context)
+            enterPassword(context, "Mudar@12345342")
+            clickSubmitButton(context)
+
+            # Wait for login to complete
+            time.sleep(3)
+
+            # Verify login success by checking URL or element
+            if "/dashboard" in context.driver.current_url or "/home" in context.driver.current_url:
+                return  # Success
+
+            # If not redirected, check for any error and retry
+            if attempt < max_attempts - 1:
+                print(f"Login attempt {attempt + 1} failed, retrying...")
+                time.sleep(2)
+                continue
+
+        except Exception as e:
+            if attempt < max_attempts - 1:
+                print(f"Login attempt {attempt + 1} failed with error: {str(e)[:100]}")
+                time.sleep(3)
+                # Try to close driver and start fresh
+                try:
+                    context.driver.quit()
+                except:
+                    pass
+                continue
+            else:
+                ends_timer(context, e)
+                raise
 
 
 @given("Launching Chrome browser")

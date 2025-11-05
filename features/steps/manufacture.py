@@ -27,44 +27,24 @@ def manufactured_serial(context):
         add_quantity_generate(context)
         click_add_add_serial_request(context)
         click_ok_edit_manufacturer_lot(context)
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+    except Exception as e:
+        ends_timer(context, e)
+        raise
 
 
 @when("Go back to dashboard page")
 def back_dashboard_page(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//div[@class='client_logo']/a[@href='/']",
-        , timeout=30).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//div[@class='client_logo']/a[@href='/']", timeout=30).click()
+    except Exception as e:
+        ends_timer(context, e)
+        raise
 
 
 @when("Click on Commission Serial Numbers")
 def click_commission_serial_numbers(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Commission Serial Numbers']",
-        ).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//label[text()='Commission Serial Numbers']", timeout=30).click()
 
 
 @when("Select Last Created Serials' Product")
@@ -115,38 +95,19 @@ def select_last_created_serials_product(context):
 @when("Select Serial")
 def select_serial(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//th/input[@name='select_all']",
-        , timeout=30).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//th/input[@name='select_all']", timeout=30).click()
 
 
 @when("Click on Close the lot after commissioning the serials")
 def click_close_lot_after_commissioning_serials(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Close the lot after commissioning the serials']",
-        ).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//label[text()='Close the lot after commissioning the serials']", timeout=30).click()
 
 
 @when("Select Storage Area")
 def select_storage_area(context):
     try:
-        storage_input = wait_and_find(context.driver, By.XPATH, "//select[@name='storage_area_uuid']",
-        , timeout=30)
+        storage_input = wait_and_find(context.driver, By.XPATH, "//select[@name='storage_area_uuid']", timeout=30)
         storage_input.click()
         storage_input.send_keys(Keys.ARROW_DOWN)
         storage_input.send_keys(Keys.ENTER)
@@ -218,8 +179,7 @@ def click_add_serialized_lot(context):
 @when("Select an RPA Product from Dropdown")
 def select_rpa_product_dropdown(context):
     try:
-        product_dropdown = wait_and_find(context.driver, By.XPATH, "//select[@name='product_uuid']",
-        , timeout=30)
+        product_dropdown = wait_and_find(context.driver, By.XPATH, "//select[@name='product_uuid']", timeout=30)
         product_dropdown.click()
         product_dropdown.send_keys(Keys.ARROW_DOWN)
         product_dropdown.send_keys(Keys.ENTER)
@@ -236,8 +196,7 @@ def select_rpa_product_dropdown(context):
 @when("Add Lot Number - Manufacturer")
 def add_lot_number_manafucturer(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//input[@name='lot_number']",
-        , timeout=30).send_keys(generate_x_length_number(10))
+        wait_and_find(context.driver, By.XPATH, "//input[@name='lot_number']", timeout=30).send_keys(generate_x_length_number(10))
         except Exception as e:
             if attempt < 2:
                 print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
@@ -251,18 +210,8 @@ def add_lot_number_manafucturer(context):
 @when("Add Expiration Date - Manufacturer")
 def add_expiration_date_manafucturer(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//input[@name='expiration_date']",
-        , timeout=30).send_keys("12-12-2034")
-        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Expiration Date']",
-        ).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//input[@name='expiration_date']", timeout=30).send_keys("12-12-2034")
+        wait_and_find(context.driver, By.XPATH, "//label[text()='Expiration Date']", timeout=30).click()
 
 
 @when("Click on OK - Add Serialized Lot")
@@ -302,38 +251,19 @@ def click_pencil(context):
 @when("Click on Serials Tab")
 def click_serials_tab(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//li[@rel='serials']",
-        , timeout=30).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//li[@rel='serials']", timeout=30).click()
 
 
 @when("Click on New Serials Request")
 def click_new_serials_request(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='New Serials Request']",
-        ).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//span[text()='New Serials Request']", timeout=30).click()
 
 
 @when("Add Quantity to generate")
 def add_quantity_generate(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//input[@name='quantity']",
-        , timeout=30).send_keys("1")
+        wait_and_find(context.driver, By.XPATH, "//input[@name='quantity']", timeout=30).send_keys("1")
         except Exception as e:
             if attempt < 2:
                 print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
@@ -347,33 +277,14 @@ def add_quantity_generate(context):
 @when("Click on Add - Add Serial Request")
 def click_add_add_serial_request(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Add']",
-        ).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Add']", timeout=30).click()
 
 
 @when("Click on OK - Edit Manufacturer Lot")
 def click_ok_edit_manufacturer_lot(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Dismiss']",
-        ).click()
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='OK']",
-        ).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Dismiss']", timeout=30).click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='OK']", timeout=30).click()
 
 
 @when("Save Amount of Records")
@@ -394,16 +305,7 @@ def save_amount_records(context):
 @when("Click on Delete button")
 def click_delete_button(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//img[@alt='Delete']",
-        , timeout=30).click()
-        except Exception as e:
-            if attempt < 2:
-                print(f"Erro na tentativa {{attempt + 1}}, tentando novamente...")
-                sleep(3)
-                continue
-            else:
-                ends_timer(context, e)
-                raise
+        wait_and_find(context.driver, By.XPATH, "//img[@alt='Delete']", timeout=30).click()
 
 
 @when("Click on Yes - Confirmation")
@@ -427,7 +329,7 @@ def click_yes_confirmation(context):
 @then("Serials should be Manufactured")
 def serials_should_be_manufactured(context):
     try:
-        wait_and_find(context.driver, By.XPATH, f"//span[text(, timeout=30)='{context.product_name}']"
+        wait_and_find(context.driver, By.XPATH, f"//span[text()='{context.product_name}']"
         )
         except Exception as e:
             if attempt < 2:
