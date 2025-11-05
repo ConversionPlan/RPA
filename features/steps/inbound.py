@@ -67,8 +67,7 @@ def click_inbound(context):
 @when("Click on Manual Inbound Shipment")
 def click_manual_inbound_shipment(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[contains(text(, timeout=30), 'Manual Inbound Shipment')]"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//span[contains(text(), 'Manual Inbound Shipment')]", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -77,8 +76,7 @@ def click_manual_inbound_shipment(context):
 @when("Click on Change Location")
 def click_change_location(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//a[contains(text(, timeout=30), 'Change Location')]"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//a[contains(text(), 'Change Location')]", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -113,8 +111,7 @@ def select_location(context):
 @when("Click on Change Seller")
 def click_change_seller(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//a[contains(text(, timeout=30), 'Change Seller')]"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//a[contains(text(), 'Change Seller')]", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -160,7 +157,7 @@ def select_seller(context):
 @when("Click on Yes")
 def click_yes(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Yes']").click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Yes']", timeout=30).click()
     except:
         pass
 
@@ -179,8 +176,7 @@ def add_po_number(context):
 @when("Click on Sold By/Ship From Tab")
 def click_sold_by_tab(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Sold By/Ship From']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Sold By/Ship From']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -217,8 +213,7 @@ def select_ship_from(context):
 @when("Click on Line Items Tab")
 def click_line_items_tab(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Line Items']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Line Items']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -227,8 +222,7 @@ def click_line_items_tab(context):
 @when("Click on Add Product - Manual Inbound Shipment")
 def click_add_product_manual_inbound_shipment(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Add Product']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Add Product']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -330,8 +324,7 @@ def click_ok_product_selection(context):
 @when("Click on Add Lot/Source")
 def click_add_lot_source(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Add Lot/Source']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Add Lot/Source']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -350,8 +343,7 @@ def add_lot_number(context):
 @when("Click on Serial Based")
 def click_serial_based(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Serial Based']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//label[text()='Serial Based']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -386,8 +378,7 @@ def search_all_delivery_status(context):
 def click_ok_lot_source(context):
     try:
         time.sleep(2)
-        wait_and_find(context.driver, By.XPATH, "(//span[text(, timeout=30)='OK'])[3]"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "(//span[text()='OK'])[3]", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -396,8 +387,7 @@ def click_ok_lot_source(context):
 @when("Click on OK - Product Information")
 def click_ok_product_information(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "(//span[text(, timeout=30)='OK'])[2]"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "(//span[text()='OK'])[2]", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -406,7 +396,7 @@ def click_ok_product_information(context):
 @when("Click on OK - Manual Inbound Shipment")
 def click_ok_manual_inbound_shipment(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='OK']").click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='OK']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -415,8 +405,7 @@ def click_ok_manual_inbound_shipment(context):
 @when("Click on Aggregation Tab - Inbound")
 def click_aggregation_tab(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Aggregation']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Aggregation']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -425,7 +414,7 @@ def click_aggregation_tab(context):
 @when("Click on Add - Aggregation")
 def click_on_add_aggregation(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='ADD']").click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='ADD']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -434,8 +423,7 @@ def click_on_add_aggregation(context):
 @when("Click on Add - Case Aggregation")
 def click_on_add_case_aggregation(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "(//span[text(, timeout=30)='ADD'])[2]"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "(//span[text()='ADD'])[2]", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -444,8 +432,7 @@ def click_on_add_case_aggregation(context):
 @when("Select Product Radio Button")
 def select_product_radio_button(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Product']"
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//label[text()='Product']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -504,7 +491,7 @@ def add_serial_numbers(context):
 @when("Click on OK - Add Aggregation")
 def click_ok_aggregation(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "(//span[text(, timeout=30)='OK'])[2]"
+        wait_and_find(context.driver, By.XPATH, "(//span[text()='OK'])[2]"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -514,7 +501,7 @@ def click_ok_aggregation(context):
 @when("Click on Close - Add Aggregation")
 def click_close_aggregation(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='Close']").click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='Close']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -533,8 +520,7 @@ def click_utilities(context):
 @when("Click on Manual EPCIS (XML) / X12 EDI (XML) File Upload")
 def click_manual_epcis(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//label[text(, timeout=30)='Manual EPCIS (XML) / X12 EDI (XML) File Upload']",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//label[text()='Manual EPCIS (XML) / X12 EDI (XML) File Upload']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -543,14 +529,12 @@ def click_manual_epcis(context):
 @when("Upload EPCIS file")
 def upload_epcis_file(context):
     try:
-        file_input = wait_and_find(context.driver, By.XPATH, "//input[@type='file']",
-        , timeout=30)
+        file_input = wait_and_find(context.driver, By.XPATH, "//input[@type='file']", timeout=30)
         current_path = os.getcwd()
         file_path = os.path.join(current_path, "epcis_file.xml")
         file_input.send_keys(file_path)
         time.sleep(3)
-        wait_and_find(context.driver, By.XPATH, "//span[text(, timeout=30)='OK']",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//span[text()='OK']", timeout=30).click()
         time.sleep(3)
     except Exception as e:
         ends_timer(context, e)
@@ -576,8 +560,7 @@ def inbound_should_be_saved(context):
         wait_and_find(context.driver, By.CLASS_NAME, "tt_utils_ui_search-search-criterias-btns-search"
         , timeout=30).click()
         time.sleep(3)
-        wait_and_find(context.driver, By.XPATH, f"//*[contains(text(, timeout=30),'{context.tp_name}')]"
-        )
+        wait_and_find(context.driver, By.XPATH, f"//*[contains(text(),'{context.tp_name}')]", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise

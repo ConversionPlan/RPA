@@ -24,7 +24,7 @@ def there_is_container_created(context):
 @when("Click on Container Management")
 def click_container_management(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//span[text()='Container Management']")
+        wait_and_click(context.driver, By.XPATH, "//span[text()='Container Management']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -43,7 +43,7 @@ def click_dismiss(context):
 @when("Click on Create New Container")
 def click_create_new_container(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//label[text()='Create New Container']")
+        wait_and_click(context.driver, By.XPATH, "//label[text()='Create New Container']", timeout=30)
         time.sleep(1)
     except Exception as e:
         ends_timer(context, e)
@@ -53,7 +53,7 @@ def click_create_new_container(context):
 @when("Click on List/Search Containers in Inventory")
 def click_list_containers(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//label[text()='List/Search Containers in inventory']")
+        wait_and_click(context.driver, By.XPATH, "//label[text()='List/Search Containers in inventory']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -62,7 +62,7 @@ def click_list_containers(context):
 @when("Save Container Serial")
 def save_container_serial(context):
     try:
-        serial_element = wait_and_find(context.driver, By.XPATH, "//td[@rel='serial']/span")
+        serial_element = wait_and_find(context.driver, By.XPATH, "//td[@rel='serial']/span", timeout=30)
         context.container_serial = serial_element.text
     except Exception as e:
         ends_timer(context, e)
@@ -72,7 +72,7 @@ def save_container_serial(context):
 @when("Click on Delete container")
 def click_delete_containers(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//label[text()='Delete container']")
+        wait_and_click(context.driver, By.XPATH, "//label[text()='Delete container']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -95,7 +95,7 @@ def input_saved_serial(context):
 @when("Click on OK - Deletion")
 def click_ok_deletion(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//span[text()='OK']")
+        wait_and_click(context.driver, By.XPATH, "//span[text()='OK']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise

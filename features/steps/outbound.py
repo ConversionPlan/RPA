@@ -3,9 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from features.steps.utils import *
 from features.steps.auth import ends_timer
-from features.steps.inbound import (
 from features.steps.utils import wait_and_click, wait_and_find, wait_and_send_keys
-
+from features.steps.inbound import (
     do_inbound,
     click_yes,
     click_change_location,

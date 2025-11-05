@@ -145,8 +145,7 @@ def click_addresses_tab(context):
 def click_add_address(context):
     try:
         time.sleep(2)
-        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tp_form__tabs__', timeout=30) and contains(@class, 'addresses')]//span[text()='Add']",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tp_form__tabs__') and contains(@class, 'addresses')]//span[text()='Add']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -296,8 +295,7 @@ def add_address_zip(context):
 @when("Click on Add - Save Address")
 def click_add_address(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button', timeout=30)]/span[text()='Add']",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Add']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -306,8 +304,7 @@ def click_add_address(context):
 @when("Click on Save")
 def click_save_tp(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button', timeout=30)]/span[text()='Save']",
-        ).click()
+        wait_and_find(context.driver, By.XPATH, "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Save']", timeout=30).click()
     except Exception as e:
         ends_timer(context, e)
         raise
