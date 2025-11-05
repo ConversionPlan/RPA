@@ -289,3 +289,68 @@ def dismiss_modal_if_present(driver, timeout=3):
     except:
         # Modal nao presente, tudo bem
         return False
+
+
+def take_screenshot(driver, name="screenshot", path="report/output/screenshots"):
+    """
+    Tira screenshot para debug, especialmente útil em falhas.
+    """
+    import os
+    from datetime import datetime
+
+    try:
+        # Criar diretório se não existir
+        os.makedirs(path, exist_ok=True)
+
+        # Nome único com timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{path}/{name}_{timestamp}.png"
+
+        # Tirar screenshot
+        driver.save_screenshot(filename)
+        print(f"[SCREENSHOT] Salvo em: {filename}")
+        return filename
+    except Exception as e:
+        print(f"[ERRO] Não foi possível tirar screenshot: {str(e)}")
+        return None
+
+
+def wait_for_page_ready(driver, timeout=30):
+    """
+    Aguarda a página estar completamente carregada.
+    """
+    try:
+        # Aguardar JavaScript indicar página pronta
+        WebDriverWait(driver, timeout).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+
+        # Aguardar jQuery se existir
+        try:
+            WebDriverWait(driver, 2).until(
+                lambda d: d.execute_script("return typeof jQuery !== 'undefined' && jQuery.active == 0")
+            )
+        except:
+            pass  # jQuery pode não estar presente
+
+        return True
+    except Exception as e:
+        print(f"[AVISO] Página pode não estar completamente carregada: {str(e)}")
+        return False
+
+
+def retry_on_stale_element(func, max_retries=3, delay=1):
+    """
+    Decorador para retry em caso de StaleElementReferenceException.
+    """
+    def wrapper(*args, **kwargs):
+        for attempt in range(max_retries):
+            try:
+                return func(*args, **kwargs)
+            except StaleElementReferenceException:
+                if attempt < max_retries - 1:
+                    time.sleep(delay)
+                    continue
+                raise
+        return None
+    return wrapper

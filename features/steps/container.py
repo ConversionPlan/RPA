@@ -53,7 +53,27 @@ def click_create_new_container(context):
 @when("Click on List/Search Containers in Inventory")
 def click_list_containers(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//label[text()='List/Search Containers in inventory']", timeout=30)
+        # Tentar múltiplos seletores para maior robustez
+        selectors = [
+            "//label[text()='List/Search Containers in inventory']",
+            "//label[contains(text(),'List/Search Containers')]",
+            "//label[contains(text(),'List') and contains(text(),'Containers')]",
+            "//*[contains(text(),'List/Search Containers in inventory')]"
+        ]
+
+        element_found = False
+        for selector in selectors:
+            try:
+                wait_and_click(context.driver, By.XPATH, selector, timeout=10)
+                element_found = True
+                break
+            except:
+                continue
+
+        if not element_found:
+            # Última tentativa com timeout maior
+            wait_and_click(context.driver, By.XPATH, selectors[0], timeout=45)
+
     except Exception as e:
         ends_timer(context, e)
         raise
