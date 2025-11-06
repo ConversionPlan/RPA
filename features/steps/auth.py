@@ -105,10 +105,32 @@ def ends_timer(context, e=None):
 
 @given("Is Logged In")
 def is_logged_in(context):
-    max_attempts = 3
+    max_attempts = 2  # Reduzido de 3 para 2 para evitar sobrecarga
+
     for attempt in range(max_attempts):
         try:
+            # Limpar driver anterior se existir
+            if hasattr(context, 'driver') and context.driver is not None:
+                try:
+                    context.driver.quit()
+                    context.driver = None
+                    time.sleep(2)  # Aguardar cleanup completo
+                except:
+                    pass
+
+            # Matar processos órfãos do Chrome no Windows
+            if os.name == 'nt' and attempt > 0:
+                try:
+                    os.system('taskkill /F /IM chrome.exe /T >nul 2>&1')
+                    os.system('taskkill /F /IM chromedriver.exe /T >nul 2>&1')
+                    time.sleep(2)  # Aguardar processos serem eliminados
+                    print(f"[Tentativa {attempt + 1}] Processos Chrome órfãos eliminados")
+                except:
+                    pass
+
+            # Criar novo browser
             launchBrowser(context)
+
             # Increase implicit wait for complex pages
             context.driver.implicitly_wait(15)
 
@@ -117,8 +139,8 @@ def is_logged_in(context):
 
             openLoginURL(context, "https://qualityportal.qa-test.tracktraceweb.com/auth")
 
-            # Small wait to ensure page is loaded
-            time.sleep(2)
+            # Wait to ensure page is loaded
+            time.sleep(3)  # Aumentado de 2 para 3
 
             enterEmail(context, "teste@teste.com")
             clickNextToLogin(context)
@@ -126,29 +148,49 @@ def is_logged_in(context):
             clickSubmitButton(context)
 
             # Wait for login to complete
-            time.sleep(3)
+            time.sleep(5)  # Aumentado de 3 para 5
 
             # Verify login success by checking URL or element
             if "/dashboard" in context.driver.current_url or "/home" in context.driver.current_url:
+                print(f"[OK] Login bem-sucedido na tentativa {attempt + 1}")
                 return  # Success
 
             # If not redirected, check for any error and retry
             if attempt < max_attempts - 1:
-                print(f"Login attempt {attempt + 1} failed, retrying...")
-                time.sleep(2)
+                print(f"[!] Login attempt {attempt + 1} failed (not redirected), retrying...")
+
+                # CRÍTICO: Fazer cleanup completo do driver antes de retry
+                try:
+                    if hasattr(context, 'driver') and context.driver:
+                        context.driver.quit()
+                        print("[INFO] Driver anterior fechado antes de retry")
+                    context.driver = None
+                except Exception as cleanup_error:
+                    print(f"[AVISO] Erro ao fechar driver: {cleanup_error}")
+                    context.driver = None
+
+                # Aguardar cleanup completo
+                time.sleep(3)
                 continue
 
         except Exception as e:
             if attempt < max_attempts - 1:
-                print(f"Login attempt {attempt + 1} failed with error: {str(e)[:100]}")
-                time.sleep(3)
-                # Try to close driver and start fresh
+                print(f"[!] Login attempt {attempt + 1} failed with error: {str(e)[:150]}")
+
+                # Cleanup completo antes de retry
                 try:
-                    context.driver.quit()
+                    if hasattr(context, 'driver') and context.driver:
+                        context.driver.quit()
+                    context.driver = None
                 except:
                     pass
+
+                # Aguardar mais tempo antes do próximo retry
+                time.sleep(5)  # Aumentado de 3 para 5
                 continue
             else:
+                # Última tentativa falhou
+                print(f"[X] Todas as {max_attempts} tentativas de login falharam")
                 ends_timer(context, e)
                 raise
 
@@ -156,31 +198,59 @@ def is_logged_in(context):
 @given("Launching Chrome browser")
 def launchBrowser(context):
     try:
+        import tempfile
+        import random
+
         options = Options()
 
-        # Configuração simples que funcionava em 28 de outubro
+        # Configuração de headless
         if headless is not None:
             options.add_argument("--headless=new")
         elif os.getenv("HEADLESS", "False").lower() == "true":
             options.add_argument("--headless=new")
 
+        # CORREÇÃO CRÍTICA: Criar diretório de dados único para cada sessão
+        # Isso previne o erro "user data directory is already in use"
+        temp_dir = tempfile.gettempdir()
+        user_data_dir = os.path.join(temp_dir, f"chrome_automation_{random.randint(1000, 9999)}_{os.getpid()}")
+        options.add_argument(f"--user-data-dir={user_data_dir}")
+        print(f"[INFO] Usando user-data-dir: {user_data_dir}")
+
+        # Opções básicas
         options.add_argument("--disable-gpu")
         options.add_argument("--ignore-certificate-errors")
-        options.add_argument("--remote-debugging-port=9222")
         options.add_argument("--lang=en-US")
         options.add_argument("--allow-running-insecure-content")
         options.add_argument("--unsafely-treat-insecure-origin-as-secure=*")
         options.add_argument("--disable-features=InsecureDownloadWarnings")
+
+        # OPÇÕES PARA ESTABILIDADE E PREVENIR ERROS DE RENDERER
+        options.add_argument("--no-sandbox")  # Desabilita sandbox para melhor estabilidade
+        options.add_argument("--disable-dev-shm-usage")  # Supera limitações de memória compartilhada
+        options.add_argument("--disable-blink-features=AutomationControlled")  # Evita detecção de automação
+        options.add_argument("--disable-extensions")  # Desabilita extensões
+        options.add_argument("--disable-infobars")  # Remove info bars
+        options.add_argument("--start-maximized")  # Inicia maximizado
+
+        # Preferências
         download_dir = os.getcwd()
         prefs = {
             "download.default_directory": download_dir,
             "download.prompt_for_download": False,
             "safebrowsing_for_trusted_sources_enabled": False,
-            "safebrowsing.enabled": True
+            "safebrowsing.enabled": True,
+            # Preferências para prevenir crashes
+            "profile.default_content_setting_values.notifications": 2,  # Bloquear notificações
+            "credentials_enable_service": False,  # Desabilitar salvamento de senhas
+            "profile.password_manager_enabled": False
         }
         options.add_experimental_option("prefs", prefs)
+        options.add_experimental_option("excludeSwitches", ["enable-logging", "enable-automation"])
+        options.add_experimental_option("useAutomationExtension", False)
 
-        # Configuração simples como era em 28 de outubro
+        print("[INFO] Iniciando Chrome com opções de estabilidade...")
+
+        # Criar driver com configurações otimizadas
         context.driver = webdriver.Chrome(
             service=Service(
                 ChromeDriverManager().install()
@@ -188,7 +258,13 @@ def launchBrowser(context):
             options=options,
         )
 
+        # Configurar timeouts implícitos
+        context.driver.implicitly_wait(10)
+
+        print("[OK] Chrome iniciado com sucesso")
+
     except Exception as e:
+        print(f"[ERRO] Falha ao iniciar Chrome: {str(e)[:150]}")
         ends_timer(context, e)
         raise
 
