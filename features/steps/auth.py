@@ -158,16 +158,11 @@ def launchBrowser(context):
     try:
         options = Options()
 
-        # Detectar se deve usar headless
+        # Configuração simples que funcionava em 28 de outubro
         if headless is not None:
             options.add_argument("--headless=new")
-            options.add_argument("--no-sandbox")  # Necessário para CI/CD
-            options.add_argument("--disable-dev-shm-usage")  # Evita problemas de memória
         elif os.getenv("HEADLESS", "False").lower() == "true":
             options.add_argument("--headless=new")
-            options.add_argument("--no-sandbox")  # Necessário para CI/CD
-            options.add_argument("--disable-dev-shm-usage")  # Evita problemas de memória
-            print("[INFO] Modo headless ativado via variável de ambiente")
 
         options.add_argument("--disable-gpu")
         options.add_argument("--ignore-certificate-errors")
@@ -185,40 +180,13 @@ def launchBrowser(context):
         }
         options.add_experimental_option("prefs", prefs)
 
-        # Adicionar timeout explícito e retry logic
-        max_retries = 3
-        retry_delay = 5  # segundos
-
-        for attempt in range(max_retries):
-            try:
-                print(f"[INFO] Tentativa {attempt + 1} de {max_retries} para inicializar o Chrome...")
-
-                # Configurar o service com timeout menor
-                service = Service(ChromeDriverManager().install())
-
-                # Criar o driver com timeout configurado
-                context.driver = webdriver.Chrome(
-                    service=service,
-                    options=options,
-                )
-
-                # Configurar timeouts do driver
-                context.driver.set_page_load_timeout(30)  # 30 segundos para carregar página
-                context.driver.implicitly_wait(10)  # 10 segundos de wait implícito
-
-                print("[OK] Chrome inicializado com sucesso!")
-                break  # Sucesso, sair do loop
-
-            except Exception as retry_error:
-                print(f"[ERRO] Tentativa {attempt + 1} falhou: {str(retry_error)}")
-
-                if attempt < max_retries - 1:
-                    print(f"[INFO] Aguardando {retry_delay} segundos antes de tentar novamente...")
-                    time.sleep(retry_delay)
-                    retry_delay *= 1.5  # Backoff exponencial
-                else:
-                    print("[ERRO] Todas as tentativas falharam!")
-                    raise retry_error
+        # Configuração simples como era em 28 de outubro
+        context.driver = webdriver.Chrome(
+            service=Service(
+                ChromeDriverManager().install()
+            ),
+            options=options,
+        )
 
     except Exception as e:
         ends_timer(context, e)
