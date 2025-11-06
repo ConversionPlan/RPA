@@ -48,7 +48,7 @@ def there_is_outbound_created(context):
 @when("Return to dashboard page")
 def return_dashboard_page(context):
     try:
-        context.driver.get("https://demopharmacoltd.qa-test.tracktraceweb.com/")
+        context.driver.get("https://qualityportal.qa-test.tracktraceweb.com/")
     except Exception as e:
         ends_timer(context, e)
         raise

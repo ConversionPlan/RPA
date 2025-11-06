@@ -102,7 +102,8 @@ def click_rpa_seller(context):
 @when("Save the Seller Name")
 def click_rpa_seller(context):
     try:
-        context.seller_name = wait_and_find(context.driver, By.XPATH, "//div[contains(@class,'field__name', timeout=30) and contains(text(), '[RPA]')]",
+        context.seller_name = wait_and_find(context.driver, By.XPATH, "//div[contains(@class,'field__name') and contains(text(), '[RPA]')]",
+            timeout=30
         ).text
     except Exception as e:
         ends_timer(context, e)

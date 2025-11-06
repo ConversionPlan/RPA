@@ -59,7 +59,8 @@ def click_rpa_location(context):
 @when("Save Location Name")
 def click_rpa_location(context):
     try:
-        context.location_name = wait_and_find(context.driver, By.XPATH, "//div[contains(@class,'field__name', timeout=30) and contains(text(), '[RPA]')]",
+        context.location_name = wait_and_find(context.driver, By.XPATH, "//div[contains(@class,'field__name') and contains(text(), '[RPA]')]",
+            timeout=30
         ).text
     except Exception as e:
         ends_timer(context, e)
@@ -126,7 +127,8 @@ def click_address_tab(context):
 def click_add_location(context):
     try:
         time.sleep(2)
-        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_form__tabs__one_tab_pane', timeout=30) ]//div[@class='tt_utils_forms-one-header-action-button tt_utils_forms-one-header-action-button--add-action']/span[text()='Add']",
+        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_form__tabs__one_tab_pane')]//div[@class='tt_utils_forms-one-header-action-button tt_utils_forms-one-header-action-button--add-action']/span[text()='Add']",
+            timeout=30
         ).click()
     except Exception as e:
         ends_timer(context, e)

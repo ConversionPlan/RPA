@@ -54,7 +54,8 @@ def do_inbound(context):
 @when("Click on Inbound")
 def click_inbound(context):
     try:
-        inbound_button = wait_and_find(context.driver, By.XPATH, "//a[contains(@href, '/receiving/', timeout=30)]/span[contains(text(), 'Inbound')]",
+        inbound_button = wait_and_find(context.driver, By.XPATH, "//a[contains(@href, '/receiving/')]/span[contains(text(), 'Inbound')]",
+            timeout=30
         )
         wait = WebDriverWait(context.driver, timeout=20)
         wait.until(lambda d: inbound_button.is_displayed())
@@ -185,10 +186,11 @@ def click_sold_by_tab(context):
 @when("Select Sold By Location as Main Address")
 def select_sold_by_main_address(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[contains(@id, 'sold_by_address_uuid', timeout=30)]"
+        wait_and_find(context.driver, By.XPATH, "//span[contains(@id, 'sold_by_address_uuid')]",
+            timeout=30
         ).click()
-        sold_by_input = wait_and_find(context.driver, By.XPATH, "//input[@class='select2-search__field']"
-        , timeout=30)
+        sold_by_input = wait_and_find(context.driver, By.XPATH, "//input[@class='select2-search__field']",
+            timeout=30)
         sold_by_input.send_keys("Main Address")
         sold_by_input.send_keys(Keys.ENTER)
     except Exception as e:
@@ -199,10 +201,11 @@ def select_sold_by_main_address(context):
 @when("Select Ship From as Ship From")
 def select_ship_from(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[contains(@id, 'ship_from_address_uuid', timeout=30)]"
+        wait_and_find(context.driver, By.XPATH, "//span[contains(@id, 'ship_from_address_uuid')]",
+            timeout=30
         ).click()
-        sold_by_input = wait_and_find(context.driver, By.XPATH, "//input[@class='select2-search__field']"
-        , timeout=30)
+        sold_by_input = wait_and_find(context.driver, By.XPATH, "//input[@class='select2-search__field']",
+            timeout=30)
         sold_by_input.send_keys("Ship From")
         sold_by_input.send_keys(Keys.ENTER)
     except Exception as e:
@@ -314,7 +317,8 @@ def add_quantity(context):
 @when("Click on OK - Product Selection")
 def click_ok_product_selection(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-m', timeout=30)]//span[text()='OK']",
+        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_utils_ui_dlg_modal-width-class-m')]//span[text()='OK']",
+            timeout=30
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -352,7 +356,8 @@ def click_serial_based(context):
 @when("Add Expiration Date")
 def add_expiration_date(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//input[contains(@id,'expiration_date', timeout=30)]"
+        wait_and_find(context.driver, By.XPATH, "//input[contains(@id,'expiration_date')]",
+            timeout=30
         ).send_keys("12-12-2030")
     except Exception as e:
         ends_timer(context, e)

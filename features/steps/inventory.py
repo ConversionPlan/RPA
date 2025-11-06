@@ -360,7 +360,8 @@ def change_new_location(context):
 @when("Set Reason")
 def set_reason(context):
     try:
-        select_reason = wait_and_find(context.driver, By.XPATH, "//select[contains(@id, '_reason_type_preset', timeout=30)]"
+        select_reason = wait_and_find(context.driver, By.XPATH, "//select[contains(@id, '_reason_type_preset')]",
+            timeout=30
         )
         select_reason.click()
         select_reason.send_keys(Keys.ARROW_DOWN)
@@ -373,7 +374,8 @@ def set_reason(context):
 @when("Set Inventory Adjustment Reason")
 def set_reason(context):
     try:
-        select_reason = wait_and_find(context.driver, By.XPATH, "//select[contains(@id, '_reason_uuid', timeout=30)]"
+        select_reason = wait_and_find(context.driver, By.XPATH, "//select[contains(@id, '_reason_uuid')]",
+            timeout=30
         )
         select_reason.click()
         select_reason.send_keys(Keys.ARROW_DOWN)
@@ -387,7 +389,8 @@ def set_reason(context):
 def add_reference(context):
     try:
         ref = generate_ref_number()
-        wait_and_find(context.driver, By.XPATH, "//input[contains(@id, '_reference_nbr', timeout=30)]"
+        wait_and_find(context.driver, By.XPATH, "//input[contains(@id, '_reference_nbr')]",
+            timeout=30
         ).send_keys(ref)
     except Exception as e:
         ends_timer(context, e)
@@ -573,7 +576,8 @@ def click_add_missing_stolen_item(context):
 @when("Click on Add - Report Missing/Stolen")
 def click_add_report_missing_stolen(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button', timeout=30)]/span[text()='Add']",
+        wait_and_find(context.driver, By.XPATH, "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span[text()='Add']",
+            timeout=30
         ).click()
     except Exception as e:
         ends_timer(context, e)
