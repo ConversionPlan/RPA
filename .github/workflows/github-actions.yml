@@ -35,7 +35,7 @@ jobs:
       - name: Run tests
         run: |
           mkdir -p report/output
-          HEADLESS=True behavex --parallel-processes 1 --parallel-scheme scenario -o report/output
+          HEADLESS=True behavex --parallel-processes 4 --parallel-scheme feature -o report/output
       - name: Print errors
         if: failure()
         run: |
