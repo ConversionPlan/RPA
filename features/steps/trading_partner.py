@@ -125,7 +125,7 @@ def click_rpa_seller(context):
 def edit_tp(context):
     try:
         time.sleep(1)
-        wait_and_find(context.driver, By.XPATH, "//img[@alt='Edit']", timeout=30).click()
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='Edit']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise
