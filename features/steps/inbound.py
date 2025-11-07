@@ -101,9 +101,22 @@ def search_rpa_location(context):
 def select_location(context):
     try:
         time.sleep(1)
-        context.inbounded_location = wait_and_find(context.driver, By.XPATH, "//td[@rel='name']"
-        , timeout=30).text
-        wait_and_find(context.driver, By.XPATH, "//img[@alt='Select']", timeout=30).click()
+
+        # Retry logic para obter o texto do elemento com proteção contra stale element
+        for attempt in range(3):
+            try:
+                location_element = wait_and_find(context.driver, By.XPATH, "//td[@rel='name']", timeout=30)
+                context.inbounded_location = location_element.text
+                print(f"[INFO] Location selecionada: {context.inbounded_location}")
+                break
+            except StaleElementReferenceException:
+                if attempt < 2:
+                    print(f"[WARN] Elemento stale na tentativa {attempt + 1}, retrying...")
+                    time.sleep(0.5)
+                else:
+                    raise
+
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='Select']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise

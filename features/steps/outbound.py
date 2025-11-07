@@ -70,7 +70,38 @@ def click_outbound(context):
 @when("Delete Created Outbound")
 def delete_created_outbound(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//img[@alt='Delete']")
+        # Primeiro, buscar pelo PO number usando o campo de busca
+        print(f"[INFO] Procurando por outbound com PO: {context.po}")
+
+        # Tentar encontrar campo de busca e buscar pelo PO
+        try:
+            search_field = wait_and_find(
+                context.driver,
+                By.XPATH,
+                "//input[@placeholder='Search' or @type='search' or contains(@class, 'search')]",
+                timeout=5
+            )
+            search_field.clear()
+            search_field.send_keys(context.po)
+            search_field.send_keys(Keys.ENTER)
+            time.sleep(2)
+            print(f"[OK] Busca realizada por: {context.po}")
+        except Exception as search_error:
+            print(f"[WARN] Campo de busca não encontrado: {search_error}")
+
+        # Procurar pelo outbound criado usando o PO number
+        outbound_row = wait_and_find(
+            context.driver,
+            By.XPATH,
+            f"//td[contains(text(), '{context.po}')]/ancestor::tr",
+            timeout=10
+        )
+        print(f"[INFO] Outbound encontrado com PO: {context.po}")
+
+        # Clicar no botão Delete da linha do outbound
+        delete_button = outbound_row.find_element(By.XPATH, ".//img[@alt='Delete']")
+        delete_button.click()
+        print("[OK] Botão Delete clicado")
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -236,7 +267,9 @@ def select_shown_product(context):
 @when("Select Shown Serial")
 def select_shown_serial(context):
     try:
-        wait_and_click(context.driver, By.ID, "_tt_checkbox_field_0")
+        # Aguardar um tempo maior para o modal carregar os serials
+        time.sleep(2)
+        wait_and_click(context.driver, By.ID, "_tt_checkbox_field_0", timeout=20)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -298,6 +331,16 @@ def outbound_saved(context):
 @then("Outbound should be deleted")
 def outbound_deleted(context):
     try:
+        # Aguardar um tempo para a página atualizar após deleção
+        time.sleep(2)
+
+        # Tentar aguardar até que o elemento do outbound deletado não esteja mais visível
+        try:
+            context.driver.find_element(By.XPATH, f"//td[contains(text(), '{context.po}')]")
+            print(f"[WARN] Outbound ainda visível após deleção: {context.po}")
+        except:
+            print(f"[OK] Outbound não está mais visível: {context.po}")
+
         records_element = wait_and_find(
             context.driver,
             By.CLASS_NAME,
@@ -307,7 +350,7 @@ def outbound_deleted(context):
         records_text = records_element.text
         new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
         print(f"[INFO] Registros antes: {context.total_records}, depois: {new_total_records}")
-        assert context.total_records - new_total_records == 1
+        assert context.total_records - new_total_records == 1, f"Esperado {context.total_records - 1} registros, mas encontrou {new_total_records}"
     except Exception as e:
         ends_timer(context, e)
         raise
