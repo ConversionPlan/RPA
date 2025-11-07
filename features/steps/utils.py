@@ -183,6 +183,14 @@ def wait_and_click(driver, by, value, timeout=15, retries=3):
                 return element
             except Exception as scroll_error:
                 print(f"[ERRO] Scroll falhou: {scroll_error}")
+                # Tentar JavaScript click como ultimo recurso
+                try:
+                    element = driver.find_element(by, value)
+                    driver.execute_script("arguments[0].click();", element)
+                    print(f"[OK] Clicou com JavaScript apos falha de scroll")
+                    return element
+                except Exception as js_error:
+                    print(f"[ERRO] JavaScript click falhou: {js_error}")
 
         except StaleElementReferenceException:
             print(f"[Tentativa {attempt + 1}] Elemento stale: {by}={value}")

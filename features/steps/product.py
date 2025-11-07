@@ -456,7 +456,30 @@ def click_add(context):
 @when("Click on Aggregation Tab")
 def click_aggregation_tab(context):
     try:
+        print("[INFO] Clicando na aba Aggregation...")
         wait_and_find(context.driver, By.XPATH, "//li[@rel='composition']", timeout=30).click()
+        sleep(2)
+
+        # Debug: Ver o estado da pagina apos clicar na aba
+        try:
+            # Procurar pelo botao Add Product
+            add_buttons = context.driver.find_elements(By.CLASS_NAME, "__choose_composition_product")
+            print(f"[DEBUG] Botoes 'Add Product' encontrados: {len(add_buttons)}")
+            if len(add_buttons) > 0:
+                print(f"[DEBUG] Texto do botao: {add_buttons[0].text}")
+                print(f"[DEBUG] Visivel: {add_buttons[0].is_displayed()}")
+                print(f"[DEBUG] Habilitado: {add_buttons[0].is_enabled()}")
+
+            # Ver se estamos em um iframe ou modal
+            iframes = context.driver.find_elements(By.TAG_NAME, "iframe")
+            print(f"[DEBUG] Iframes encontrados: {len(iframes)}")
+
+            modals = context.driver.find_elements(By.CLASS_NAME, "tt_utils_ui_dlg_modal")
+            print(f"[DEBUG] Modais na aba Aggregation: {len(modals)}")
+
+        except Exception as debug_err:
+            print(f"[WARN] Erro ao obter diagnostico: {debug_err}")
+
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -465,7 +488,46 @@ def click_aggregation_tab(context):
 @when("Click on Add Product")
 def click_add_product(context):
     try:
-        wait_and_find(context.driver, By.CLASS_NAME, "__choose_composition_product", timeout=30).click()
+        print("[INFO] Procurando botao 'Add Product' para composicao...")
+        add_button = wait_and_find(context.driver, By.CLASS_NAME, "__choose_composition_product", timeout=30)
+        print(f"[INFO] Botao encontrado: {add_button.text if add_button.text else '(sem texto)'}")
+
+        # Tentar com JavaScript click (mais confiavel para elementos dinamicos)
+        print("[INFO] Clicando com JavaScript...")
+        context.driver.execute_script("arguments[0].click();", add_button)
+        print("[OK] Botao 'Add Product' clicado com JavaScript")
+
+        # Aguardar mais tempo para modal abrir
+        sleep(3)
+
+        # Verificar se um modal/interface de selecao abriu
+        try:
+            # Aguardar pelo modal
+            from selenium.webdriver.support.wait import WebDriverWait
+            from selenium.webdriver.support import expected_conditions as EC
+
+            try:
+                WebDriverWait(context.driver, 10).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "tt_utils_ui_dlg_modal"))
+                )
+                print("[OK] Modal de selecao de produtos abriu!")
+            except:
+                print("[WARN] Modal nao abriu apos 10 segundos")
+
+            # Procurar por elementos que indicam um modal de selecao
+            modals = context.driver.find_elements(By.CLASS_NAME, "tt_utils_ui_dlg_modal")
+            print(f"[DEBUG] Modais encontrados: {len(modals)}")
+
+            # Ver se há campo de busca de produtos
+            search_fields = context.driver.find_elements(By.XPATH, "//input[@rel='name']")
+            print(f"[DEBUG] Campos de busca encontrados: {len(search_fields)}")
+
+            # Ver URL atual
+            current_url = context.driver.current_url
+            print(f"[DEBUG] URL atual: {current_url}")
+        except Exception as debug_err:
+            print(f"[WARN] Erro ao obter diagnostico: {debug_err}")
+
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -491,67 +553,108 @@ def input_name_each_product(context):
 @when("Click on Product Name")
 def click_product_name(context):
     try:
-        from selenium.webdriver.support.wait import WebDriverWait
-        from selenium.webdriver.support import expected_conditions as EC
-        from selenium.webdriver import ActionChains
-
         # Wait for the results table/list to appear
         sleep(2)
 
-        # Try multiple selectors - prioritize clickable parent elements (td) over child elements (span)
-        selectors = [
-            # Table row/cell elements (parent elements with onclick - most reliable)
-            (By.XPATH, "//td[@rel='name' and contains(., 'EACH')]"),
-            (By.XPATH, "//td[contains(@class, 'res_column__name') and contains(., 'EACH')]"),
-            (By.XPATH, "//tr[contains(., 'EACH')]//td[@rel='name']"),
-            # Autocomplete dropdown options
-            (By.XPATH, "//div[contains(@class, 'autocomplete')]//li[contains(text(), 'EACH')]"),
-            (By.XPATH, "//ul[contains(@class, 'ui-autocomplete')]//li[contains(text(), 'EACH')]"),
-            (By.XPATH, "//div[@class='ui-menu-item']//div[contains(text(), 'EACH')]"),
-            # Table results (generic)
-            (By.XPATH, "//table[@class='display']//td[contains(text(),' EACH')]"),
-            (By.XPATH, "//table//tbody//tr//td[contains(text(),' EACH')]"),
-        ]
+        # NO CONTEXTO DE AGREGACAO, precisamos clicar no produto para seleciona-lo,
+        # NAO para abrir o modal de visualizacao.
+        # Procurar por um botao/icone de "Add" ao lado do produto, similar ao padrao usado em outbound
 
-        element_clicked = False
-        last_error = None
+        # Find the product element
+        product = wait_and_find(
+            context.driver,
+            By.XPATH,
+            "//td[@rel='name' and contains(., 'EACH')]",
+            timeout=15
+        )
+        product_text = product.text
+        print(f"[INFO] Found product: {product_text}")
 
-        for by, selector in selectors:
-            try:
-                print(f"Trying selector: {selector}")
-                element = WebDriverWait(context.driver, 10).until(
-                    EC.presence_of_element_located((by, selector))
-                )
-                print(f"Found element with selector: {selector}")
+        # Salvar o nome do produto para uso posterior
+        context.selected_product_name = product_text
 
-                # Try JavaScript click first (bypasses intercepted click issues)
-                try:
-                    context.driver.execute_script("arguments[0].click();", element)
-                    print(f"Clicked element with JavaScript")
-                    element_clicked = True
-                    sleep(1)
-                    break
-                except:
-                    # Fallback to regular click
-                    element.click()
-                    print(f"Clicked element with regular click")
-                    element_clicked = True
-                    sleep(1)
-                    break
-            except Exception as sel_error:
-                last_error = sel_error
-                continue
+        # PRIMEIRO: Obter HTML da linha para diagnostico
+        try:
+            product_row = product.find_element(By.XPATH, "./ancestor::tr")
+            row_html = product_row.get_attribute('outerHTML')
+            print(f"[DEBUG] HTML completo da linha do produto:")
+            print(row_html)
 
-        if not element_clicked:
-            # Take screenshot for debugging
-            context.driver.save_screenshot("report/output/product_name_not_found.png")
-            print(f"Current URL: {context.driver.current_url}")
-            print(f"Page source preview: {context.driver.page_source[:500]}")
-            raise Exception(f"Could not find Product Name element with any selector. Last error: {last_error}")
+            # Procurar todos os elementos clicaveis na linha
+            clickable_elements = product_row.find_elements(By.XPATH, ".//*[@onclick or .//img or .//button or .//a]")
+            print(f"[DEBUG] Elementos clicaveis encontrados na linha: {len(clickable_elements)}")
+            for i, elem in enumerate(clickable_elements):
+                tag = elem.tag_name
+                onclick = elem.get_attribute('onclick')
+                alt = elem.get_attribute('alt')
+                href = elem.get_attribute('href')
+                print(f"[DEBUG] Elemento {i+1}: tag={tag}, onclick={onclick}, alt={alt}, href={href}")
+        except Exception as debug_error:
+            print(f"[WARN] Erro ao obter diagnostico: {debug_error}")
+
+        # Tentar diferentes estrategias para selecionar o produto na agregacao
+        print("[INFO] Procurando botao/icone de adicionar produto...")
+
+        # Estrategia 1: Procurar por botao/icone de "Add" na mesma linha do produto
+        try:
+            # Primeiro, encontrar a linha (tr) que contem o produto
+            product_row = product.find_element(By.XPATH, "./ancestor::tr")
+            print(f"[INFO] Linha do produto encontrada")
+
+            # Procurar por imagem/botao de adicionar na linha
+            add_button = product_row.find_element(By.XPATH, ".//img[@alt='Add' or @alt='Add to composition' or contains(@src, 'add')]")
+            print(f"[INFO] Botao 'Add' encontrado na linha do produto")
+            add_button.click()
+            print("[OK] Clicou no botao Add")
+            sleep(2)
+            return
+
+        except Exception as e1:
+            print(f"[WARN] Estrategia 1 falhou (botao Add na linha): {e1}")
+
+        # Estrategia 2: Tentar clicar diretamente no nome do produto SEM executar onclick
+        # (apenas um click normal que pode selecionar o produto)
+        try:
+            print("[INFO] Tentando click simples no produto...")
+            # Usar JavaScript click para evitar o onclick
+            context.driver.execute_script("arguments[0].click();", product)
+            print("[OK] Click simples executado")
+            sleep(2)
+            return
+
+        except Exception as e2:
+            print(f"[WARN] Estrategia 2 falhou (click simples): {e2}")
+
+        # Estrategia 3: Procurar checkbox ou radio button na linha
+        try:
+            product_row = product.find_element(By.XPATH, "./ancestor::tr")
+            checkbox = product_row.find_element(By.XPATH, ".//input[@type='checkbox' or @type='radio']")
+            print(f"[INFO] Checkbox/radio encontrado")
+            checkbox.click()
+            print("[OK] Checkbox selecionado")
+            sleep(2)
+            return
+
+        except Exception as e3:
+            print(f"[WARN] Estrategia 3 falhou (checkbox): {e3}")
+
+        # Se todas as estrategias falharem, reportar erro detalhado
+        take_screenshot(context.driver, "product_selection_failed")
+        print(f"[ERROR] Nenhuma estrategia de selecao de produto funcionou")
+        print("[INFO] Tentando obter HTML da linha do produto para analise...")
+
+        try:
+            product_row = product.find_element(By.XPATH, "./ancestor::tr")
+            row_html = product_row.get_attribute('outerHTML')
+            print(f"[DEBUG] HTML da linha: {row_html[:500]}...")  # Primeiros 500 chars
+        except:
+            pass
+
+        raise Exception("Nao foi possivel selecionar o produto para agregacao. Verifique se o elemento correto esta sendo usado.")
+
     except Exception as e:
         ends_timer(context, e)
         raise
-
 
 @when("Add Product Quantity")
 def add_product_quantity(context):
