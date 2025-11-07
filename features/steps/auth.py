@@ -203,11 +203,12 @@ def launchBrowser(context):
 
         options = Options()
 
-        # Configuração de headless
-        if headless is not None:
-            options.add_argument("--headless=new")
-        elif os.getenv("HEADLESS", "False").lower() == "true":
-            options.add_argument("--headless=new")
+        # MODO HEADLESS ATIVADO
+        options.add_argument("--headless=new")
+        options.add_argument("--window-size=1920,1080")  # Define tamanho da janela em headless
+        options.add_argument("--disable-web-security")   # Desabilita segurança web para testes
+        options.add_argument("--disable-software-rasterizer")
+        print("[INFO] Modo HEADLESS ativado - Chrome executará sem interface gráfica")
 
         # CORREÇÃO CRÍTICA: Criar diretório de dados único para cada sessão
         # Isso previne o erro "user data directory is already in use"

@@ -33,7 +33,6 @@ def safe_get_text(driver, by, value, timeout=15, retries=3):
             text = element.text
 
             if text:
-                print(f"[OK] Obtido texto '{text}' de {by}={value}")
                 return text
             else:
                 # Se texto vazio, aguardar um pouco mais
@@ -44,11 +43,10 @@ def safe_get_text(driver, by, value, timeout=15, retries=3):
                     return text
 
         except StaleElementReferenceException:
-            print(f"[Tentativa {attempt + 1}] Elemento stale ao obter texto: {by}={value}")
             time.sleep(0.5)
 
-        except Exception as e:
-            print(f"[Tentativa {attempt + 1}] Erro ao obter texto: {e}")
+        except Exception:
+            pass
 
         if attempt < retries - 1:
             time.sleep(1)
@@ -92,18 +90,15 @@ def refresh_and_wait(driver, by, value, timeout=15):
     Util para validacoes apos criacao de registros.
     """
     try:
-        print("[INFO] Fazendo refresh da pagina...")
         driver.refresh()
         wait_for_page_stable(driver)
 
         element = WebDriverWait(driver, timeout).until(
             EC.presence_of_element_located((by, value))
         )
-        print(f"[OK] Elemento encontrado apos refresh: {by}={value}")
         return element
 
     except TimeoutException:
-        print(f"[ERRO] Elemento nao encontrado apos refresh: {by}={value}")
         raise
 
 
@@ -121,11 +116,9 @@ def click_with_retry(driver, by, value, timeout=15, max_attempts=3):
             )
             wait_for_page_stable(driver, timeout=2)
             element.click()
-            print(f"[OK] Click bem-sucedido em {by}={value} (tentativa {attempt + 1})")
             return True
 
         except ElementClickInterceptedException:
-            print(f"[Tentativa {attempt + 1}] Elemento interceptado, tentando scroll...")
 
             # Estrategia 2: Scroll e click
             try:
@@ -133,7 +126,6 @@ def click_with_retry(driver, by, value, timeout=15, max_attempts=3):
                 driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
                 time.sleep(0.5)
                 element.click()
-                print(f"[OK] Click apos scroll bem-sucedido")
                 return True
             except:
                 pass
@@ -142,7 +134,6 @@ def click_with_retry(driver, by, value, timeout=15, max_attempts=3):
             try:
                 element = driver.find_element(by, value)
                 ActionChains(driver).move_to_element(element).click().perform()
-                print(f"[OK] Click com ActionChains bem-sucedido")
                 return True
             except:
                 pass
@@ -151,17 +142,15 @@ def click_with_retry(driver, by, value, timeout=15, max_attempts=3):
             try:
                 element = driver.find_element(by, value)
                 driver.execute_script("arguments[0].click();", element)
-                print(f"[OK] JavaScript click bem-sucedido")
                 return True
             except:
                 pass
 
         except StaleElementReferenceException:
-            print(f"[Tentativa {attempt + 1}] Elemento stale, re-buscando...")
             time.sleep(0.5)
 
-        except Exception as e:
-            print(f"[Tentativa {attempt + 1}] Erro no click: {e}")
+        except Exception:
+            pass
 
         if attempt < max_attempts - 1:
             time.sleep(1)
@@ -179,10 +168,8 @@ def wait_for_text_present(driver, text, timeout=15):
                 ("xpath", f"//*[contains(text(), '{text}')]")
             )
         )
-        print(f"[OK] Texto '{text}' encontrado na pagina")
         return True
     except TimeoutException:
-        print(f"[ERRO] Texto '{text}' nao encontrado na pagina")
         return False
 
 
@@ -196,7 +183,6 @@ def smart_validation(driver, expected_text, timeout=15, with_refresh=False):
 
     if with_refresh:
         # Tentar com refresh
-        print("[INFO] Texto nao encontrado, tentando com refresh...")
         driver.refresh()
         wait_for_page_stable(driver)
 
@@ -207,12 +193,9 @@ def smart_validation(driver, expected_text, timeout=15, with_refresh=False):
     try:
         elements = driver.find_elements("xpath", f"//*[contains(., '{expected_text}')]")
         if elements:
-            print(f"[OK] Texto '{expected_text}' encontrado em busca ampla")
             return True
     except:
         pass
-
-    print(f"[ERRO] Validacao falhou para texto: '{expected_text}'")
     return False
 
 
@@ -236,7 +219,6 @@ def ensure_element_interaction(driver, by, value, action="click", data=None, tim
                 )
                 element.clear()
                 element.send_keys(data)
-                print(f"[OK] Keys enviadas para {by}={value}")
                 return True
 
             elif action == "clear":
@@ -244,18 +226,15 @@ def ensure_element_interaction(driver, by, value, action="click", data=None, tim
                     EC.presence_of_element_located((by, value))
                 )
                 element.clear()
-                print(f"[OK] Campo limpo: {by}={value}")
                 return True
 
             elif action == "get_text":
                 return safe_get_text(driver, by, value, timeout)
 
         except StaleElementReferenceException:
-            print(f"[Tentativa {attempt + 1}] Elemento stale durante {action}")
             time.sleep(1)
 
-        except Exception as e:
-            print(f"[Tentativa {attempt + 1}] Erro durante {action}: {e}")
+        except Exception:
             time.sleep(1)
 
     raise Exception(f"[FALHA] Impossivel executar {action} em {by}={value}")
