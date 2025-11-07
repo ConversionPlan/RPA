@@ -31,8 +31,7 @@ def open_epcis_generator(context):
 @when("Click on Generate Random Data")
 def click_generate_random_data(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//p[text(, timeout=30)='Generate Random Data']"
-        ).click()
+        wait_and_click(context.driver, By.XPATH, "//p[text()='Generate Random Data']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise

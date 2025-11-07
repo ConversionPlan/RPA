@@ -587,16 +587,26 @@ def inbound_should_be_saved(context):
 @then("Inbound should be deleted")
 def inbound_should_be_deleted(context):
     try:
+        print(f"[INFO] Aguardando atualização após deleção...")
         time.sleep(5)
         context.driver.refresh()
         time.sleep(2)
         search_all_delivery_status(context)
         time.sleep(2)
-        records_text = wait_and_find(context.driver, 
-            By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results"
-        , timeout=30).text
+
+        records_element = wait_and_find(
+            context.driver,
+            By.CLASS_NAME,
+            "tt_utils_ui_search-footer-nb-results",
+            timeout=30
+        )
+        records_text = records_element.text
         new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
-        assert context.total_records - new_total_records == 1
+
+        print(f"[INFO] Registros antes: {context.total_records}, depois: {new_total_records}")
+
+        assert context.total_records - new_total_records == 1, \
+            f"Esperado {context.total_records - 1} registros, mas encontrou {new_total_records}"
     except Exception as e:
         ends_timer(context, e)
         raise

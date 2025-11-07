@@ -305,7 +305,7 @@ def save_amount_records(context):
 @when("Click on Delete button")
 def click_delete_button(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//img[@alt='Delete']", timeout=30).click()
+        wait_and_click(context.driver, By.XPATH, "//img[@alt='Delete']", timeout=30)
     except Exception as e:
         ends_timer(context, e)
         raise
