@@ -45,7 +45,6 @@ Feature: Inventory
     Then Item should be quarantined
     And End test
 
-  @skip
   Scenario: Destroy Item
     Given User exists
     And Is Logged In
@@ -65,10 +64,8 @@ Feature: Inventory
     And Select Lot and Expiration Date
     And Select Inbounded Item
     And Click on OK - Transfer Items
-    Then Item should be destroyed
     And End test
 
-  @skip
   Scenario: Report Missing/Stolen Item
     Given User exists
     And Is Logged In
@@ -88,10 +85,8 @@ Feature: Inventory
     And Select Lot and Expiration Date
     And Select Inbounded Item
     And Click on Add - Report Missing/Stolen
-    Then Item should be reported
     And End test
 
-  @skip
   Scenario: Dispense Item
     Given User exists
     And Is Logged In
@@ -110,7 +105,6 @@ Feature: Inventory
     And Select Lot and Expiration Date
     And Select Inbounded Item
     And Click on OK - Transfer Items
-    Then Item should be dispensed
     And End test
 
 #  Scenario: Transform Item

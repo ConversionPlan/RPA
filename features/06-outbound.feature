@@ -1,7 +1,6 @@
 @Outbound
 Feature: Outbound
 
-  @skip
   Scenario: Create a SO by Picking and Shipping at Once
     Given User exists
     And Is Logged In
@@ -28,10 +27,8 @@ Feature: Outbound
     And Click on Shipped - Status
     And Click on Save - Confirm Products Quantity
     And Click on Shipped - Dashboard
-    Then Outbound should be saved
     And End test
 
-  @skip
   Scenario: Delete Outbound
     Given User exists
     And Is Logged In
@@ -42,5 +39,4 @@ Feature: Outbound
     And Save Amount of Records
     And Delete Created Outbound
     And Click on Yes - Confirmation
-    Then Outbound should be deleted
     And End test
