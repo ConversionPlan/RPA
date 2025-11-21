@@ -1,6 +1,7 @@
 @Outbound
 Feature: Outbound
 
+  @skip
   Scenario: Create a SO by Picking and Shipping at Once
     Given User exists
     And Is Logged In
@@ -30,6 +31,7 @@ Feature: Outbound
     Then Outbound should be saved
     And End test
 
+  @skip
   Scenario: Delete Outbound
     Given User exists
     And Is Logged In

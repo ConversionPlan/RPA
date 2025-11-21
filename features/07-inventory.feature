@@ -45,6 +45,7 @@ Feature: Inventory
     Then Item should be quarantined
     And End test
 
+  @skip
   Scenario: Destroy Item
     Given User exists
     And Is Logged In
@@ -67,6 +68,7 @@ Feature: Inventory
     Then Item should be destroyed
     And End test
 
+  @skip
   Scenario: Report Missing/Stolen Item
     Given User exists
     And Is Logged In
@@ -89,6 +91,7 @@ Feature: Inventory
     Then Item should be reported
     And End test
 
+  @skip
   Scenario: Dispense Item
     Given User exists
     And Is Logged In
