@@ -211,7 +211,6 @@ def is_logged_in(context):
 def launchBrowser(context):
     try:
         import tempfile
-        import random
 
         options = Options()
 
@@ -222,12 +221,10 @@ def launchBrowser(context):
         options.add_argument("--disable-software-rasterizer")
         print("[INFO] Modo HEADLESS ativado - Chrome executará sem interface gráfica")
 
-        # CORREÇÃO CRÍTICA: Criar diretório de dados único para cada sessão
-        # Isso previne o erro "user data directory is already in use"
-        temp_dir = tempfile.gettempdir()
-        user_data_dir = os.path.join(temp_dir, f"chrome_automation_{random.randint(1000, 9999)}_{os.getpid()}")
-        options.add_argument(f"--user-data-dir={user_data_dir}")
-        print(f"[INFO] Usando user-data-dir: {user_data_dir}")
+        # Usar diretório temporário para dados do Chrome
+        temp_dir = tempfile.mkdtemp(prefix="chrome_test_")
+        options.add_argument(f"--user-data-dir={temp_dir}")
+        print(f"[INFO] Usando user-data-dir: {temp_dir}")
 
         # Opções básicas
         options.add_argument("--disable-gpu")
@@ -244,6 +241,9 @@ def launchBrowser(context):
         options.add_argument("--disable-extensions")  # Desabilita extensões
         options.add_argument("--disable-infobars")  # Remove info bars
         options.add_argument("--start-maximized")  # Inicia maximizado
+        # Opções extras para Chrome 142+
+        options.add_argument("--no-first-run")
+        options.add_argument("--disable-setuid-sandbox")
 
         # Preferências
         download_dir = os.getcwd()
