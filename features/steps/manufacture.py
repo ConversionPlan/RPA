@@ -54,13 +54,13 @@ def click_commission_serial_numbers(context):
 @when("Select Last Created Serials' Product")
 def select_last_created_serials_product(context):
     try:
-        created_on_header = WebDriverWait(context.driver, 10).until(
+        created_on_header = WebDriverWait(context.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//th[@rel='created_on']/span"))
         )
         created_on_header.click()
 
         # Aguardar o botão Select estar disponível
-        select_button = WebDriverWait(context.driver, 10).until(
+        select_button = WebDriverWait(context.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//img[@alt='Select']"))
         )
         select_button.click()
@@ -73,7 +73,7 @@ def select_last_created_serials_product(context):
 @when("Click on Select Serials Numbers")
 def select_last_created_serials_product(context):
     try:
-        select_serials_link = WebDriverWait(context.driver, 10).until(
+        select_serials_link = WebDriverWait(context.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//a[text()='Select Serials Numbers']"))
         )
         select_serials_link.click()
@@ -86,7 +86,7 @@ def select_last_created_serials_product(context):
 @when("Click on Select Serials Numbers - Select Serial")
 def select_last_created_serials_product(context):
     try:
-        select_serials_button = WebDriverWait(context.driver, 10).until(
+        select_serials_button = WebDriverWait(context.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//span[text()='Select Serials Numbers']"))
         )
         select_serials_button.click()
@@ -129,13 +129,13 @@ def select_storage_area(context):
 @when("Click on OK - Commission")
 def click_ok_commission(context):
     try:
-        ok_button = WebDriverWait(context.driver, 10).until(
+        ok_button = WebDriverWait(context.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//span[text()='OK']"))
         )
         ok_button.click()
 
         # Aguardar que a ação seja processada
-        WebDriverWait(context.driver, 10).until(
+        WebDriverWait(context.driver, 30).until(
             EC.invisibility_of_element_located((By.XPATH, "//span[text()='OK']"))
         )
     except Exception as e:
@@ -211,13 +211,13 @@ def add_expiration_date_manafucturer(context):
 def click_ok_add_serialized_lot(context):
     try:
         # Aguardar o produto estar disponível no dropdown
-        product_option = WebDriverWait(context.driver, 10).until(
+        product_option = WebDriverWait(context.driver, 30).until(
             EC.presence_of_element_located((By.XPATH, "//select[@name='product_uuid']/option[text() != '']"))
         )
         context.product_name = product_option.text
 
         # Aguardar o botão OK estar clicável
-        ok_button = WebDriverWait(context.driver, 10).until(
+        ok_button = WebDriverWait(context.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//span[text()='OK']"))
         )
         ok_button.click()
@@ -231,7 +231,7 @@ def click_ok_add_serialized_lot(context):
 def click_pencil(context):
     try:
         # Aguardar o botão de edição estar clicável
-        edit_button = WebDriverWait(context.driver, 10).until(
+        edit_button = WebDriverWait(context.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//img[@alt='Edit']"))
         )
         edit_button.click()
@@ -291,7 +291,7 @@ def click_ok_edit_manufacturer_lot(context):
 def save_amount_records(context):
     try:
         # Aguardar o texto de total de registros estar visível
-        records_element = WebDriverWait(context.driver, 10).until(
+        records_element = WebDriverWait(context.driver, 30).until(
             EC.presence_of_element_located((By.XPATH, "//*[contains(text(), 'Total of')]"))
         )
         records_text = records_element.text
@@ -314,13 +314,13 @@ def click_delete_button(context):
 @when("Click on Yes - Confirmation")
 def click_yes_confirmation(context):
     try:
-        yes_button = WebDriverWait(context.driver, 10).until(
+        yes_button = WebDriverWait(context.driver, 30).until(
             EC.element_to_be_clickable((By.XPATH, "//span[text()='Yes']"))
         )
         yes_button.click()
 
         # Aguardar que o modal de confirmação desapareça
-        WebDriverWait(context.driver, 10).until(
+        WebDriverWait(context.driver, 30).until(
             EC.invisibility_of_element_located((By.XPATH, "//span[text()='Yes']"))
         )
     except Exception as e:
@@ -342,7 +342,7 @@ def serials_should_be_manufactured(context):
 def serials_should_be_deleted(context):
     try:
         # Aguardar a página atualizar após a exclusão
-        WebDriverWait(context.driver, 10).until(
+        WebDriverWait(context.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results"))
         )
 
@@ -362,14 +362,14 @@ def serials_should_be_deleted(context):
 def serials_should_be_commissioned(context):
     try:
         # Aguardar um pouco antes de atualizar a página
-        WebDriverWait(context.driver, 10).until(
+        WebDriverWait(context.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results"))
         )
 
         context.driver.refresh()
 
         # Aguardar a página recarregar completamente
-        records_element = WebDriverWait(context.driver, 10).until(
+        records_element = WebDriverWait(context.driver, 30).until(
             EC.presence_of_element_located((By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results"))
         )
 

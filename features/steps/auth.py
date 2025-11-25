@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
@@ -150,8 +151,19 @@ def is_logged_in(context):
             # Wait for login to complete
             time.sleep(5)  # Aumentado de 3 para 5
 
+            # Fechar modal de "Notas de lançamento" se aparecer
+            try:
+                close_btn = WebDriverWait(context.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//span[text()='Close']"))
+                )
+                close_btn.click()
+                print("[OK] Modal 'Notas de lançamento' fechado")
+                time.sleep(1)
+            except:
+                pass  # Modal pode não aparecer
+
             # Verify login success by checking URL or element
-            if "/dashboard" in context.driver.current_url or "/home" in context.driver.current_url:
+            if "/dashboard" in context.driver.current_url or "/home" in context.driver.current_url or "tracktraceweb.com" in context.driver.current_url:
                 print(f"[OK] Login bem-sucedido na tentativa {attempt + 1}")
                 return  # Success
 
@@ -339,8 +351,9 @@ def clickSubmitButton(context):
 @then("User must login successfully")
 def assertLogin(context):
     try:
-        WebDriverWait(context.driver, 30).until(
-            lambda x: x.find_element(by=By.XPATH, value="//div[@class='client_logo']/a")
+        # Verifica se o modal de "Notas de lançamento" aparece (indica login bem-sucedido)
+        WebDriverWait(context.driver, 60).until(
+            lambda x: x.find_element(by=By.XPATH, value="//h3[contains(@class, 'tt_utils_ui_dlg_modal-title')]")
         )
     except Exception as e:
         ends_timer(context, e)

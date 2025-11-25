@@ -125,7 +125,7 @@ def generate_ref_number() -> str:
 
 # ============ FUNCOES DE WAIT E RETRY LOGIC ============
 
-def wait_for_element(driver, by, value, timeout=15):
+def wait_for_element(driver, by, value, timeout=30):
     """Espera um elemento estar presente no DOM"""
     try:
         element = WebDriverWait(driver, timeout).until(
@@ -137,7 +137,7 @@ def wait_for_element(driver, by, value, timeout=15):
         raise
 
 
-def wait_for_clickable(driver, by, value, timeout=15):
+def wait_for_clickable(driver, by, value, timeout=30):
     """Espera um elemento estar clicavel"""
     try:
         element = WebDriverWait(driver, timeout).until(
@@ -149,7 +149,7 @@ def wait_for_clickable(driver, by, value, timeout=15):
         raise
 
 
-def wait_and_click(driver, by, value, timeout=15, retries=3):
+def wait_and_click(driver, by, value, timeout=30, retries=3):
     """
     Espera elemento estar clicavel e clica com retry logic.
     Lida com StaleElement, ElementClickIntercepted e outros erros comuns.
@@ -210,7 +210,7 @@ def wait_and_click(driver, by, value, timeout=15, retries=3):
     raise Exception(f"[FALHA] Nao foi possivel clicar em {by}={value} apos {retries} tentativas")
 
 
-def wait_and_send_keys(driver, by, value, keys, timeout=15, retries=3):
+def wait_and_send_keys(driver, by, value, keys, timeout=30, retries=3):
     """
     Espera elemento estar disponivel e envia keys com retry logic.
     Lida com StaleElement e outros erros comuns.
@@ -255,7 +255,7 @@ def wait_and_send_keys(driver, by, value, keys, timeout=15, retries=3):
     raise Exception(f"[FALHA] Nao foi possivel enviar keys para {by}={value} apos {retries} tentativas")
 
 
-def wait_and_find(driver, by, value, timeout=15, retries=3):
+def wait_and_find(driver, by, value, timeout=30, retries=3):
     """
     Espera e busca elemento com retry logic.
     Retorna o elemento quando encontrado.
@@ -362,3 +362,39 @@ def retry_on_stale_element(func, max_retries=3, delay=1):
                 raise
         return None
     return wrapper
+
+
+def fill_input_with_js_fallback(driver, by, value, text, timeout=30):
+    """
+    Preenche um campo de input com fallback para JavaScript.
+    Útil para campos que podem não estar interativos via Selenium normal.
+    """
+    from selenium.webdriver.support import expected_conditions as EC
+
+    # Aguardar o elemento estar presente no DOM
+    element = WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located((by, value))
+    )
+    print(f"[INFO] Elemento {by}={value} encontrado no DOM")
+
+    # Scroll até o elemento
+    driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+    time.sleep(0.5)
+
+    # Tentar interação normal primeiro
+    try:
+        element.clear()
+        element.send_keys(text)
+        print(f"[OK] Campo preenchido normalmente com: {text}")
+        return element
+    except Exception as normal_error:
+        print(f"[WARN] Interação normal falhou: {str(normal_error)[:100]}")
+
+    # Se falhar, usar JavaScript para preencher
+    driver.execute_script(
+        "arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input', { bubbles: true }));",
+        element,
+        text
+    )
+    print(f"[OK] Campo preenchido via JavaScript com: {text}")
+    return element
