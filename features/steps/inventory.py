@@ -472,8 +472,37 @@ def click_ok_transfer_items(context):
 @when("Click on Quarantine")
 def click_on_quarantine(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//a[@href='/quarantine/']"
-        , timeout=30).click()
+        # Tentar múltiplos seletores (PT e EN)
+        selectors = [
+            "//a[contains(@href, '/quarantine')]",
+            "//*[contains(text(), 'Quarentena')]",
+            "//*[contains(text(), 'Quarantine')]",
+            "//a[@href='/quarantine/']"
+        ]
+
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Quarantine com: {selector}")
+                break
+            except:
+                continue
+
+        if element:
+            try:
+                element.click()
+            except:
+                context.driver.execute_script("arguments[0].click();", element)
+            time.sleep(2)
+        else:
+            raise Exception("Não foi possível encontrar Quarantine")
+
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -508,8 +537,37 @@ def click_on_items_in_quarantine(context):
 @when("Click on Inventory Adjustments")
 def click_on_inventory_adjustments(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//a[@href='/adjustments/']"
-        , timeout=30).click()
+        # Tentar múltiplos seletores (PT e EN)
+        selectors = [
+            "//a[contains(@href, '/adjustments')]",
+            "//*[contains(text(), 'Ajustes do Inventório')]",
+            "//*[contains(text(), 'Inventory Adjustments')]",
+            "//a[@href='/adjustments/']"
+        ]
+
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Inventory Adjustments com: {selector}")
+                break
+            except:
+                continue
+
+        if element:
+            try:
+                element.click()
+            except:
+                context.driver.execute_script("arguments[0].click();", element)
+            time.sleep(2)
+        else:
+            raise Exception("Não foi possível encontrar Inventory Adjustments")
+
     except Exception as e:
         ends_timer(context, e)
         raise

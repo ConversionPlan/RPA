@@ -23,6 +23,7 @@ def starts_timer(context):
 
 
 @then("End test")
+@when("End test")
 def ends_timer(context, e=None):
     if e is not None:
         with open("report/output/errors", "a") as file:

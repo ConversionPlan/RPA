@@ -11,7 +11,44 @@ from features.steps.utils import wait_and_click, wait_and_find, wait_and_send_ke
 @when("Click on Company Management")
 def click_company_management(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//a[contains(@href, '/company_mgt/')]/span[contains(text(), 'Company Management')]", timeout=30).click()
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Aguardar menu estar visível
+        time.sleep(2)
+
+        # Tentar múltiplos seletores
+        selectors = [
+            "//a[contains(@href, '/company_mgt/')]/span[contains(text(), 'Company Management')]",
+            "//a[contains(@href, '/company_mgt/')]",
+            "//span[contains(text(), 'Company Management')]",
+            "//*[contains(text(), 'Company Management') and (self::span or self::a)]"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Company Management com seletor: {selector}")
+                break
+            except:
+                continue
+
+        if element is None:
+            raise Exception("Não foi possível encontrar o elemento Company Management")
+
+        # Tentar clicar
+        try:
+            element.click()
+        except:
+            # Se click normal falhar, usar JavaScript
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em Company Management via JavaScript")
+
+        time.sleep(2)
+
     except Exception as e:
         ends_timer(context, e)
         raise

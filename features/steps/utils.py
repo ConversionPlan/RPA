@@ -299,6 +299,66 @@ def dismiss_modal_if_present(driver, timeout=3):
         return False
 
 
+def close_all_modals(driver, timeout=5):
+    """
+    Tenta fechar todos os modais abertos usando múltiplas estratégias.
+    """
+    from selenium.webdriver.common.by import By
+    closed_any = False
+
+    # Estratégia 1: Clicar no botão X (close button)
+    close_buttons = [
+        "//span[contains(@class, 'tt_utils_ui_dlg_modal-close_button')]",
+        "//button[contains(@class, 'close')]",
+        "//span[contains(@class, 'close')]",
+        "//*[contains(@class, 'modal-close')]",
+    ]
+
+    for selector in close_buttons:
+        try:
+            buttons = driver.find_elements(By.XPATH, selector)
+            for btn in buttons:
+                if btn.is_displayed():
+                    try:
+                        btn.click()
+                        print(f"[OK] Modal fechado via botão X: {selector}")
+                        closed_any = True
+                        time.sleep(0.5)
+                    except:
+                        driver.execute_script("arguments[0].click();", btn)
+                        print(f"[OK] Modal fechado via JS: {selector}")
+                        closed_any = True
+                        time.sleep(0.5)
+        except:
+            continue
+
+    # Estratégia 2: Clicar no botão Dismiss
+    dismiss_modal_if_present(driver, timeout=2)
+
+    # Estratégia 3: Remover overlays via JavaScript
+    try:
+        driver.execute_script("""
+            var overlays = document.querySelectorAll('.tt_utils_ui_dlg_modal-overlay');
+            overlays.forEach(function(overlay) {
+                overlay.style.display = 'none';
+                overlay.style.visibility = 'hidden';
+            });
+            var modals = document.querySelectorAll('[class*="modal"]');
+            modals.forEach(function(modal) {
+                if (modal.style.zIndex > 1000) {
+                    modal.style.display = 'none';
+                }
+            });
+        """)
+        print("[OK] Overlays removidos via JavaScript")
+        closed_any = True
+    except Exception as e:
+        print(f"[WARN] Não foi possível remover overlays via JS: {e}")
+
+    time.sleep(1)
+    return closed_any
+
+
 def take_screenshot(driver, name="screenshot", path="report/output/screenshots"):
     """
     Tira screenshot para debug, especialmente útil em falhas.

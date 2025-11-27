@@ -24,7 +24,49 @@ def there_is_container_created(context):
 @when("Click on Container Management")
 def click_container_management(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//span[text()='Container Management']", timeout=30)
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Aguardar menu estar visível
+        time.sleep(2)
+
+        # Tentar múltiplos seletores - Português primeiro, depois Inglês
+        selectors = [
+            # Português - Portal em PT-BR
+            "//a[contains(@href, '/container')]",
+            "//*[contains(text(), 'Gestão de contêiner')]",
+            "//span[contains(text(), 'Gestão de contêiner')]",
+            "//*[contains(text(), 'contêiner')]",
+            # Inglês - fallback
+            "//span[text()='Container Management']",
+            "//span[contains(text(), 'Container Management')]",
+            "//*[contains(text(), 'Container Management') and (self::span or self::a)]"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 8).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Container Management com seletor: {selector}")
+                break
+            except:
+                continue
+
+        if element is None:
+            raise Exception("Não foi possível encontrar o elemento Container Management")
+
+        # Tentar clicar
+        try:
+            element.click()
+        except:
+            # Se click normal falhar, usar JavaScript
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em Container Management via JavaScript")
+
+        time.sleep(2)
+
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -43,7 +85,42 @@ def click_dismiss(context):
 @when("Click on Create New Container")
 def click_create_new_container(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//label[text()='Create New Container']", timeout=30)
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Tentar múltiplos seletores - Português primeiro, depois Inglês
+        selectors = [
+            # Português - Portal em PT-BR
+            "//label[contains(text(),'Criar novo contêiner')]",
+            "//label[contains(text(),'Criar novo container')]",
+            "//*[contains(text(),'Criar novo contêiner')]",
+            "//*[contains(text(),'Criar') and contains(text(),'contêiner')]",
+            # Inglês - fallback
+            "//label[text()='Create New Container']",
+            "//label[contains(text(),'Create New Container')]",
+            "//*[contains(text(),'Create New Container')]"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 8).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Create New Container com seletor: {selector}")
+                break
+            except:
+                continue
+
+        if element is None:
+            raise Exception("Não foi possível encontrar Create New Container")
+
+        try:
+            element.click()
+        except:
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em Create New Container via JavaScript")
+
         time.sleep(1)
     except Exception as e:
         ends_timer(context, e)
@@ -53,27 +130,44 @@ def click_create_new_container(context):
 @when("Click on List/Search Containers in Inventory")
 def click_list_containers(context):
     try:
-        # Tentar múltiplos seletores para maior robustez
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Tentar múltiplos seletores - Português primeiro, depois Inglês
         selectors = [
+            # Português - Portal em PT-BR
+            "//label[contains(text(),'Listar/Pesquisar contêineres')]",
+            "//label[contains(text(),'Listar') and contains(text(),'contêiner')]",
+            "//*[contains(text(),'Listar/Pesquisar contêineres')]",
+            "//*[contains(text(),'Pesquisar contêiner')]",
+            # Inglês - fallback
             "//label[text()='List/Search Containers in inventory']",
             "//label[contains(text(),'List/Search Containers')]",
             "//label[contains(text(),'List') and contains(text(),'Containers')]",
             "//*[contains(text(),'List/Search Containers in inventory')]"
         ]
 
-        element_found = False
+        element = None
         for selector in selectors:
             try:
-                wait_and_click(context.driver, By.XPATH, selector, timeout=10)
-                element_found = True
+                element = WebDriverWait(context.driver, 8).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado List/Search Containers com seletor: {selector}")
                 break
             except:
                 continue
 
-        if not element_found:
-            # Última tentativa com timeout maior
-            wait_and_click(context.driver, By.XPATH, selectors[0], timeout=45)
+        if element is None:
+            raise Exception("Não foi possível encontrar List/Search Containers")
 
+        try:
+            element.click()
+        except:
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em List/Search Containers via JavaScript")
+
+        time.sleep(1)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -92,7 +186,41 @@ def save_container_serial(context):
 @when("Click on Delete container")
 def click_delete_containers(context):
     try:
-        wait_and_click(context.driver, By.XPATH, "//label[text()='Delete container']", timeout=30)
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Tentar múltiplos seletores - Português primeiro, depois Inglês
+        selectors = [
+            # Português - Portal em PT-BR
+            "//label[contains(text(),'Excluir contêiner')]",
+            "//label[contains(text(),'Deletar contêiner')]",
+            "//*[contains(text(),'Excluir contêiner')]",
+            # Inglês - fallback
+            "//label[text()='Delete container']",
+            "//label[contains(text(),'Delete container')]",
+            "//*[contains(text(),'Delete container')]"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 8).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Delete container com seletor: {selector}")
+                break
+            except:
+                continue
+
+        if element is None:
+            raise Exception("Não foi possível encontrar Delete container")
+
+        try:
+            element.click()
+        except:
+            context.driver.execute_script("arguments[0].click();", element)
+
+        time.sleep(1)
     except Exception as e:
         ends_timer(context, e)
         raise

@@ -57,11 +57,42 @@ def return_dashboard_page(context):
 @when("Click on Outbound")
 def click_outbound(context):
     try:
-        wait_and_click(
-            context.driver,
-            By.XPATH,
-            "//a[@href='/shipments/outbound_shipments/']/span"
-        )
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Tentar múltiplos seletores - Português primeiro, depois Inglês
+        selectors = [
+            # Português - Portal em PT-BR
+            "//a[contains(@href, '/outbound')]",
+            "//*[contains(text(), 'Saída')]",
+            "//span[contains(text(), 'Saída')]",
+            # Inglês - fallback
+            "//a[@href='/shipments/outbound_shipments/']/span",
+            "//span[contains(text(), 'Outbound')]",
+            "//*[contains(text(), 'Outbound')]"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 8).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Outbound com seletor: {selector}")
+                break
+            except:
+                continue
+
+        if element is None:
+            raise Exception("Não foi possível encontrar o elemento Outbound")
+
+        try:
+            element.click()
+        except:
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em Outbound via JavaScript")
+
+        time.sleep(2)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -110,11 +141,41 @@ def delete_created_outbound(context):
 @when("Click on Create sales order by picking")
 def click_create_so_by_picking(context):
     try:
-        wait_and_click(
-            context.driver,
-            By.XPATH,
-            "//label[text()='Create sales order by picking']"
-        )
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Tentar múltiplos seletores - Português primeiro, depois Inglês
+        selectors = [
+            # Português - Portal em PT-BR
+            "//label[contains(text(), 'Criar pedido de vendas por picking')]",
+            "//label[contains(text(), 'Criar pedido de vendas')]",
+            "//*[contains(text(), 'Criar pedido de vendas por picking')]",
+            # Inglês - fallback
+            "//label[text()='Create sales order by picking']",
+            "//label[contains(text(), 'Create sales order')]",
+            "//*[contains(text(), 'Create sales order by picking')]"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 8).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Create sales order com seletor: {selector}")
+                break
+            except:
+                continue
+
+        if element is None:
+            raise Exception("Não foi possível encontrar Create sales order by picking")
+
+        try:
+            element.click()
+        except:
+            context.driver.execute_script("arguments[0].click();", element)
+
+        time.sleep(1)
     except Exception as e:
         ends_timer(context, e)
         raise

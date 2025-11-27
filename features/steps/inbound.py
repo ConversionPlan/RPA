@@ -54,12 +54,43 @@ def do_inbound(context):
 @when("Click on Inbound")
 def click_inbound(context):
     try:
-        inbound_button = wait_and_find(context.driver, By.XPATH, "//a[contains(@href, '/receiving/')]/span[contains(text(), 'Inbound')]",
-            timeout=30
-        )
-        wait = WebDriverWait(context.driver, timeout=20)
-        wait.until(lambda d: inbound_button.is_displayed())
-        inbound_button.click()
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Aguardar menu estar visível
+        time.sleep(2)
+
+        # Tentar múltiplos seletores
+        selectors = [
+            "//a[contains(@href, '/receiving/')]/span[contains(text(), 'Inbound')]",
+            "//a[contains(@href, '/receiving/')]",
+            "//span[contains(text(), 'Inbound')]",
+            "//*[contains(text(), 'Inbound') and (self::span or self::a)]"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Inbound com seletor: {selector}")
+                break
+            except:
+                continue
+
+        if element is None:
+            raise Exception("Não foi possível encontrar o elemento Inbound")
+
+        # Tentar clicar
+        try:
+            element.click()
+        except:
+            # Se click normal falhar, usar JavaScript
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em Inbound via JavaScript")
+
+        time.sleep(2)
+
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -68,7 +99,91 @@ def click_inbound(context):
 @when("Click on Manual Inbound Shipment")
 def click_manual_inbound_shipment(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//span[contains(text(), 'Manual Inbound Shipment')]", timeout=30).click()
+        from selenium.webdriver.support import expected_conditions as EC
+
+        # Aguardar página carregar após clicar em Inbound
+        time.sleep(5)
+
+        # Debug: mostrar URL atual
+        current_url = context.driver.current_url
+        print(f"[DEBUG] URL atual: {current_url}")
+
+        # Debug: verificar se estamos na página de Inbound/Receiving
+        if "/receiving" not in current_url:
+            print("[WARN] Não estamos na página de receiving, navegando...")
+            context.driver.get("https://qualityportal.qa-test.tracktraceweb.com/receiving/")
+            time.sleep(5)
+
+        # Tentar múltiplos seletores (inglês e português)
+        selectors = [
+            "//label[text()='Manual Inbound Shipment']",
+            "//span[contains(text(), 'Manual Inbound Shipment')]",
+            "//label[contains(text(), 'Manual Inbound Shipment')]",
+            "//a[contains(text(), 'Manual Inbound Shipment')]",
+            "//*[contains(text(), 'Manual Inbound Shipment')]",
+            # Português
+            "//label[contains(text(), 'Entrada Manual')]",
+            "//label[contains(text(), 'Recebimento Manual')]",
+            "//label[contains(text(), 'Envio de Entrada Manual')]",
+            "//*[contains(text(), 'Entrada Manual')]",
+            "//*[contains(text(), 'Recebimento Manual')]",
+            # Genéricos
+            "//div[contains(@class,'action')]//label[contains(text(),'Manual')]",
+            "//div[contains(@class,'tile')]//label[contains(text(),'Manual')]",
+            "//div[contains(@class,'action')]//label",
+            # Por classe ou estrutura
+            "//div[contains(@class,'receiving')]//label",
+            "//div[contains(@class,'inbound')]//label"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 8).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Manual Inbound Shipment com seletor: {selector}")
+                break
+            except:
+                print(f"[DEBUG] Seletor não funcionou: {selector}")
+                continue
+
+        if element is None:
+            # Debug: listar todos os elementos label e divs clicáveis na página
+            try:
+                labels = context.driver.find_elements(By.TAG_NAME, "label")
+                print(f"[DEBUG] Labels encontrados na página: {len(labels)}")
+                for i, label in enumerate(labels):
+                    if label.text and label.text.strip():
+                        print(f"[DEBUG] Label {i}: {label.text[:80]}")
+
+                # Verificar divs com class action ou tile
+                divs = context.driver.find_elements(By.XPATH, "//div[contains(@class,'action') or contains(@class,'tile') or contains(@class,'card')]")
+                print(f"[DEBUG] Divs action/tile/card: {len(divs)}")
+                for i, div in enumerate(divs[:5]):
+                    print(f"[DEBUG] Div {i}: {div.text[:100] if div.text else '(vazio)'}")
+
+                # Verificar links na página
+                links = context.driver.find_elements(By.TAG_NAME, "a")
+                print(f"[DEBUG] Links na página: {len(links)}")
+                for i, link in enumerate(links[:10]):
+                    if link.text and link.text.strip():
+                        print(f"[DEBUG] Link {i}: {link.text[:50]}")
+
+            except Exception as debug_err:
+                print(f"[DEBUG] Erro ao listar elementos: {debug_err}")
+
+            raise Exception("Não foi possível encontrar o elemento Manual Inbound Shipment")
+
+        # Tentar clicar
+        try:
+            element.click()
+        except:
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em Manual Inbound Shipment via JavaScript")
+
+        time.sleep(2)
+
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -77,7 +192,56 @@ def click_manual_inbound_shipment(context):
 @when("Click on Change Location")
 def click_change_location(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//a[contains(text(), 'Change Location')]", timeout=30).click()
+        from selenium.webdriver.support import expected_conditions as EC
+
+        time.sleep(3)
+
+        # Tentar múltiplos seletores (inglês e português)
+        selectors = [
+            "//a[contains(text(), 'Change Location')]",
+            "//a[contains(text(), 'Alterar Local')]",
+            "//a[contains(text(), 'Mudar Local')]",
+            "//span[contains(text(), 'Change Location')]",
+            "//span[contains(text(), 'Alterar Local')]",
+            "//*[contains(text(), 'Change Location')]",
+            "//*[contains(text(), 'Alterar Local')]",
+            "//*[contains(text(), 'Mudar')]",
+            "//a[contains(@class, 'change')]",
+            "//button[contains(text(), 'Change')]",
+            "//button[contains(text(), 'Alterar')]"
+        ]
+
+        element = None
+        for selector in selectors:
+            try:
+                element = WebDriverWait(context.driver, 5).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                print(f"[OK] Encontrado Change Location com seletor: {selector}")
+                break
+            except:
+                continue
+
+        if element is None:
+            # Debug
+            try:
+                links = context.driver.find_elements(By.TAG_NAME, "a")
+                print(f"[DEBUG] Links na página: {len(links)}")
+                for i, link in enumerate(links[:15]):
+                    if link.text and link.text.strip():
+                        print(f"[DEBUG] Link {i}: {link.text[:50]}")
+            except:
+                pass
+            raise Exception("Não foi possível encontrar o elemento Change Location")
+
+        try:
+            element.click()
+        except:
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em Change Location via JavaScript")
+
+        time.sleep(2)
+
     except Exception as e:
         ends_timer(context, e)
         raise

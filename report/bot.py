@@ -2,21 +2,37 @@ import os
 import json
 from datetime import datetime
 from slack_sdk import WebClient
+from slack_sdk.webhook import WebhookClient
 from slack_sdk.errors import SlackApiError
 from dotenv import load_dotenv
 import time
 
 load_dotenv()
 
-# Try to get token from environment variable first, then from .env file
+# Suporte para Webhook URL ou Bot Token
+# Prioridade: SLACK_WEBHOOK_URL > SLACK_BOT_TOKEN
+slack_webhook_url = os.environ.get("SLACK_WEBHOOK_URL")
+if not slack_webhook_url:
+    from dotenv import dotenv_values
+    config = dotenv_values(".env")
+    slack_webhook_url = config.get("SLACK_WEBHOOK_URL")
+
 slack_bot_token = os.environ.get("SLACK_BOT_TOKEN")
-if not slack_bot_token:
+if not slack_bot_token and not slack_webhook_url:
     print("[WARNING] SLACK_BOT_TOKEN not found in environment variables, checking .env file...")
     from dotenv import dotenv_values
     config = dotenv_values(".env")
     slack_bot_token = config.get("SLACK_BOT_TOKEN")
     if not slack_bot_token:
         print("[ERROR] SLACK_BOT_TOKEN not found in .env file either!")
+
+# Determinar modo de envio
+use_webhook = bool(slack_webhook_url)
+if use_webhook:
+    print(f"[INFO] Usando Webhook URL para enviar mensagens")
+    webhook_client = WebhookClient(slack_webhook_url)
+else:
+    print(f"[INFO] Usando Bot Token para enviar mensagens")
 
 channel_id = "C084F8LFU94"
 
@@ -441,6 +457,7 @@ def send_message():
     try:
         print(f"[INFO] Starting Slack notification process...")
         print(f"[DEBUG] Channel ID: {channel_id}")
+        print(f"[DEBUG] Using Webhook: {'Yes' if use_webhook else 'No'}")
         print(f"[DEBUG] Token present: {'Yes' if slack_bot_token else 'No'}")
         print(f"[DEBUG] GitHub Context: Repository={github_context['repository']}, Run={github_context['run_number']}")
 
@@ -449,15 +466,26 @@ def send_message():
         print(f"[DEBUG] Test status: {'FAILED' if has_errors else 'PASSED'}")
         print(f"[DEBUG] Failures to show in thread: {len(failure_details)}")
 
-        # Send main message
-        response = client.chat_postMessage(
-            channel=channel_id,
-            blocks=message,
-            text=f"RPA Test Report - {'FAILED' if has_errors else 'PASSED'}",  # Fallback text for notifications
-        )
+        # Send main message - escolher entre Webhook ou Bot Token
+        if use_webhook:
+            # Usar Webhook URL
+            response = webhook_client.send(
+                blocks=message,
+                text=f"RPA Test Report - {'FAILED' if has_errors else 'PASSED'}",
+            )
+            print(f"[SUCCESS] Message sent via Webhook! Status: {response.status_code}")
+            # Webhook não suporta threads, então retorna aqui
+            return True
+        else:
+            # Usar Bot Token (comportamento original)
+            response = client.chat_postMessage(
+                channel=channel_id,
+                blocks=message,
+                text=f"RPA Test Report - {'FAILED' if has_errors else 'PASSED'}",  # Fallback text for notifications
+            )
 
-        print(f"[SUCCESS] Message sent successfully! Timestamp: {response['ts']}")
-        print(f"[SUCCESS] Channel: {channel_id}")
+            print(f"[SUCCESS] Message sent successfully! Timestamp: {response['ts']}")
+            print(f"[SUCCESS] Channel: {channel_id}")
 
         # Add thread with detailed failures
         if failure_details:
