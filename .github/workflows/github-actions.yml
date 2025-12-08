@@ -1,104 +1,78 @@
-name: Run RPA
-run-name: ${{ github.actor }} is running some tests 🚀
+name: RPA Tests
+
 on:
   push:
-    branches:
-      - main
-
+    branches: [main]
+  pull_request:
+    branches: [main]
   schedule:
-    - cron: "0 */3 * * *"
+    - cron: "0 */3 * * *"  # A cada 3 horas
+  workflow_dispatch:  # Permite execução manual
+
+env:
+  HEADLESS: "True"
+  PYTHON_VERSION: "3.12"
 
 jobs:
-  Test:
+  test:
+    name: Run Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+
     steps:
-      - name: Disable GOPROXY
-        run: |
-          echo "GOPROXY=off" >> $GITHUB_ENV
-      - name: Check out repository code
+      - name: Checkout
         uses: actions/checkout@v4
-      - name: Set up Python 3.13
+
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: 3.13
-      - name: Set up NPM
-        uses: actions/setup-node@v4
-      - name: Set up Chrome
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
-      - run: chrome --version
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
-      - name: Install Lighthouse
-        run: |
-          npm i -g lighthouse
-      - name: Run tests
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Tests
+        id: tests
         run: |
           mkdir -p report/output
-          HEADLESS=True behavex --parallel-processes 4 --parallel-scheme feature -o report/output
-      - name: Print errors
-        if: failure()
+          python -m behave --tags="~@skip" --no-capture \
+            --format json --outfile report/output/results.json \
+            --format pretty \
+            2>&1 | tee report/output/test_output.log
+        continue-on-error: true
+
+      - name: Generate Report
+        if: always()
         run: |
-          python report/print_errors.py
-      - name: Archive production artifacts
-        if: success() || failure()
+          if [ -f report/print_errors.py ]; then
+            python report/print_errors.py || true
+          fi
+
+      - name: Upload Artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: dist-without-markdown
-          path: |
-            report/output
-      - name: Run bot
-        if: success() || failure()
+          name: test-results-${{ github.run_number }}
+          path: report/output/
+          retention-days: 30
+
+      - name: Notify Slack
+        if: always()
         env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RUN_ID: ${{ github.run_id }}
-          GITHUB_RUN_NUMBER: ${{ github.run_number }}
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_SHA: ${{ github.sha }}
-          GITHUB_REF: ${{ github.ref }}
-          GITHUB_WORKFLOW: ${{ github.workflow }}
           GITHUB_SERVER_URL: ${{ github.server_url }}
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
-          MINIO_ENDPOINT: ${{ secrets.MINIO_ENDPOINT }}
-          MINIO_BUCKET: ${{ secrets.MINIO_BUCKET }}
         run: |
-          echo "[INFO] Running Slack bot with enhanced reporting..."
-          echo "[INFO] Repository: $GITHUB_REPOSITORY"
-          echo "[INFO] Run ID: $GITHUB_RUN_ID"
-          echo "[INFO] Triggered by: $GITHUB_ACTOR"
-          python report/bot.py
-      - name: Generate PDF file
-        if: success() || failure()
-        run: |
-          python report/generate_pdf.py
-      - name: Get current date
-        if: success() || failure()
-        id: DATE
-        run: echo "DATE=$(date +'%m%d%YT%H%M%S')" >> $GITHUB_ENV
-      - name: Rename PDF
-        if: success() || failure()
-        run: |
-          if [ -f report/output/Track_Validation.pdf ]; then
-            mv report/output/Track_Validation.pdf report/output/Track_Validation_${{ env.DATE }}.pdf
+          if [ -f report/bot.py ]; then
+            python report/bot.py || echo "Slack notification failed"
           fi
-      - name: Rename and copy JSON files
-        if: success() || failure()
-        run: |
-          if [ -f report/output/report.json ]; then
-            cp report/output/report.json report/output/report_${{ env.DATE }}.json
-          fi
-          if [ -f report/output/results.json ]; then
-            cp report/output/results.json report/output/results_${{ env.DATE }}.json
-          fi
-      - name: Upload Folder
-        if: success() || failure()
-        uses: yakubique/minio-upload@v1.1.3
-        with:
-          endpoint: ${{ secrets.MINIO_ENDPOINT }}
-          access_key: ${{ secrets.MINIO_ACCESS_KEY }}
-          secret_key: ${{ secrets.MINIO_SECRET_KEY }}
-          bucket: ${{ secrets.MINIO_BUCKET }}
-          source: 'report/output'
-          target: '/'
-          recursive: true
+
+      - name: Check Test Results
+        if: steps.tests.outcome == 'failure'
+        run: exit 1
