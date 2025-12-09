@@ -164,7 +164,8 @@ def click_address_tab(context):
 def click_add_location(context):
     try:
         time.sleep(2)
-        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'tt_form__tabs__one_tab_pane')]//div[@class='tt_utils_forms-one-header-action-button tt_utils_forms-one-header-action-button--add-action']/span[text()='Add']",
+        # Botão "Adicionar" na aba de endereços (address)
+        wait_and_find(context.driver, By.XPATH, "//div[contains(@class, 'loc_form__tabs__2_address')]//div[contains(@class, 'tt_utils_forms-one-header-action-button--add-action')]/span",
             timeout=30
         ).click()
     except Exception as e:
@@ -249,7 +250,11 @@ def add_customer_address_city(context):
 @when("Click on Add - Save Customer Address")
 def click_add_save_customer_address(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//div[contains(@class,'tt_utils_ui_dlg_modal-width-class-xl')]//button/span[text()='Add']", timeout=30).click()
+        time.sleep(1)
+        # Botão pode ser "Add" ou "Adicionar" dependendo do idioma
+        # Usar o modal mais recente (maior z-index)
+        element = wait_and_find(context.driver, By.XPATH, "(//div[contains(@class,'tt_utils_ui_dlg_modal-width-class-xl')]//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')])[last()]", timeout=30)
+        context.driver.execute_script("arguments[0].click();", element)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -258,7 +263,9 @@ def click_add_save_customer_address(context):
 @when("Click on Save - Location")
 def click_save_location(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//button[@class='tt_utils_ui_dlg_modal-button tt_utils_ui_dlg_modal-default-enabled-button']/span[text()='Save']",
+        # Botão pode ser "Save" ou "Salvar" dependendo do idioma
+        wait_and_find(context.driver, By.XPATH, "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span",
+            timeout=30
         ).click()
     except Exception as e:
         ends_timer(context, e)

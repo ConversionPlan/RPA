@@ -515,7 +515,7 @@ def serials_should_be_deleted(context):
             By.CLASS_NAME, "tt_utils_ui_search-footer-nb-results"
         , timeout=30)
         records_text = records_element.text
-        new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
+        new_total_records = safe_parse_records_count(records_text, default=context.total_records)
         assert context.total_records - new_total_records == 1
     except Exception as e:
         print(f"Erro ao verificar exclusão de seriais: {str(e)}")
@@ -539,7 +539,7 @@ def serials_should_be_commissioned(context):
         )
 
         records_text = records_element.text
-        new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
+        new_total_records = safe_parse_records_count(records_text, default=context.total_records)
         assert context.total_records - new_total_records == 1
     except Exception as e:
         print(f"Erro ao verificar comissionamento de seriais: {str(e)}")

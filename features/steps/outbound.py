@@ -3,7 +3,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from features.steps.utils import *
 from features.steps.auth import ends_timer
-from features.steps.utils import wait_and_click, wait_and_find, wait_and_send_keys
+from features.steps.utils import (
+    wait_and_click,
+    wait_and_find,
+    wait_and_send_keys,
+    safe_parse_records_count,
+    delete_outbound_by_code,
+    assert_record_deleted,
+    assert_record_count_changed,
+)
 from features.steps.inbound import (
     do_inbound,
     click_yes,
@@ -100,39 +108,39 @@ def click_outbound(context):
 
 @when("Delete Created Outbound")
 def delete_created_outbound(context):
-    try:
-        # Primeiro, buscar pelo PO number usando o campo de busca
-        print(f"[INFO] Procurando por outbound com PO: {context.po}")
+    """
+    Deleta um Outbound usando identificador de negócio robusto.
 
-        # Tentar encontrar campo de busca e buscar pelo PO
-        try:
-            search_field = wait_and_find(
-                context.driver,
-                By.XPATH,
-                "//input[@placeholder='Search' or @type='search' or contains(@class, 'search')]",
-                timeout=5
-            )
-            search_field.clear()
-            search_field.send_keys(context.po)
-            search_field.send_keys(Keys.ENTER)
-            time.sleep(2)
-            print(f"[OK] Busca realizada por: {context.po}")
-        except Exception as search_error:
-            print(f"[WARN] Campo de busca não encontrado: {search_error}")
-
-        # Procurar pelo outbound criado usando o PO number
-        outbound_row = wait_and_find(
-            context.driver,
-            By.XPATH,
-            f"//td[contains(text(), '{context.po}')]/ancestor::tr",
-            timeout=10
-        )
-        print(f"[INFO] Outbound encontrado com PO: {context.po}")
-
-        # Clicar no botão Delete da linha do outbound
+    ANTES (frágil):
+        outbound_row = wait_and_find(..., f"//td[contains(text(), '{context.po}')]/ancestor::tr")
         delete_button = outbound_row.find_element(By.XPATH, ".//img[@alt='Delete']")
         delete_button.click()
-        print("[OK] Botão Delete clicado")
+        # Problemas:
+        # - Seletor //img[@alt='Delete'] pode quebrar se UI mudar
+        # - Não há confirmação automática do diálogo
+        # - Sem fallback se elemento for interceptado
+
+    DEPOIS (robusto):
+        delete_outbound_by_code(context.driver, context.po, confirm_deletion=False)
+        # Benefícios:
+        # - Usa identificador de negócio (PO number) para encontrar linha correta
+        # - Múltiplas estratégias de seletor para botão Delete
+        # - Múltiplas estratégias de click (direto, scroll, JS, Actions)
+        # - Screenshot automático em caso de erro
+    """
+    try:
+        print(f"[INFO] Deletando outbound com PO: {context.po}")
+
+        # Usar função helper robusta
+        result = delete_outbound_by_code(
+            driver=context.driver,
+            outbound_code=context.po,
+            confirm_deletion=False,  # Confirmação será feita em step separado
+            timeout=15
+        )
+
+        print(f"[OK] Botão Delete clicado para outbound: {result}")
+
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -391,27 +399,72 @@ def outbound_saved(context):
 
 @then("Outbound should be deleted")
 def outbound_deleted(context):
+    """
+    Valida que um Outbound foi deletado corretamente.
+
+    ANTES (frágil):
+        new_total_records = safe_parse_records_count(records_text, default=context.total_records)
+        assert context.total_records - new_total_records == 1
+        # Problemas:
+        # - Não verifica se é o outbound correto que foi deletado
+        # - Pode falhar se outro processo criar/deletar em paralelo
+        # - Apenas verifica contagem, não o registro específico
+
+    DEPOIS (robusto):
+        assert_record_deleted(driver, context.po, identifier_column="po_nbr", ...)
+        # Benefícios:
+        # - Verifica que o outbound específico não está mais visível
+        # - Ou valida que o status mudou para DELETED/INACTIVE
+        # - Contagem robusta com tolerância para concorrência
+        # - Mensagens de erro detalhadas
+    """
     try:
-        # Aguardar um tempo para a página atualizar após deleção
-        time.sleep(2)
+        # Verificar se temos o PO do outbound
+        outbound_po = getattr(context, 'po', None)
 
-        # Tentar aguardar até que o elemento do outbound deletado não esteja mais visível
-        try:
-            context.driver.find_element(By.XPATH, f"//td[contains(text(), '{context.po}')]")
-            print(f"[WARN] Outbound ainda visível após deleção: {context.po}")
-        except:
-            print(f"[OK] Outbound não está mais visível: {context.po}")
+        if outbound_po:
+            # Usar helper robusto com verificação de PO específico
+            result = assert_record_deleted(
+                driver=context.driver,
+                identifier_value=outbound_po,
+                identifier_column="po_nbr",
+                verify_count=hasattr(context, 'total_records'),
+                count_before=getattr(context, 'total_records', None),
+                timeout=15
+            )
+            print(f"[OK] Outbound deletado e validado: {result}")
+        else:
+            # Fallback: usar apenas contagem (menos robusto, mas compatível)
+            time.sleep(2)
+            context.driver.refresh()
+            time.sleep(2)
 
-        records_element = wait_and_find(
-            context.driver,
-            By.CLASS_NAME,
-            "tt_utils_ui_search-footer-nb-results",
-            timeout=15
+            records_element = wait_and_find(
+                context.driver,
+                By.CLASS_NAME,
+                "tt_utils_ui_search-footer-nb-results",
+                timeout=15
+            )
+            records_text = records_element.text
+            new_total_records = safe_parse_records_count(
+                records_text,
+                default=context.total_records
+            )
+
+            # Usar validação robusta de contagem
+            assert_record_count_changed(
+                count_before=context.total_records,
+                count_after=new_total_records,
+                expected_change=-1,
+                operation="deleção de outbound",
+                allow_concurrent_changes=True
+            )
+
+    except AssertionError as ae:
+        ends_timer(context, ae)
+        raise AssertionError(
+            f"Falha na validação de deleção de outbound:\n{str(ae)}"
         )
-        records_text = records_element.text
-        new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
-        print(f"[INFO] Registros antes: {context.total_records}, depois: {new_total_records}")
-        assert context.total_records - new_total_records == 1, f"Esperado {context.total_records - 1} registros, mas encontrou {new_total_records}"
     except Exception as e:
         ends_timer(context, e)
         raise

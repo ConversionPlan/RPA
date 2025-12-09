@@ -7,7 +7,17 @@ from features.steps.product import open_dashboard_page, open_sandwich_menu
 from features.steps.trading_partner import click_save_tp
 from datetime import datetime
 import time
-from features.steps.utils import wait_and_click, wait_and_find, wait_and_send_keys
+from features.steps.utils import (
+    wait_and_click,
+    wait_and_find,
+    wait_and_send_keys,
+    assert_datetime_near,
+    assert_record_count_changed,
+    assert_container_created,
+    assert_container_deleted,
+    safe_parse_records_count,
+    safe_split_date
+)
 
 
 
@@ -251,21 +261,68 @@ def click_ok_deletion(context):
 
 @then("Container should be deleted")
 def container_deleted(context):
-    try:
-        time.sleep(2)
-        context.driver.refresh()
+    """
+    Validação robusta de deleção de Container.
 
-        # Aguardar a página recarregar e os resultados aparecerem
-        records_element = wait_and_find(
-            context.driver,
-            By.CLASS_NAME,
-            "tt_utils_ui_search-footer-nb-results",
-            timeout=15
-        )
-        records_text = records_element.text
-        new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
-        print(f"[INFO] Registros antes: {context.total_records}, depois: {new_total_records}")
+    ANTES (frágil):
+        new_total_records = safe_parse_records_count(records_text, default=context.total_records)
         assert context.total_records - new_total_records == 1
+        # Problemas:
+        # - Não verifica se é o container correto que foi deletado
+        # - Pode falhar se outro processo criar/deletar em paralelo
+        # - Não valida status (soft delete)
+
+    DEPOIS (robusto):
+        - Verifica que o container específico não está mais visível
+        - Ou valida que o status mudou para DELETED/INACTIVE
+        - Contagem robusta com tolerância para concorrência
+        - Mensagens de erro detalhadas
+    """
+    try:
+        # Verificar se temos o serial do container
+        container_serial = getattr(context, 'container_serial', None)
+
+        if container_serial:
+            # Usar helper robusto com verificação de serial específico
+            result = assert_container_deleted(
+                context,
+                container_serial=container_serial,
+                verify_not_found=True,
+                verify_count=True
+            )
+            print(f"[OK] Container deletado e validado: {result}")
+        else:
+            # Fallback: usar apenas contagem (menos robusto, mas compatível)
+            time.sleep(2)
+            context.driver.refresh()
+            time.sleep(2)
+
+            records_element = wait_and_find(
+                context.driver,
+                By.CLASS_NAME,
+                "tt_utils_ui_search-footer-nb-results",
+                timeout=15
+            )
+            records_text = records_element.text
+            new_total_records = safe_parse_records_count(
+                records_text,
+                default=context.total_records
+            )
+
+            # Usar validação robusta de contagem
+            assert_record_count_changed(
+                count_before=context.total_records,
+                count_after=new_total_records,
+                expected_change=-1,
+                operation="deleção de container",
+                allow_concurrent_changes=True
+            )
+
+    except AssertionError as ae:
+        ends_timer(context, ae)
+        raise AssertionError(
+            f"Falha na validação de deleção de container:\n{str(ae)}"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -273,16 +330,42 @@ def container_deleted(context):
 
 @then("Container should be created")
 def container_created(context):
-    try:
-        container_date_element = wait_and_find(
-            context.driver,
-            By.XPATH,
-            "//td[@rel='created_on']/span"
-        )
-        container_date = container_date_element.text.split(" ")[0]
+    """
+    Validação robusta de criação de Container.
+
+    ANTES (frágil):
+        container_date = safe_split_date(...)
         today = datetime.now().strftime("%m-%d-%Y")
-        print(f"[INFO] Data do container: {container_date}, hoje: {today}")
-        assert today == container_date
+        assert today == container_date  # Falha se formato diferir ou meia-noite
+
+    DEPOIS (robusto):
+        - Usa assert_datetime_near() com tolerância de 5 minutos
+        - Suporta múltiplos formatos de data
+        - Valida existência do container na lista
+        - Mensagens de erro detalhadas
+    """
+    try:
+        # Usar o helper robusto que faz múltiplas validações
+        result = assert_container_created(
+            context,
+            container_serial=getattr(context, 'container_serial', None),
+            verify_date=True,
+            verify_count=hasattr(context, 'total_records_before'),
+            date_tolerance_seconds=300  # 5 minutos de tolerância
+        )
+
+        # Salvar serial para uso posterior (ex: deleção)
+        if result.get('serial'):
+            context.container_serial = result['serial']
+
+        print(f"[OK] Container validado com sucesso: {result}")
+
+    except AssertionError as ae:
+        # Re-raise com contexto adicional
+        ends_timer(context, ae)
+        raise AssertionError(
+            f"Falha na validação de criação de container:\n{str(ae)}"
+        )
     except Exception as e:
         ends_timer(context, e)
         raise

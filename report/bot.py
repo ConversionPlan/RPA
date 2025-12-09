@@ -123,9 +123,15 @@ def calculate_statistics(json_data):
             continue
 
         for scenario in feature["elements"]:
+            status = scenario.get("status", "undefined")
+
+            # Ignorar cenários skipped/untested na contagem (são @skip)
+            if status == "skipped" or status == "untested":
+                stats["skipped"] += 1
+                continue  # Não conta no total da feature
+
             stats["total_scenarios"] += 1
             feature_stats["total"] += 1
-            status = scenario.get("status", "undefined")
 
             if status == "passed":
                 stats["passed"] += 1
@@ -133,18 +139,17 @@ def calculate_statistics(json_data):
             elif status == "failed":
                 stats["failed"] += 1
                 feature_stats["failed"] += 1
-            elif status == "skipped" or status == "untested":
-                stats["skipped"] += 1
             elif status == "error":
                 stats["error"] += 1
                 feature_stats["failed"] += 1
             else:
                 stats["undefined"] += 1
 
+        # Calcular success_rate apenas para cenários executados
         feature_stats["success_rate"] = (
             (feature_stats["passed"] / feature_stats["total"] * 100)
             if feature_stats["total"] > 0
-            else 0
+            else -1  # -1 indica que não há cenários executados (todos @skip)
         )
         stats["feature_details"].append(feature_stats)
 
@@ -275,8 +280,13 @@ def format_results():
     # Combine feature details into fewer blocks (max 10 lines per block)
     feature_lines = []
     for feature_stat in stats["feature_details"]:
-        feature_emoji = ":white_check_mark:" if feature_stat["failed"] == 0 else ":x:"
-        feature_lines.append(f"{feature_emoji} *{feature_stat['name']}* - {feature_stat['passed']}/{feature_stat['total']} ({feature_stat['success_rate']:.0f}%)")
+        # Verificar se todos os cenários foram @skip (success_rate == -1)
+        if feature_stat["success_rate"] == -1:
+            feature_emoji = ":fast_forward:"
+            feature_lines.append(f"{feature_emoji} *{feature_stat['name']}* - N/A (todos @skip)")
+        else:
+            feature_emoji = ":white_check_mark:" if feature_stat["failed"] == 0 else ":x:"
+            feature_lines.append(f"{feature_emoji} *{feature_stat['name']}* - {feature_stat['passed']}/{feature_stat['total']} ({feature_stat['success_rate']:.0f}%)")
 
     # Split into blocks of 10 features each
     for i in range(0, len(feature_lines), 10):

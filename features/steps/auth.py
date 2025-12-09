@@ -17,6 +17,47 @@ from features.steps.utils import wait_and_click, wait_and_find, wait_and_send_ke
 headless = os.environ.get("HEADLESS")
 
 
+def _can_reuse_session(context):
+    """
+    Verifica se pode reutilizar a sessao existente.
+    Retorna True se o browser esta aberto e logado.
+    Usa variaveis _root_* que persistem entre cenarios.
+    """
+    try:
+        # Verificar se tem as flags de sessao (usando _root_*)
+        if not getattr(context, '_root_browser_ready', False):
+            return False
+
+        if not getattr(context, '_root_logged_in', False):
+            return False
+
+        # Verificar se o driver existe e esta funcional
+        driver = getattr(context, '_root_driver', None) or getattr(context, 'driver', None)
+        if driver is None:
+            return False
+
+        # Verificar se a sessao ainda e valida (nao expirou, nao redirecionou para login)
+        current_url = driver.current_url
+        if "/auth" in current_url or "login" in current_url.lower():
+            print("[INFO] Sessao expirada - redirecionado para login")
+            context._root_logged_in = False
+            return False
+
+        # Verificar se esta no dominio correto
+        if "tracktraceweb.com" not in current_url:
+            print("[INFO] Fora do dominio - sessao invalida")
+            context._root_logged_in = False
+            return False
+
+        # Copiar driver para o contexto atual do cenario
+        context.driver = driver
+        return True
+
+    except Exception as e:
+        print(f"[WARN] Erro ao verificar sessao: {e}")
+        return False
+
+
 @given("User exists")
 def starts_timer(context):
     context.initial_time = datetime.now().strftime("%H:%M:%S")
@@ -59,26 +100,24 @@ def ends_timer(context, e=None):
     except Exception as write_error:
         print(f"[WARNING] Could not write test_times.json: {write_error}")
 
-    # Melhorado: Cleanup robusto do driver com retry logic
-    if hasattr(context, 'driver') and context.driver is not None:
+    # OTIMIZACAO: NAO fechar browser aqui - sera fechado no after_feature (environment.py)
+    # Apenas fechar se houve erro para garantir estado limpo
+    if e is not None and hasattr(context, 'driver') and context.driver is not None:
+        print("[INFO] Erro detectado - fechando browser para estado limpo")
         max_retries = 3
         for attempt in range(max_retries):
             try:
-                # Aguardar um pouco antes de fechar para evitar race conditions
                 time.sleep(0.5)
-
-                # Primeiro fecha todas as janelas
                 try:
                     context.driver.close()
                 except Exception as close_error:
                     print(f"[Tentativa {attempt + 1}] Erro ao fechar janela: {close_error}")
-
-                # Depois encerra a sessao do WebDriver completamente
                 time.sleep(0.3)
                 context.driver.quit()
-
-                # Marca driver como None para evitar reutilizacao
                 context.driver = None
+                context._root_driver = None
+                context._root_browser_ready = False
+                context._root_logged_in = False
 
                 print(f"[OK] Driver fechado com sucesso na tentativa {attempt + 1}")
                 break
@@ -101,12 +140,16 @@ def ends_timer(context, e=None):
                             print(f"[AVISO] Erro ao matar processos: {kill_error}")
                 else:
                     time.sleep(2)  # Aguardar antes de retry
-    else:
-        print("Driver não inicializado, pulando fechamento.")
+    # Se nao houve erro, browser permanece aberto para reutilizacao pelo proximo cenario
 
 
 @given("Is Logged In")
 def is_logged_in(context):
+    # OTIMIZACAO: Verificar se ja esta logado (reutilizar sessao)
+    if _can_reuse_session(context):
+        print("[OK] Reutilizando sessao existente - login nao necessario")
+        return
+
     max_attempts = 2  # Reduzido de 3 para 2 para evitar sobrecarga
 
     for attempt in range(max_attempts):
@@ -141,31 +184,46 @@ def is_logged_in(context):
 
             openLoginURL(context, "https://qualityportal.qa-test.tracktraceweb.com/auth")
 
-            # Wait to ensure page is loaded
-            time.sleep(3)  # Aumentado de 2 para 3
+            # Wait for login form to be ready (substituido sleep fixo por wait inteligente)
+            try:
+                WebDriverWait(context.driver, 15).until(
+                    EC.presence_of_element_located((By.ID, "auth__login_form__username"))
+                )
+                print("[OK] Formulario de login carregado")
+            except:
+                time.sleep(2)  # Fallback
 
             enterEmail(context, "teste@teste.com")
             clickNextToLogin(context)
             enterPassword(context, "Mudar@12345342")
             clickSubmitButton(context)
 
-            # Wait for login to complete
-            time.sleep(5)  # Aumentado de 3 para 5
-
-            # Fechar modal de "Notas de lançamento" se aparecer
+            # Wait for redirect to dashboard (substituido sleep fixo por wait inteligente)
             try:
-                close_btn = WebDriverWait(context.driver, 10).until(
+                WebDriverWait(context.driver, 15).until(
+                    lambda d: "/dashboard" in d.current_url or "/home" in d.current_url or ("/auth" not in d.current_url and "tracktraceweb.com" in d.current_url)
+                )
+                print("[OK] Redirecionado apos login")
+            except:
+                time.sleep(3)  # Fallback
+
+            # Fechar modal de "Notas de lançamento" se aparecer (timeout reduzido de 10 para 3)
+            try:
+                close_btn = WebDriverWait(context.driver, 3).until(
                     EC.element_to_be_clickable((By.XPATH, "//span[text()='Close']"))
                 )
                 close_btn.click()
                 print("[OK] Modal 'Notas de lançamento' fechado")
-                time.sleep(1)
             except:
                 pass  # Modal pode não aparecer
 
             # Verify login success by checking URL or element
             if "/dashboard" in context.driver.current_url or "/home" in context.driver.current_url or "tracktraceweb.com" in context.driver.current_url:
                 print(f"[OK] Login bem-sucedido na tentativa {attempt + 1}")
+                # OTIMIZACAO: Marcar sessao como valida para reutilizacao (usando _root_*)
+                context._root_browser_ready = True
+                context._root_logged_in = True
+                context._root_driver = context.driver
                 return  # Success
 
             # If not redirected, check for any error and retry
@@ -215,12 +273,15 @@ def launchBrowser(context):
 
         options = Options()
 
-        # MODO HEADLESS ATIVADO
-        options.add_argument("--headless=new")
-        options.add_argument("--window-size=1920,1080")  # Define tamanho da janela em headless
+        # MODO HEADLESS - Respeita variável de ambiente
+        if headless and headless.lower() == "true":
+            options.add_argument("--headless=new")
+            print("[INFO] Modo HEADLESS ativado - Chrome executará sem interface gráfica")
+        else:
+            print("[INFO] Modo VISUAL ativado - Chrome executará com interface gráfica")
+        options.add_argument("--window-size=1920,1080")  # Define tamanho da janela
         options.add_argument("--disable-web-security")   # Desabilita segurança web para testes
         options.add_argument("--disable-software-rasterizer")
-        print("[INFO] Modo HEADLESS ativado - Chrome executará sem interface gráfica")
 
         # Usar diretório temporário para dados do Chrome
         temp_dir = tempfile.mkdtemp(prefix="chrome_test_")

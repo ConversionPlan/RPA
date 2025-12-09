@@ -40,7 +40,7 @@ def click_generate_random_data(context):
 @when("Click on Sender Main Location Information")
 def click_generate_random_data(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//p[text(, timeout=30)='Sender Main Location Information']"
+        wait_and_find(context.driver, By.XPATH, "//p[text()='Sender Main Location Information']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -50,8 +50,8 @@ def click_generate_random_data(context):
 @when("Replace SGLN with Location's saved SGLN")
 def replace_location_sgln(context):
     try:
-        location_sgln = wait_and_find(context.driver, By.XPATH, "(//input[contains(@value, 'urn:epc:id:sgln:', timeout=30)])[3]"
-        )
+        location_sgln = wait_and_find(context.driver, By.XPATH, "(//input[contains(@value, 'urn:epc:id:sgln:')])[3]"
+        , timeout=30)
         location_sgln.click()
         ActionChains(context.driver).key_down(Keys.CONTROL).send_keys("a").key_up(
             Keys.CONTROL
@@ -66,8 +66,8 @@ def replace_location_sgln(context):
 @when("Replace Location Name with Location's saved name")
 def replace_location_name(context):
     try:
-        location_name = wait_and_find(context.driver, By.XPATH, "//input[contains(@value, 'Sender ', timeout=30)]"
-        )
+        location_name = wait_and_find(context.driver, By.XPATH, "//input[contains(@value, 'Sender ')]"
+        , timeout=30)
         location_name.click()
         ActionChains(context.driver).key_down(Keys.CONTROL).send_keys("a").key_up(
             Keys.CONTROL
@@ -82,7 +82,7 @@ def replace_location_name(context):
 @when("Click on Receiver Main Location Information")
 def click_generate_random_data(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//p[text(, timeout=30)='Receiver Main Location Information']"
+        wait_and_find(context.driver, By.XPATH, "//p[text()='Receiver Main Location Information']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -92,8 +92,8 @@ def click_generate_random_data(context):
 @when("Replace SGLN with Seller's saved SGLN")
 def replace_seller_sgln(context):
     try:
-        seller_sgln = wait_and_find(context.driver, By.XPATH, "(//input[contains(@value, 'urn:epc:id:sgln:', timeout=30)])[4]"
-        )
+        seller_sgln = wait_and_find(context.driver, By.XPATH, "(//input[contains(@value, 'urn:epc:id:sgln:')])[4]"
+        , timeout=30)
         seller_sgln.click()
         ActionChains(context.driver).key_down(Keys.CONTROL).send_keys("a").key_up(
             Keys.CONTROL
@@ -108,8 +108,8 @@ def replace_seller_sgln(context):
 @when("Replace Location Name with Seller's saved name")
 def replace_seller_name(context):
     try:
-        seller_name = wait_and_find(context.driver, By.XPATH, "//input[contains(@value, 'Receiver ', timeout=30)]"
-        )
+        seller_name = wait_and_find(context.driver, By.XPATH, "//input[contains(@value, 'Receiver ')]"
+        , timeout=30)
         seller_name.click()
         ActionChains(context.driver).key_down(Keys.CONTROL).send_keys("a").key_up(
             Keys.CONTROL
@@ -124,7 +124,7 @@ def replace_seller_name(context):
 @when("Click on #1 Product Information")
 def click_product_information(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//p[text(, timeout=30)='#1 Product Information']"
+        wait_and_find(context.driver, By.XPATH, "//p[text()='#1 Product Information']"
         ).click()
     except Exception as e:
         ends_timer(context, e)
@@ -134,8 +134,8 @@ def click_product_information(context):
 @when("Replace SGTIN's with a new SGTIN GCP and GS1 ID")
 def replace_product_sgtin(context):
     try:
-        product_sgtin = wait_and_find(context.driver, By.XPATH, "//input[contains(@value, 'urn:epc:id:sgtin:', timeout=30)]"
-        )
+        product_sgtin = wait_and_find(context.driver, By.XPATH, "//input[contains(@value, 'urn:epc:id:sgtin:')]"
+        , timeout=30)
         product_sgtin.click()
         ActionChains(context.driver).key_down(Keys.CONTROL).send_keys("a").key_up(
             Keys.CONTROL
@@ -150,8 +150,8 @@ def replace_product_sgtin(context):
 @when("Replace Product Name with Product's saved name")
 def replace_product_name(context):
     try:
-        product_name = wait_and_find(context.driver, By.XPATH, "//input[contains(@value, 'Product ', timeout=30)]"
-        )
+        product_name = wait_and_find(context.driver, By.XPATH, "//input[contains(@value, 'Product ')]"
+        , timeout=30)
         product_name.click()
         ActionChains(context.driver).key_down(Keys.CONTROL).send_keys("a").key_up(
             Keys.CONTROL
@@ -166,7 +166,7 @@ def replace_product_name(context):
 @when("Click on Submit")
 def click_submit(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//p[text(, timeout=30)='Submit']").click()
+        wait_and_find(context.driver, By.XPATH, "//p[text()='Submit']").click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -175,7 +175,7 @@ def click_submit(context):
 @when("Download EPCIS file")
 def click_submit(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//p[text(, timeout=30)='Download EPCIS file']"
+        wait_and_find(context.driver, By.XPATH, "//p[text()='Download EPCIS file']"
         ).click()
         time.sleep(2)
     except Exception as e:

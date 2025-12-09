@@ -196,19 +196,22 @@ def click_change_location(context):
 
         time.sleep(3)
 
-        # Tentar múltiplos seletores (inglês e português)
+        # Tentar múltiplos seletores (português primeiro, depois inglês)
         selectors = [
-            "//a[contains(text(), 'Change Location')]",
+            # Português - texto atual do portal
+            "//button[contains(text(), 'Trocar localização')]",
+            "//span[contains(text(), 'Trocar localização')]",
+            "//*[contains(text(), 'Trocar localização')]",
+            # Português - variações
             "//a[contains(text(), 'Alterar Local')]",
             "//a[contains(text(), 'Mudar Local')]",
-            "//span[contains(text(), 'Change Location')]",
             "//span[contains(text(), 'Alterar Local')]",
-            "//*[contains(text(), 'Change Location')]",
             "//*[contains(text(), 'Alterar Local')]",
-            "//*[contains(text(), 'Mudar')]",
-            "//a[contains(@class, 'change')]",
+            # Inglês - fallback
+            "//a[contains(text(), 'Change Location')]",
+            "//span[contains(text(), 'Change Location')]",
+            "//*[contains(text(), 'Change Location')]",
             "//button[contains(text(), 'Change')]",
-            "//button[contains(text(), 'Alterar')]"
         ]
 
         element = None
@@ -289,7 +292,24 @@ def select_location(context):
 @when("Click on Change Seller")
 def click_change_seller(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//a[contains(text(), 'Change Seller')]", timeout=30).click()
+        # PT: "Alterar vendedor" | EN: "Change Seller"
+        selectors = [
+            "//button[contains(text(), 'Alterar vendedor')]",
+            "//span[contains(text(), 'Alterar vendedor')]",
+            "//*[contains(text(), 'Alterar vendedor')]",
+            "//a[contains(text(), 'Change Seller')]",
+        ]
+        element = None
+        for selector in selectors:
+            try:
+                element = wait_and_find(context.driver, By.XPATH, selector, timeout=5)
+                print(f"[OK] Encontrado Change Seller com seletor: {selector}")
+                break
+            except:
+                continue
+        if element is None:
+            raise Exception("Não foi possível encontrar o elemento Change Seller / Alterar vendedor")
+        element.click()
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -765,7 +785,7 @@ def inbound_should_be_deleted(context):
             timeout=30
         )
         records_text = records_element.text
-        new_total_records = int(records_text.split("of ")[1].split(" recor")[0])
+        new_total_records = safe_parse_records_count(records_text, default=context.total_records)
 
         print(f"[INFO] Registros antes: {context.total_records}, depois: {new_total_records}")
 
