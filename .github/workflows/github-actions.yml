@@ -39,9 +39,9 @@ jobs:
         id: tests
         run: |
           mkdir -p report/output
-          python -m behave --tags="~@skip" --no-capture \
-            --format json --outfile report/output/results.json \
-            --format pretty \
+          behavex --parallel-processes 2 --parallel-scheme feature \
+            --tags="~@skip" \
+            -o report/output \
             2>&1 | tee report/output/test_output.log
         continue-on-error: true
 
