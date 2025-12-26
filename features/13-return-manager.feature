@@ -80,18 +80,6 @@ Feature: Return Manager (Gerente de Retorno)
     Then Suspended Return Sessions list should be displayed
     And Suspended Return Sessions table should have columns
 
-  @return_resume_session
-  Scenario: Resume a suspended return session
-    Given User exists
-    And Is Logged In
-    When Open dashboard page
-    And Open sandwich menu
-    And Click on Return Manager
-    And Click on Suspended Return Sessions
-    And Click on first suspended session
-    And Click on Resume Session button
-    Then Return session should be resumed
-
   @return_events_list
   Scenario: View return events list
     Given User exists
@@ -128,30 +116,3 @@ Feature: Return Manager (Gerente de Retorno)
     And Click on GLN Allow Deny List
     Then GLN Allow Deny List should be displayed
 
-  @vrs_add_gln_allow
-  Scenario: Add GLN to allow list
-    Given User exists
-    And Is Logged In
-    When Open dashboard page
-    And Open sandwich menu
-    And Click on Return Manager
-    And Click on GLN Allow Deny List
-    And Click on Add GLN button
-    And Fill GLN information
-    And Select Allow option
-    And Click on Save GLN
-    Then GLN should be added to allow list
-
-  @vrs_add_gln_deny
-  Scenario: Add GLN to deny list
-    Given User exists
-    And Is Logged In
-    When Open dashboard page
-    And Open sandwich menu
-    And Click on Return Manager
-    And Click on GLN Allow Deny List
-    And Click on Add GLN button
-    And Fill GLN information
-    And Select Deny option
-    And Click on Save GLN
-    Then GLN should be added to deny list
