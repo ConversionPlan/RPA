@@ -38,3 +38,13 @@ Feature: Smoke Tests - Testes Simplificados
     And Open sandwich menu
     And Click on Inbound
     Then End test
+
+  # Teste 5: Navegação para Return Manager
+  @smoke_return_manager
+  Scenario: Smoke Test - Navigate to Return Manager
+    Given User exists
+    And Is Logged In
+    When Open dashboard page
+    And Open sandwich menu
+    And Click on Return Manager
+    Then Return Manager page should be displayed
