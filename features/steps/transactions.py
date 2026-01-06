@@ -13,6 +13,66 @@ from features.steps.auth import ends_timer
 import time
 
 
+def wait_for_page_ready(driver, timeout=15):
+    """
+    Aguarda a pagina estar completamente carregada.
+    Verifica document.readyState e aguarda elementos de loading desaparecerem.
+    """
+    try:
+        # Aguardar document.readyState == complete
+        WebDriverWait(driver, timeout).until(
+            lambda d: d.execute_script("return document.readyState") == "complete"
+        )
+        print("[DEBUG] document.readyState = complete")
+
+        # Aguardar spinners/loaders desaparecerem
+        loading_selectors = [
+            "//div[contains(@class, 'loading')]",
+            "//div[contains(@class, 'spinner')]",
+            "//div[contains(@class, 'loader')]",
+            "//*[contains(@class, 'tt_utils_ui_loading')]",
+        ]
+
+        for selector in loading_selectors:
+            try:
+                WebDriverWait(driver, 3).until(
+                    EC.invisibility_of_element_located((By.XPATH, selector))
+                )
+            except:
+                pass
+
+        # Pequena pausa adicional para JavaScript terminar
+        time.sleep(1)
+        print("[DEBUG] Pagina pronta para interacao")
+        return True
+    except Exception as e:
+        print(f"[WARN] Timeout aguardando pagina: {e}")
+        return False
+
+
+def safe_click(driver, element, description="elemento"):
+    """
+    Clica em um elemento de forma segura com múltiplas tentativas.
+    """
+    methods = [
+        ("click direto", lambda: element.click()),
+        ("JS click", lambda: driver.execute_script("arguments[0].click();", element)),
+        ("ActionChains", lambda: __import__('selenium.webdriver', fromlist=['ActionChains']).ActionChains(driver).move_to_element(element).click().perform()),
+    ]
+
+    for method_name, method_func in methods:
+        try:
+            method_func()
+            print(f"[OK] Click em {description} via {method_name}")
+            return True
+        except Exception as e:
+            print(f"[DEBUG] {method_name} falhou: {str(e)[:50]}")
+            continue
+
+    print(f"[ERROR] Todas as tentativas de click em {description} falharam")
+    return False
+
+
 # ========================================
 # SALES ORDER
 # ========================================
@@ -771,7 +831,12 @@ def purchase_order_records_displayed(context):
 def click_create_purchase_order(context):
     """Clica no botao Adicionar para criar Purchase Order."""
     try:
-        time.sleep(3)  # Aguardar pagina carregar completamente no CI
+        print("[DEBUG] Iniciando busca pelo botao Adicionar...")
+        time.sleep(5)  # Aguardar pagina carregar completamente no CI
+
+        # Log da URL atual
+        print(f"[DEBUG] URL atual: {context.driver.current_url}")
+        print(f"[DEBUG] Titulo: {context.driver.title}")
 
         selectors = [
             "//div[text()='Adicionar']",
@@ -780,32 +845,52 @@ def click_create_purchase_order(context):
             "//span[contains(text(), 'Adicionar')]",
             "//*[contains(@class, 'action') and contains(text(), 'Adicionar')]",
             "//button[contains(text(), 'Adicionar')]",
+            "//*[text()='Adicionar']",
         ]
 
         element = None
-        for selector in selectors:
+        for idx, selector in enumerate(selectors):
             try:
-                element = WebDriverWait(context.driver, 10).until(
+                print(f"[DEBUG] Tentando seletor {idx+1}/{len(selectors)}: {selector}")
+                element = WebDriverWait(context.driver, 8).until(
                     EC.presence_of_element_located((By.XPATH, selector))
                 )
                 if element.is_displayed():
                     print(f"[OK] Encontrado botao Adicionar com: {selector}")
                     break
                 else:
+                    print(f"[DEBUG] Elemento encontrado mas nao visivel: {selector}")
                     element = None
-            except:
+            except Exception as e:
+                print(f"[DEBUG] Seletor {idx+1} falhou: {str(e)[:50]}")
                 continue
 
         if element:
+            # Log posição do elemento
+            location = element.location
+            size = element.size
+            print(f"[DEBUG] Elemento posicao: x={location['x']}, y={location['y']}, w={size['width']}, h={size['height']}")
+
             context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-            time.sleep(0.5)
+            time.sleep(1)
             try:
                 element.click()
-            except:
+                print("[OK] Click direto funcionou")
+            except Exception as click_err:
+                print(f"[DEBUG] Click direto falhou: {click_err}, tentando JS click")
                 context.driver.execute_script("arguments[0].click();", element)
             print("[OK] Clicou em Adicionar (Create Purchase Order)")
-            time.sleep(3)  # Aguardar formulario carregar
+            time.sleep(4)  # Aguardar formulario/modal carregar
         else:
+            # Capturar estado da página para debug
+            print("[ERROR] Botao Adicionar nao encontrado!")
+            print(f"[DEBUG] Elementos com 'Adicionar' na pagina:")
+            try:
+                all_elements = context.driver.find_elements(By.XPATH, "//*[contains(text(), 'Adicionar')]")
+                for i, el in enumerate(all_elements[:5]):
+                    print(f"  [{i}] Tag: {el.tag_name}, Visible: {el.is_displayed()}, Text: {el.text[:30] if el.text else 'N/A'}")
+            except:
+                pass
             raise Exception("Botao Adicionar nao encontrado")
 
         time.sleep(1)
@@ -1178,7 +1263,11 @@ def purchase_order_details_info(context):
 def click_edit_purchase_order(context):
     """Clica no icone Editar - primeiro tenta no modal, depois na tabela."""
     try:
-        time.sleep(2)  # Aguardar modal carregar
+        print("[DEBUG] Iniciando busca pelo botao Editar...")
+        wait_for_page_ready(context.driver)
+        time.sleep(3)  # Aguardar modal carregar completamente
+
+        print(f"[DEBUG] URL atual: {context.driver.current_url}")
 
         # Primeiro tenta encontrar dentro do modal
         modal_selectors = [
@@ -1199,7 +1288,8 @@ def click_edit_purchase_order(context):
         element = None
 
         # Tenta modal primeiro
-        for selector in modal_selectors:
+        print("[DEBUG] Procurando Editar no modal...")
+        for idx, selector in enumerate(modal_selectors):
             try:
                 element = WebDriverWait(context.driver, 5).until(
                     EC.presence_of_element_located((By.XPATH, selector))
@@ -1208,13 +1298,15 @@ def click_edit_purchase_order(context):
                     print(f"[OK] Encontrado Editar no modal: {selector}")
                     break
                 else:
+                    print(f"[DEBUG] Modal seletor {idx+1} encontrou elemento nao visivel")
                     element = None
             except:
                 continue
 
         # Se não encontrou no modal, tenta na tabela
         if not element:
-            for selector in table_selectors:
+            print("[DEBUG] Nao encontrou no modal, procurando na tabela...")
+            for idx, selector in enumerate(table_selectors):
                 try:
                     element = WebDriverWait(context.driver, 5).until(
                         EC.presence_of_element_located((By.XPATH, selector))
@@ -1223,22 +1315,32 @@ def click_edit_purchase_order(context):
                         print(f"[OK] Encontrado Editar na tabela: {selector}")
                         break
                     else:
+                        print(f"[DEBUG] Tabela seletor {idx+1} encontrou elemento nao visivel")
                         element = None
                 except:
                     continue
 
         if element:
+            location = element.location
+            print(f"[DEBUG] Elemento Editar posicao: x={location['x']}, y={location['y']}")
             context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-            time.sleep(0.5)
-            try:
-                element.click()
-            except:
-                context.driver.execute_script("arguments[0].click();", element)
+            time.sleep(1)
+            if not safe_click(context.driver, element, "Editar"):
+                raise Exception("Falha ao clicar em Editar")
             print("[OK] Clicou em Editar")
         else:
+            # Debug: listar todos os elementos img na pagina
+            print("[ERROR] Icone Editar nao encontrado!")
+            try:
+                imgs = context.driver.find_elements(By.XPATH, "//img[@alt]")
+                print(f"[DEBUG] Imagens com alt na pagina ({len(imgs)}):")
+                for img in imgs[:10]:
+                    print(f"  - alt='{img.get_attribute('alt')}', visible={img.is_displayed()}")
+            except:
+                pass
             raise Exception("Icone Editar nao encontrado")
 
-        time.sleep(3)  # Aguardar formulario de edicao
+        time.sleep(4)  # Aguardar formulario de edicao
 
     except Exception as e:
         ends_timer(context, e)
@@ -1270,7 +1372,11 @@ def purchase_order_updated(context):
 def click_delete_purchase_order(context):
     """Clica no icone Apagar - primeiro tenta no modal, depois na tabela."""
     try:
-        time.sleep(2)  # Aguardar modal carregar
+        print("[DEBUG] Iniciando busca pelo botao Apagar...")
+        wait_for_page_ready(context.driver)
+        time.sleep(3)  # Aguardar modal carregar completamente
+
+        print(f"[DEBUG] URL atual: {context.driver.current_url}")
 
         # Primeiro tenta encontrar dentro do modal
         modal_selectors = [
@@ -1292,7 +1398,8 @@ def click_delete_purchase_order(context):
         element = None
 
         # Tenta modal primeiro
-        for selector in modal_selectors:
+        print("[DEBUG] Procurando Apagar no modal...")
+        for idx, selector in enumerate(modal_selectors):
             try:
                 element = WebDriverWait(context.driver, 5).until(
                     EC.presence_of_element_located((By.XPATH, selector))
@@ -1301,13 +1408,15 @@ def click_delete_purchase_order(context):
                     print(f"[OK] Encontrado Apagar no modal: {selector}")
                     break
                 else:
+                    print(f"[DEBUG] Modal seletor {idx+1} encontrou elemento nao visivel")
                     element = None
             except:
                 continue
 
         # Se não encontrou no modal, tenta na tabela
         if not element:
-            for selector in table_selectors:
+            print("[DEBUG] Nao encontrou no modal, procurando na tabela...")
+            for idx, selector in enumerate(table_selectors):
                 try:
                     element = WebDriverWait(context.driver, 5).until(
                         EC.presence_of_element_located((By.XPATH, selector))
@@ -1316,19 +1425,29 @@ def click_delete_purchase_order(context):
                         print(f"[OK] Encontrado Apagar na tabela: {selector}")
                         break
                     else:
+                        print(f"[DEBUG] Tabela seletor {idx+1} encontrou elemento nao visivel")
                         element = None
                 except:
                     continue
 
         if element:
+            location = element.location
+            print(f"[DEBUG] Elemento Apagar posicao: x={location['x']}, y={location['y']}")
             context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
-            time.sleep(0.5)
-            try:
-                element.click()
-            except:
-                context.driver.execute_script("arguments[0].click();", element)
+            time.sleep(1)
+            if not safe_click(context.driver, element, "Apagar"):
+                raise Exception("Falha ao clicar em Apagar")
             print("[OK] Clicou em Apagar")
         else:
+            # Debug: listar todos os elementos img na pagina
+            print("[ERROR] Icone Apagar nao encontrado!")
+            try:
+                imgs = context.driver.find_elements(By.XPATH, "//img[@alt]")
+                print(f"[DEBUG] Imagens com alt na pagina ({len(imgs)}):")
+                for img in imgs[:10]:
+                    print(f"  - alt='{img.get_attribute('alt')}', visible={img.is_displayed()}")
+            except:
+                pass
             raise Exception("Icone Apagar nao encontrado")
 
         time.sleep(1)

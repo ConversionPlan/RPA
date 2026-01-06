@@ -96,11 +96,74 @@ def after_scenario(context, scenario):
     if hasattr(context, 'driver') and context.driver:
         context._root_driver = context.driver
 
-    # Se cenario falhou, marcar para refazer login no proximo cenario
+    # Se cenario falhou, capturar screenshot e logs para diagnóstico
     if scenario.status.name != "passed":
-        print(f"    [!] Cenario falhou - marcando para refazer login")
+        print(f"    [!] Cenario falhou - capturando diagnostico")
+        _capture_failure_diagnostics(context, scenario)
         context._root_logged_in = False
-        # NAO fechar browser - deixar para o proximo cenario decidir
+        # Fechar browser para garantir estado limpo no proximo cenario
+        _close_browser_safe(context, use_root=True)
+        context._root_browser_ready = False
+
+
+def _capture_failure_diagnostics(context, scenario):
+    """
+    Captura screenshot e informacoes de diagnostico quando um cenario falha.
+    """
+    import os
+    from datetime import datetime
+
+    driver = getattr(context, 'driver', None) or getattr(context, '_root_driver', None)
+    if not driver:
+        print("    [WARN] Driver nao disponivel para captura de diagnostico")
+        return
+
+    try:
+        # Criar diretorio para screenshots
+        screenshot_dir = os.path.join(os.getcwd(), "report", "output", "screenshots")
+        os.makedirs(screenshot_dir, exist_ok=True)
+
+        # Nome do arquivo baseado no cenario e timestamp
+        safe_name = "".join(c if c.isalnum() or c in (' ', '-', '_') else '_' for c in scenario.name)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{safe_name}_{timestamp}.png"
+        filepath = os.path.join(screenshot_dir, filename)
+
+        # Capturar screenshot
+        driver.save_screenshot(filepath)
+        print(f"    [DIAG] Screenshot salvo: {filepath}")
+
+        # Capturar URL atual
+        current_url = driver.current_url
+        print(f"    [DIAG] URL atual: {current_url}")
+
+        # Capturar titulo da pagina
+        page_title = driver.title
+        print(f"    [DIAG] Titulo da pagina: {page_title}")
+
+        # Capturar tamanho da janela
+        window_size = driver.get_window_size()
+        print(f"    [DIAG] Tamanho da janela: {window_size['width']}x{window_size['height']}")
+
+        # Verificar se ha alertas
+        try:
+            alert = driver.switch_to.alert
+            print(f"    [DIAG] Alerta presente: {alert.text}")
+        except:
+            pass
+
+        # Capturar HTML da pagina para analise (apenas primeiros 2000 chars)
+        try:
+            page_source = driver.page_source[:2000]
+            html_file = filepath.replace('.png', '_source.html')
+            with open(html_file, 'w', encoding='utf-8') as f:
+                f.write(driver.page_source)
+            print(f"    [DIAG] HTML salvo: {html_file}")
+        except Exception as e:
+            print(f"    [WARN] Falha ao salvar HTML: {e}")
+
+    except Exception as e:
+        print(f"    [WARN] Falha ao capturar diagnostico: {e}")
 
 
 def _close_browser_safe(context, use_root=False):
