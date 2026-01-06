@@ -772,8 +772,10 @@ def click_create_purchase_order(context):
     """Clica no botao Adicionar para criar Purchase Order."""
     try:
         selectors = [
-            "//div[contains(@class, 'tt_utils_ui_search-search-header-action-buttons-container') and contains(text(), 'Adicionar')]",
+            "//div[text()='Adicionar']",
+            "//div[contains(text(), 'Adicionar') and @style]",
             "//div[contains(text(), 'Adicionar')]",
+            "//span[contains(text(), 'Adicionar')]",
             "//button[contains(text(), 'Adicionar')]",
         ]
 
@@ -783,7 +785,7 @@ def click_create_purchase_order(context):
                 element = WebDriverWait(context.driver, 5).until(
                     EC.element_to_be_clickable((By.XPATH, selector))
                 )
-                print(f"[OK] Encontrado botao Adicionar")
+                print(f"[OK] Encontrado botao Adicionar com: {selector}")
                 break
             except:
                 continue
@@ -794,6 +796,7 @@ def click_create_purchase_order(context):
             except:
                 context.driver.execute_script("arguments[0].click();", element)
             print("[OK] Clicou em Adicionar (Create Purchase Order)")
+            time.sleep(2)
         else:
             raise Exception("Botao Adicionar nao encontrado")
 
@@ -983,16 +986,48 @@ def purchase_order_created(context):
 
 @when("Search Purchase Order by order number")
 def search_purchase_order(context):
-    """Pesquisa por numero."""
+    """Pesquisa por numero do pedido."""
     try:
-        search_input = context.driver.find_element(
-            By.XPATH, "//input[contains(@class, 'search')]"
-        )
-        search_input.clear()
-        search_input.send_keys("PO")
-        search_input.send_keys(Keys.ENTER)
-        time.sleep(2)
-        print("[OK] Pesquisa realizada")
+        time.sleep(2)  # Aguardar carregamento
+
+        # Procura o campo de busca pelo label "Número do pedido"
+        try:
+            # Encontra o label
+            label = context.driver.find_element(
+                By.XPATH, "//div[contains(text(), 'Número do pedido') or contains(text(), 'Order Number')]"
+            )
+            # Encontra o input dentro do mesmo container pai
+            parent = label.find_element(By.XPATH, "./..")
+            input_field = parent.find_element(By.XPATH, ".//input")
+            print("[OK] Campo 'Número do pedido' encontrado via label")
+        except:
+            # Fallback: procurar inputs visiveis
+            inputs = context.driver.find_elements(By.XPATH, "//input[@type='text' and not(@disabled)]")
+            visible_inputs = [i for i in inputs if i.is_displayed() and i.is_enabled()]
+            if len(visible_inputs) >= 5:
+                input_field = visible_inputs[4]  # 5o input e o numero do pedido
+                print("[OK] Campo encontrado por indice")
+            else:
+                input_field = visible_inputs[-1] if visible_inputs else None
+
+        if input_field:
+            context.driver.execute_script("arguments[0].scrollIntoView(true);", input_field)
+            time.sleep(0.5)
+            context.driver.execute_script("arguments[0].click();", input_field)
+            input_field.send_keys("PO")
+            time.sleep(1)
+
+            # Clica no botao Submit
+            try:
+                submit_btn = context.driver.find_element(By.XPATH, "//button[contains(text(), 'Submit') or @type='submit']")
+                context.driver.execute_script("arguments[0].click();", submit_btn)
+            except:
+                input_field.send_keys(Keys.ENTER)
+
+            time.sleep(2)
+            print("[OK] Pesquisa realizada")
+        else:
+            print("[WARN] Nenhum campo de busca encontrado")
 
     except Exception as e:
         ends_timer(context, e)
