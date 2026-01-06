@@ -885,27 +885,61 @@ def select_vendor_modal_po(context):
 def fill_purchase_order_vendor(context):
     """Preenche informacoes do fornecedor (apos selecao no modal)."""
     try:
+        time.sleep(3)  # Aguardar carregamento do formulario no CI
+
+        # Verificar se apareceu modal de selecao de fornecedor
+        modal_selectors = [
+            "//div[contains(text(), 'Selecione')]",
+            "//div[contains(@class, 'tt_utils_ui_dlg_modal')]",
+            "//div[contains(text(), 'Vendor')]",
+            "//div[contains(text(), 'Fornecedor')]",
+        ]
+
+        modal_found = False
+        for selector in modal_selectors:
+            try:
+                modal = WebDriverWait(context.driver, 5).until(
+                    EC.presence_of_element_located((By.XPATH, selector))
+                )
+                if modal.is_displayed():
+                    modal_found = True
+                    print("[OK] Modal de selecao de fornecedor encontrado")
+                    break
+            except:
+                continue
+
+        # Se encontrou modal, selecionar primeiro fornecedor
+        if modal_found:
+            try:
+                first_row = WebDriverWait(context.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "(//div[contains(@class, 'tt_utils_ui_dlg')]//table//tbody//tr)[1]"))
+                )
+                context.driver.execute_script("arguments[0].click();", first_row)
+                print("[OK] Selecionou primeiro fornecedor")
+                time.sleep(2)
+            except Exception as e:
+                print(f"[WARN] Nao conseguiu selecionar fornecedor: {e}")
+
         # Verificar se formulario de criacao foi carregado
         form_selectors = [
-            "//div[contains(text(), 'Adicionar')]",
             "//span[contains(text(), 'Geral')]",
+            "//div[contains(text(), 'Número do pedido')]",
+            "//input[contains(@class, 'form')]",
         ]
 
         form_found = False
         for selector in form_selectors:
             try:
-                WebDriverWait(context.driver, 5).until(
+                WebDriverWait(context.driver, 10).until(
                     EC.presence_of_element_located((By.XPATH, selector))
                 )
                 form_found = True
+                print(f"[OK] Formulario de criacao carregado: {selector}")
                 break
             except:
                 continue
 
-        if form_found:
-            print("[OK] Formulario de criacao carregado")
-
-        time.sleep(1)
+        time.sleep(2)
     except Exception as e:
         ends_timer(context, e)
         raise
@@ -1142,26 +1176,60 @@ def purchase_order_details_info(context):
 
 @when("Click on Edit Purchase Order button")
 def click_edit_purchase_order(context):
-    """Clica no icone Editar do primeiro registro."""
+    """Clica no icone Editar - primeiro tenta no modal, depois na tabela."""
     try:
-        selectors = [
+        time.sleep(2)  # Aguardar modal carregar
+
+        # Primeiro tenta encontrar dentro do modal
+        modal_selectors = [
+            "//div[contains(@class, 'modal')]//img[@alt='Editar']",
+            "//div[contains(@class, 'dlg')]//img[@alt='Editar']",
+            "//div[contains(@class, 'tt_utils_ui_dlg')]//img[@alt='Editar']",
+            "//div[contains(@class, 'modal')]//button[contains(text(), 'Editar')]",
+            "//div[contains(@class, 'modal')]//*[contains(text(), 'Editar')]",
+        ]
+
+        # Fallback para tabela
+        table_selectors = [
             "(//table//tbody//tr)[1]//img[@alt='Editar']",
             "//table//tbody//tr[1]//img[@alt='Editar']",
             "(//img[@alt='Editar'])[1]",
-            "//button[contains(text(), 'Editar')]",
         ]
 
         element = None
-        for selector in selectors:
+
+        # Tenta modal primeiro
+        for selector in modal_selectors:
             try:
                 element = WebDriverWait(context.driver, 5).until(
-                    EC.element_to_be_clickable((By.XPATH, selector))
+                    EC.presence_of_element_located((By.XPATH, selector))
                 )
-                break
+                if element.is_displayed():
+                    print(f"[OK] Encontrado Editar no modal: {selector}")
+                    break
+                else:
+                    element = None
             except:
                 continue
 
+        # Se não encontrou no modal, tenta na tabela
+        if not element:
+            for selector in table_selectors:
+                try:
+                    element = WebDriverWait(context.driver, 5).until(
+                        EC.presence_of_element_located((By.XPATH, selector))
+                    )
+                    if element.is_displayed():
+                        print(f"[OK] Encontrado Editar na tabela: {selector}")
+                        break
+                    else:
+                        element = None
+                except:
+                    continue
+
         if element:
+            context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+            time.sleep(0.5)
             try:
                 element.click()
             except:
@@ -1170,7 +1238,7 @@ def click_edit_purchase_order(context):
         else:
             raise Exception("Icone Editar nao encontrado")
 
-        time.sleep(2)
+        time.sleep(3)  # Aguardar formulario de edicao
 
     except Exception as e:
         ends_timer(context, e)
@@ -1200,27 +1268,61 @@ def purchase_order_updated(context):
 
 @when("Click on Delete Purchase Order button")
 def click_delete_purchase_order(context):
-    """Clica no icone Apagar do primeiro registro."""
+    """Clica no icone Apagar - primeiro tenta no modal, depois na tabela."""
     try:
-        selectors = [
+        time.sleep(2)  # Aguardar modal carregar
+
+        # Primeiro tenta encontrar dentro do modal
+        modal_selectors = [
+            "//div[contains(@class, 'modal')]//img[@alt='Apagar']",
+            "//div[contains(@class, 'dlg')]//img[@alt='Apagar']",
+            "//div[contains(@class, 'tt_utils_ui_dlg')]//img[@alt='Apagar']",
+            "//div[contains(@class, 'modal')]//button[contains(text(), 'Apagar')]",
+            "//div[contains(@class, 'modal')]//button[contains(text(), 'Excluir')]",
+            "//div[contains(@class, 'modal')]//*[contains(text(), 'Apagar')]",
+        ]
+
+        # Fallback para tabela
+        table_selectors = [
             "(//table//tbody//tr)[1]//img[@alt='Apagar']",
             "//table//tbody//tr[1]//img[@alt='Apagar']",
             "(//img[@alt='Apagar'])[1]",
-            "//button[contains(text(), 'Apagar')]",
-            "//button[contains(text(), 'Excluir')]",
         ]
 
         element = None
-        for selector in selectors:
+
+        # Tenta modal primeiro
+        for selector in modal_selectors:
             try:
                 element = WebDriverWait(context.driver, 5).until(
-                    EC.element_to_be_clickable((By.XPATH, selector))
+                    EC.presence_of_element_located((By.XPATH, selector))
                 )
-                break
+                if element.is_displayed():
+                    print(f"[OK] Encontrado Apagar no modal: {selector}")
+                    break
+                else:
+                    element = None
             except:
                 continue
 
+        # Se não encontrou no modal, tenta na tabela
+        if not element:
+            for selector in table_selectors:
+                try:
+                    element = WebDriverWait(context.driver, 5).until(
+                        EC.presence_of_element_located((By.XPATH, selector))
+                    )
+                    if element.is_displayed():
+                        print(f"[OK] Encontrado Apagar na tabela: {selector}")
+                        break
+                    else:
+                        element = None
+                except:
+                    continue
+
         if element:
+            context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+            time.sleep(0.5)
             try:
                 element.click()
             except:
