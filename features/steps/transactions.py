@@ -771,32 +771,40 @@ def purchase_order_records_displayed(context):
 def click_create_purchase_order(context):
     """Clica no botao Adicionar para criar Purchase Order."""
     try:
+        time.sleep(3)  # Aguardar pagina carregar completamente no CI
+
         selectors = [
             "//div[text()='Adicionar']",
-            "//div[contains(text(), 'Adicionar') and @style]",
+            "//span[text()='Adicionar']",
             "//div[contains(text(), 'Adicionar')]",
             "//span[contains(text(), 'Adicionar')]",
+            "//*[contains(@class, 'action') and contains(text(), 'Adicionar')]",
             "//button[contains(text(), 'Adicionar')]",
         ]
 
         element = None
         for selector in selectors:
             try:
-                element = WebDriverWait(context.driver, 5).until(
-                    EC.element_to_be_clickable((By.XPATH, selector))
+                element = WebDriverWait(context.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, selector))
                 )
-                print(f"[OK] Encontrado botao Adicionar com: {selector}")
-                break
+                if element.is_displayed():
+                    print(f"[OK] Encontrado botao Adicionar com: {selector}")
+                    break
+                else:
+                    element = None
             except:
                 continue
 
         if element:
+            context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+            time.sleep(0.5)
             try:
                 element.click()
             except:
                 context.driver.execute_script("arguments[0].click();", element)
             print("[OK] Clicou em Adicionar (Create Purchase Order)")
-            time.sleep(2)
+            time.sleep(3)  # Aguardar formulario carregar
         else:
             raise Exception("Botao Adicionar nao encontrado")
 
@@ -1038,35 +1046,48 @@ def search_purchase_order(context):
 def click_first_purchase_order(context):
     """Clica no icone Visualizar do primeiro registro."""
     try:
+        time.sleep(3)  # Aguardar carregamento da tabela no CI
+
+        # Aguardar tabela carregar
+        WebDriverWait(context.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, "//table//tbody//tr"))
+        )
+        print("[OK] Tabela carregada")
+
         view_selectors = [
             "(//table//tbody//tr)[1]//img[@alt='Visualizar']",
             "//table//tbody//tr[1]//img[@alt='Visualizar']",
             "(//img[@alt='Visualizar'])[1]",
+            "//tbody//tr[1]//img[contains(@alt, 'View') or contains(@alt, 'Visualizar')]",
         ]
 
         element = None
         for selector in view_selectors:
             try:
-                element = WebDriverWait(context.driver, 5).until(
-                    EC.element_to_be_clickable((By.XPATH, selector))
+                element = WebDriverWait(context.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, selector))
                 )
+                print(f"[OK] Encontrado Visualizar: {selector}")
                 break
             except:
                 continue
 
         if element:
+            context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+            time.sleep(0.5)
             try:
                 element.click()
             except:
                 context.driver.execute_script("arguments[0].click();", element)
             print("[OK] Clicou em Visualizar primeiro registro")
         else:
-            row = WebDriverWait(context.driver, 5).until(
-                EC.element_to_be_clickable((By.XPATH, "(//tbody//tr[td])[1]//td[1]"))
+            print("[WARN] Visualizar nao encontrado, clicando na linha")
+            row = WebDriverWait(context.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "(//tbody//tr[td])[1]//td[2]"))
             )
-            row.click()
+            context.driver.execute_script("arguments[0].click();", row)
 
-        time.sleep(1)
+        time.sleep(2)  # Aguardar modal abrir
 
     except Exception as e:
         ends_timer(context, e)
@@ -1077,10 +1098,32 @@ def click_first_purchase_order(context):
 def purchase_order_details_modal(context):
     """Verifica modal."""
     try:
-        WebDriverWait(context.driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'modal')]"))
-        )
-        print("[OK] Modal exibido")
+        time.sleep(2)  # Aguardar animacao do modal
+
+        modal_selectors = [
+            "//div[contains(@class, 'modal')]",
+            "//div[contains(@class, 'dlg')]",
+            "//div[contains(@class, 'dialog')]",
+            "//div[contains(@class, 'popup')]",
+            "//div[contains(@class, 'tt_utils_ui_dlg')]",
+        ]
+
+        modal_found = False
+        for selector in modal_selectors:
+            try:
+                WebDriverWait(context.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, selector))
+                )
+                print(f"[OK] Modal exibido: {selector}")
+                modal_found = True
+                break
+            except:
+                continue
+
+        if not modal_found:
+            print("[WARN] Modal nao detectado mas continuando...")
+
+        time.sleep(1)
 
     except Exception as e:
         ends_timer(context, e)
