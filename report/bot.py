@@ -408,12 +408,13 @@ def format_results():
     })
 
     if any_errors:
-        mention = "@here" if stats["success_rate"] < 50 else "@channel"
+        # Menções @here/@channel desabilitadas
+        # mention = "@here" if stats["success_rate"] < 50 else "@channel"
         formatted_results.append({
             "type": "section",
             "text": {
                 "type": "mrkdwn",
-                "text": f":alert: {mention} *{stats['failed']} scenario(s) failed!* Please investigate as soon as possible.\n\nReact with :eyes: once you are looking into it.",
+                "text": f":alert: *{stats['failed']} scenario(s) failed!* Please investigate as soon as possible.\n\nReact with :eyes: once you are looking into it.",
             },
         })
     else:
