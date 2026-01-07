@@ -656,27 +656,62 @@ def click_delete_sales_order(context):
 
 @when("Confirm deletion")
 def confirm_deletion(context):
-    """Confirma exclusao."""
+    """Confirma exclusao - diálogo usa classe tt_utils_ui__delete_confirmation."""
     try:
-        selectors = [
-            "//button[contains(text(), 'Sim')]",
+        print("[DEBUG] Iniciando confirmacao de exclusao...")
+        time.sleep(2)  # Aguardar modal de confirmacao aparecer
+
+        # Seletores específicos para o diálogo de confirmação do TrackTrace
+        confirm_selectors = [
+            # Botões dentro do diálogo de confirmação específico
+            "//div[contains(@class, 'tt_utils_ui__delete_confirmation')]/ancestor::div[contains(@class, 'modal')]//button[contains(., 'Yes') or contains(., 'Sim')]",
+            "//div[contains(@class, 'tt_utils_ui__delete_confirmation')]/ancestor::div[contains(@class, 'dlg')]//button[contains(., 'Yes') or contains(., 'Sim')]",
+            # Botões genéricos de confirmação
+            "//div[contains(@class, 'tt_utils_ui_dlg_modal')]//button[contains(., 'Yes') or contains(., 'Sim')]",
+            "//div[contains(@class, 'modal')]//button[contains(., 'Yes') or contains(., 'Sim')]",
+            # Botões com span interno
+            "//button/span[text()='Yes' or text()='Sim']",
+            "//button[contains(@class, 'enabled')][contains(., 'Yes') or contains(., 'Sim')]",
+            # Fallback - qualquer botão com texto Yes/Sim
             "//button[contains(text(), 'Yes')]",
-            "//button[contains(text(), 'Confirmar')]",
-            "//button[contains(text(), 'Confirm')]",
+            "//button[contains(text(), 'Sim')]",
         ]
 
-        for selector in selectors:
+        confirmed = False
+        for idx, selector in enumerate(confirm_selectors):
             try:
-                element = WebDriverWait(context.driver, 5).until(
+                print(f"[DEBUG] Tentando confirm selector {idx+1}...")
+                element = WebDriverWait(context.driver, 3).until(
                     EC.element_to_be_clickable((By.XPATH, selector))
                 )
-                element.click()
-                print("[OK] Confirmou exclusao")
+                context.driver.execute_script("arguments[0].click();", element)
+                print(f"[OK] Confirmou exclusao com selector {idx+1}")
+                confirmed = True
                 break
             except:
                 continue
 
+        if not confirmed:
+            print("[WARN] Seletores padrao nao funcionaram, tentando encontrar qualquer botao no modal...")
+            try:
+                # Último recurso - encontra todos os botões visíveis no modal e clica no primeiro
+                buttons = context.driver.find_elements(By.XPATH, "//div[contains(@class, 'modal')]//button")
+                for btn in buttons:
+                    if btn.is_displayed():
+                        btn_text = btn.text.strip()
+                        if btn_text.lower() in ['yes', 'sim', 'ok', 'confirm', 'confirmar']:
+                            context.driver.execute_script("arguments[0].click();", btn)
+                            print(f"[OK] Confirmou exclusao com botao: {btn_text}")
+                            confirmed = True
+                            break
+            except Exception as e:
+                print(f"[DEBUG] Fallback falhou: {e}")
+
         time.sleep(2)
+        if confirmed:
+            print("[OK] Exclusao confirmada")
+        else:
+            print("[WARN] Nao encontrou botao de confirmacao - exclusao pode nao ter sido confirmada")
 
     except Exception as e:
         ends_timer(context, e)
@@ -1259,13 +1294,62 @@ def purchase_order_details_info(context):
         raise
 
 
+def close_any_open_modal(driver):
+    """Fecha qualquer modal aberto antes de interagir com a tabela."""
+    print("[DEBUG] Iniciando close_any_open_modal...")
+
+    close_selectors = [
+        "//span[contains(@class, 'tt_utils_ui_dlg_close')]",
+        "//div[contains(@class, 'tt_utils_ui_dlg')]//span[contains(@class, 'close')]",
+        "//div[contains(@class, 'modal')]//span[contains(@class, 'close')]",
+        "//div[contains(@class, 'modal')]//button[contains(@class, 'close')]",
+        "//div[contains(@class, 'dlg')]//span[contains(@class, 'close')]",
+        "//button[@aria-label='Close']",
+        "//*[contains(@class, 'modal-close')]",
+    ]
+
+    for idx, selector in enumerate(close_selectors):
+        try:
+            print(f"[DEBUG] Tentando close selector {idx+1}: {selector[:50]}...")
+            close_btn = driver.find_element(By.XPATH, selector)
+            if close_btn.is_displayed():
+                driver.execute_script("arguments[0].click();", close_btn)
+                print(f"[OK] Modal fechado com selector {idx+1}")
+                time.sleep(1)
+                return True
+            else:
+                print(f"[DEBUG] Selector {idx+1} encontrado mas nao visivel")
+        except Exception as e:
+            print(f"[DEBUG] Selector {idx+1} nao encontrado")
+            continue
+
+    # Tenta ESC como fallback
+    try:
+        print("[DEBUG] Tentando ESC...")
+        from selenium.webdriver.common.keys import Keys
+        driver.find_element(By.TAG_NAME, "body").send_keys(Keys.ESCAPE)
+        print("[OK] ESC enviado")
+        time.sleep(1)
+        return True
+    except Exception as e:
+        print(f"[DEBUG] ESC falhou: {e}")
+
+    print("[DEBUG] Nenhum modal para fechar")
+    return False
+
+
 @when("Click on Edit Purchase Order button")
 def click_edit_purchase_order(context):
-    """Clica no icone Editar - primeiro tenta no modal, depois na tabela."""
+    """Clica no icone Editar - fecha modal primeiro, depois clica na tabela."""
     try:
         print("[DEBUG] Iniciando busca pelo botao Editar...")
         wait_for_page_ready(context.driver)
-        time.sleep(3)  # Aguardar modal carregar completamente
+        time.sleep(2)
+
+        # IMPORTANTE: Fechar modal aberto antes de tentar clicar na tabela
+        print("[DEBUG] Fechando modal se estiver aberto...")
+        close_any_open_modal(context.driver)
+        time.sleep(1)
 
         print(f"[DEBUG] URL atual: {context.driver.current_url}")
 
@@ -1370,11 +1454,16 @@ def purchase_order_updated(context):
 
 @when("Click on Delete Purchase Order button")
 def click_delete_purchase_order(context):
-    """Clica no icone Apagar - primeiro tenta no modal, depois na tabela."""
+    """Clica no icone Apagar - fecha modal primeiro, depois clica na tabela."""
     try:
         print("[DEBUG] Iniciando busca pelo botao Apagar...")
         wait_for_page_ready(context.driver)
-        time.sleep(3)  # Aguardar modal carregar completamente
+        time.sleep(2)
+
+        # IMPORTANTE: Fechar modal aberto antes de tentar clicar na tabela
+        print("[DEBUG] Fechando modal se estiver aberto...")
+        close_any_open_modal(context.driver)
+        time.sleep(1)
 
         print(f"[DEBUG] URL atual: {context.driver.current_url}")
 
