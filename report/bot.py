@@ -34,7 +34,8 @@ if use_webhook:
 else:
     print(f"[INFO] Usando Bot Token para enviar mensagens")
 
-channel_id = "C084F8LFU94"
+# channel_id = "C084F8LFU94"  # rpa-bot - DESABILITADO
+channel_id = None  # Usar apenas webhook para testes-automatizados
 
 # GitHub context from environment variables
 github_context = {
