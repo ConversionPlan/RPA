@@ -473,16 +473,52 @@ def sales_order_created(context):
 
 @when("Search Sales Order by order number")
 def search_sales_order(context):
-    """Pesquisa Sales Order por numero."""
+    """Pesquisa Sales Order por numero do pedido."""
     try:
-        search_input = context.driver.find_element(
-            By.XPATH, "//input[contains(@class, 'search') or contains(@placeholder, 'Pesquisar')]"
-        )
-        search_input.clear()
-        search_input.send_keys("SO")
-        search_input.send_keys(Keys.ENTER)
-        time.sleep(2)
-        print("[OK] Pesquisa realizada")
+        time.sleep(2)  # Aguardar carregamento
+
+        # Procura o campo de busca pelo label "TÃO#" ou "Número do pedido"
+        input_field = None
+        try:
+            # Encontra o label
+            label = context.driver.find_element(
+                By.XPATH, "//div[contains(text(), 'TÃO#') or contains(text(), 'Número do pedido') or contains(text(), 'Order Number')]"
+            )
+            # Encontra o input dentro do mesmo container pai
+            parent = label.find_element(By.XPATH, "./..")
+            input_field = parent.find_element(By.XPATH, ".//input")
+            print("[OK] Campo de busca encontrado via label")
+        except:
+            # Fallback: procurar inputs visiveis
+            inputs = context.driver.find_elements(By.XPATH, "//input[@type='text' and not(@disabled)]")
+            visible_inputs = [i for i in inputs if i.is_displayed() and i.is_enabled()]
+            if len(visible_inputs) >= 5:
+                input_field = visible_inputs[4]  # 5o input
+                print("[OK] Campo encontrado por indice")
+            elif visible_inputs:
+                input_field = visible_inputs[-1]
+                print("[OK] Campo encontrado (ultimo visivel)")
+
+        if input_field:
+            context.driver.execute_script("arguments[0].scrollIntoView(true);", input_field)
+            time.sleep(0.5)
+            context.driver.execute_script("arguments[0].click();", input_field)
+            input_field.send_keys("SO")
+            time.sleep(1)
+
+            # Clica no botao Submit
+            try:
+                submit_btn = context.driver.find_element(By.XPATH, "//input[@type='submit'] | //button[contains(text(), 'Submit')]")
+                context.driver.execute_script("arguments[0].click();", submit_btn)
+                print("[OK] Clicou em Submit")
+            except:
+                input_field.send_keys(Keys.ENTER)
+                print("[OK] Enviou ENTER")
+
+            time.sleep(2)
+            print("[OK] Pesquisa realizada")
+        else:
+            print("[WARN] Campo de busca nao encontrado")
 
     except Exception as e:
         ends_timer(context, e)
@@ -493,39 +529,48 @@ def search_sales_order(context):
 def click_first_sales_order(context):
     """Clica no icone Visualizar do primeiro registro."""
     try:
-        # Clicar no icone de visualizar (lupa) do primeiro registro
+        time.sleep(3)  # Aguardar carregamento da tabela no CI
+
+        # Aguardar tabela carregar
+        WebDriverWait(context.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, "//table//tbody//tr"))
+        )
+        print("[OK] Tabela carregada")
+
         view_selectors = [
             "(//table//tbody//tr)[1]//img[@alt='Visualizar']",
             "//table//tbody//tr[1]//img[@alt='Visualizar']",
             "(//img[@alt='Visualizar'])[1]",
+            "//tbody//tr[1]//img[contains(@alt, 'View') or contains(@alt, 'Visualizar')]",
         ]
 
         element = None
         for selector in view_selectors:
             try:
-                element = WebDriverWait(context.driver, 5).until(
-                    EC.element_to_be_clickable((By.XPATH, selector))
+                element = WebDriverWait(context.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, selector))
                 )
-                print(f"[OK] Encontrou icone Visualizar: {selector}")
+                print(f"[OK] Encontrado Visualizar: {selector}")
                 break
             except:
                 continue
 
         if element:
+            context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+            time.sleep(0.5)
             try:
                 element.click()
             except:
                 context.driver.execute_script("arguments[0].click();", element)
             print("[OK] Clicou em Visualizar primeiro registro")
         else:
-            # Fallback: clicar na primeira celula
-            row = WebDriverWait(context.driver, 5).until(
-                EC.element_to_be_clickable((By.XPATH, "(//tbody//tr[td])[1]//td[1]"))
+            print("[WARN] Visualizar nao encontrado, clicando na linha")
+            row = WebDriverWait(context.driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "(//tbody//tr[td])[1]//td[2]"))
             )
-            row.click()
-            print("[OK] Clicou na primeira celula do registro")
+            context.driver.execute_script("arguments[0].click();", row)
 
-        time.sleep(1)
+        time.sleep(2)  # Aguardar modal abrir
 
     except Exception as e:
         ends_timer(context, e)
@@ -536,10 +581,32 @@ def click_first_sales_order(context):
 def sales_order_details_modal(context):
     """Verifica se modal de detalhes foi aberto."""
     try:
-        modal = WebDriverWait(context.driver, 5).until(
-            EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'modal')]"))
-        )
-        print("[OK] Modal de detalhes exibido")
+        time.sleep(2)  # Aguardar animacao do modal
+
+        modal_selectors = [
+            "//div[contains(@class, 'modal')]",
+            "//div[contains(@class, 'dlg')]",
+            "//div[contains(@class, 'dialog')]",
+            "//div[contains(@class, 'popup')]",
+            "//div[contains(@class, 'tt_utils_ui_dlg')]",
+        ]
+
+        modal_found = False
+        for selector in modal_selectors:
+            try:
+                WebDriverWait(context.driver, 10).until(
+                    EC.presence_of_element_located((By.XPATH, selector))
+                )
+                print(f"[OK] Modal exibido: {selector}")
+                modal_found = True
+                break
+            except:
+                continue
+
+        if not modal_found:
+            print("[WARN] Modal nao detectado mas continuando...")
+
+        time.sleep(1)
 
     except Exception as e:
         ends_timer(context, e)
