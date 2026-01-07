@@ -712,8 +712,12 @@ def click_close_aggregation(context):
 @when("Click on Utilities")
 def click_utilities(context):
     try:
-        wait_and_find(context.driver, By.XPATH, "//a[@href='/utilities/']"
-        , timeout=30).click()
+        element = wait_and_find(context.driver, By.XPATH, "//a[@href='/utilities/']", timeout=30)
+        try:
+            element.click()
+        except:
+            context.driver.execute_script("arguments[0].click();", element)
+            print("[OK] Clicou em Utilities via JavaScript")
     except Exception as e:
         ends_timer(context, e)
         raise
