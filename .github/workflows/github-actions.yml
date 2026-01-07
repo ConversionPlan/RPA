@@ -5,8 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-  # schedule:
-  #   - cron: "0 */2 * * *"  # A cada 2 horas - DESABILITADO
+  schedule:
+    - cron: "0 */2 * * *"  # A cada 2 horas
   workflow_dispatch:  # Permite execução manual
 
 env:
