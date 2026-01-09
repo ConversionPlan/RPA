@@ -7,20 +7,18 @@ import time
 
 load_dotenv()
 
-# APENAS WEBHOOK - Canal testes-automatizados
-# NÃO usar Bot Token para evitar envio para rpa-bot
+# APENAS Webhook - Canal testes-automatizados
 slack_webhook_url = os.environ.get("SLACK_WEBHOOK_URL")
 if not slack_webhook_url:
     from dotenv import dotenv_values
     config = dotenv_values(".env")
     slack_webhook_url = config.get("SLACK_WEBHOOK_URL")
 
-if not slack_webhook_url:
-    print("[ERROR] SLACK_WEBHOOK_URL não configurado! Notificações desabilitadas.")
-    print("[ERROR] Configure SLACK_WEBHOOK_URL no GitHub Secrets ou .env")
-else:
-    print(f"[INFO] Usando Webhook URL para canal testes-automatizados")
+if slack_webhook_url:
+    print(f"[INFO] Usando Webhook URL para enviar mensagens")
     webhook_client = WebhookClient(slack_webhook_url)
+else:
+    print("[ERROR] SLACK_WEBHOOK_URL não configurado!")
 
 # GitHub context from environment variables
 github_context = {
@@ -42,11 +40,6 @@ def load_and_convert_results():
     json_path = "./report/output/report.json"
     if not os.path.exists(json_path):
         json_path = "./report/output/results.json"
-
-    if not os.path.exists(json_path):
-        print(f"[ERROR] Arquivo de resultados não encontrado: {json_path}")
-        print("[ERROR] Os testes podem ter sido cancelados por timeout")
-        return []
 
     with open(json_path, "r") as file:
         json_data = json.load(file)
@@ -162,11 +155,6 @@ def format_results():
 
     today = datetime.now().strftime("%B %d, %Y at %H:%M UTC")
     json_data = load_and_convert_results()
-
-    # Se não há dados, retornar vazio para indicar timeout/erro
-    if not json_data:
-        return [], False, []
-
     stats = calculate_statistics(json_data)
 
     # Determine overall status emoji
@@ -457,73 +445,22 @@ def format_results():
     return formatted_results, any_errors, failure_details if has_failures else []
 
 
-def send_timeout_notification():
-    """Send notification when tests were cancelled/timed out"""
-    if not slack_webhook_url:
-        return False
-
-    actions_url = ""
-    if github_context["run_id"]:
-        actions_url = f"{github_context['server_url']}/{github_context['repository']}/actions/runs/{github_context['run_id']}"
-
-    message = [
-        {
-            "type": "header",
-            "text": {
-                "type": "plain_text",
-                "text": ":warning: RPA Tests - TIMEOUT/CANCELLED",
-            },
-        },
-        {
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": f"*Run #{github_context['run_number']}* foi cancelado ou excedeu o timeout.\n\nOs resultados dos testes não estão disponíveis.",
-            },
-        },
-    ]
-
-    if actions_url:
-        message.append({
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": f"<{actions_url}|:arrow_forward: Ver detalhes no GitHub Actions>",
-            },
-        })
-
-    try:
-        response = webhook_client.send(blocks=message, text="RPA Tests - TIMEOUT")
-        print(f"[SUCCESS] Timeout notification sent! Status: {response.status_code}")
-        return True
-    except Exception as e:
-        print(f"[ERROR] Failed to send timeout notification: {e}")
-        return False
-
-
 def send_message():
-    """Send formatted test results to Slack via Webhook (canal testes-automatizados)"""
+    """Send formatted test results to Slack via Webhook"""
     try:
         print(f"[INFO] Starting Slack notification process...")
         print(f"[DEBUG] Webhook configured: {'Yes' if slack_webhook_url else 'No'}")
         print(f"[DEBUG] GitHub Context: Repository={github_context['repository']}, Run={github_context['run_number']}")
 
-        # Verificar se webhook está configurado
         if not slack_webhook_url:
             print("[ERROR] SLACK_WEBHOOK_URL não configurado!")
-            print("[ERROR] Notificação NÃO enviada. Configure o webhook no GitHub Secrets.")
             return False
 
         message, has_errors, failure_details = format_results()
-
-        # Se não houver resultados, enviar notificação de timeout
-        if not message:
-            print("[WARNING] No test results found, sending timeout notification")
-            return send_timeout_notification()
         print(f"[DEBUG] Message formatted successfully with {len(message)} blocks")
         print(f"[DEBUG] Test status: {'FAILED' if has_errors else 'PASSED'}")
 
-        # Enviar via Webhook para canal testes-automatizados
+        # Enviar via Webhook
         response = webhook_client.send(
             blocks=message,
             text=f"RPA Test Report - {'FAILED' if has_errors else 'PASSED'}",
@@ -532,7 +469,7 @@ def send_message():
         return True
 
     except Exception as e:
-        print(f"[ERROR] Erro ao enviar notificação: {type(e).__name__}: {e}")
+        print(f"[ERROR] Unexpected error: {type(e).__name__}: {e}")
         import traceback
         traceback.print_exc()
         return False
