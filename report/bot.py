@@ -1,41 +1,26 @@
 import os
 import json
 from datetime import datetime
-from slack_sdk import WebClient
 from slack_sdk.webhook import WebhookClient
-from slack_sdk.errors import SlackApiError
 from dotenv import load_dotenv
 import time
 
 load_dotenv()
 
-# Suporte para Webhook URL ou Bot Token
-# Prioridade: SLACK_WEBHOOK_URL > SLACK_BOT_TOKEN
+# APENAS WEBHOOK - Canal testes-automatizados
+# NÃO usar Bot Token para evitar envio para rpa-bot
 slack_webhook_url = os.environ.get("SLACK_WEBHOOK_URL")
 if not slack_webhook_url:
     from dotenv import dotenv_values
     config = dotenv_values(".env")
     slack_webhook_url = config.get("SLACK_WEBHOOK_URL")
 
-slack_bot_token = os.environ.get("SLACK_BOT_TOKEN")
-if not slack_bot_token and not slack_webhook_url:
-    print("[WARNING] SLACK_BOT_TOKEN not found in environment variables, checking .env file...")
-    from dotenv import dotenv_values
-    config = dotenv_values(".env")
-    slack_bot_token = config.get("SLACK_BOT_TOKEN")
-    if not slack_bot_token:
-        print("[ERROR] SLACK_BOT_TOKEN not found in .env file either!")
-
-# Determinar modo de envio
-use_webhook = bool(slack_webhook_url)
-if use_webhook:
-    print(f"[INFO] Usando Webhook URL para enviar mensagens")
-    webhook_client = WebhookClient(slack_webhook_url)
+if not slack_webhook_url:
+    print("[ERROR] SLACK_WEBHOOK_URL não configurado! Notificações desabilitadas.")
+    print("[ERROR] Configure SLACK_WEBHOOK_URL no GitHub Secrets ou .env")
 else:
-    print(f"[INFO] Usando Bot Token para enviar mensagens")
-
-# channel_id = "C084F8LFU94"  # rpa-bot - DESABILITADO
-channel_id = None  # Usar apenas webhook para testes-automatizados
+    print(f"[INFO] Usando Webhook URL para canal testes-automatizados")
+    webhook_client = WebhookClient(slack_webhook_url)
 
 # GitHub context from environment variables
 github_context = {
@@ -49,8 +34,6 @@ github_context = {
     "server_url": os.environ.get("GITHUB_SERVER_URL", "https://github.com"),
     "event_name": os.environ.get("GITHUB_EVENT_NAME", ""),
 }
-
-client = WebClient(token=slack_bot_token)
 
 
 def load_and_convert_results():
@@ -465,122 +448,32 @@ def format_results():
 
 
 def send_message():
-    """Send formatted test results to Slack with enhanced notifications"""
+    """Send formatted test results to Slack via Webhook (canal testes-automatizados)"""
     try:
         print(f"[INFO] Starting Slack notification process...")
-        print(f"[DEBUG] Channel ID: {channel_id}")
-        print(f"[DEBUG] Using Webhook: {'Yes' if use_webhook else 'No'}")
-        print(f"[DEBUG] Token present: {'Yes' if slack_bot_token else 'No'}")
+        print(f"[DEBUG] Webhook configured: {'Yes' if slack_webhook_url else 'No'}")
         print(f"[DEBUG] GitHub Context: Repository={github_context['repository']}, Run={github_context['run_number']}")
+
+        # Verificar se webhook está configurado
+        if not slack_webhook_url:
+            print("[ERROR] SLACK_WEBHOOK_URL não configurado!")
+            print("[ERROR] Notificação NÃO enviada. Configure o webhook no GitHub Secrets.")
+            return False
 
         message, has_errors, failure_details = format_results()
         print(f"[DEBUG] Message formatted successfully with {len(message)} blocks")
         print(f"[DEBUG] Test status: {'FAILED' if has_errors else 'PASSED'}")
-        print(f"[DEBUG] Failures to show in thread: {len(failure_details)}")
 
-        # Send main message - escolher entre Webhook ou Bot Token
-        if use_webhook:
-            # Usar Webhook URL
-            response = webhook_client.send(
-                blocks=message,
-                text=f"RPA Test Report - {'FAILED' if has_errors else 'PASSED'}",
-            )
-            print(f"[SUCCESS] Message sent via Webhook! Status: {response.status_code}")
-            # Webhook não suporta threads, então retorna aqui
-            return True
-        else:
-            # Usar Bot Token (comportamento original)
-            response = client.chat_postMessage(
-                channel=channel_id,
-                blocks=message,
-                text=f"RPA Test Report - {'FAILED' if has_errors else 'PASSED'}",  # Fallback text for notifications
-            )
-
-            print(f"[SUCCESS] Message sent successfully! Timestamp: {response['ts']}")
-            print(f"[SUCCESS] Channel: {channel_id}")
-
-        # Add thread with detailed failures
-        if failure_details:
-            try:
-                # Send all failure details in thread (split if needed)
-                if len(failure_details) <= 5:
-                    # Send all in one message
-                    thread_text = ":thread: *Complete Failure Details*\n\n" + "\n\n".join(failure_details)
-                    client.chat_postMessage(
-                        channel=channel_id,
-                        thread_ts=response['ts'],
-                        text=thread_text,
-                    )
-                else:
-                    # Send in batches
-                    client.chat_postMessage(
-                        channel=channel_id,
-                        thread_ts=response['ts'],
-                        text=f":thread: *Complete Failure Details* ({len(failure_details)} failures total)",
-                    )
-
-                    # Split into chunks of 5
-                    for i in range(0, len(failure_details), 5):
-                        chunk = failure_details[i:i+5]
-                        client.chat_postMessage(
-                            channel=channel_id,
-                            thread_ts=response['ts'],
-                            text="\n\n".join(chunk),
-                        )
-
-                print(f"[SUCCESS] Thread with {len(failure_details)} failure details added")
-            except Exception as thread_error:
-                print(f"[WARNING] Could not add failure details thread: {thread_error}")
-
-        # Add quick actions thread if failures exist
-        if has_errors and github_context["run_id"]:
-            actions_url = f"{github_context['server_url']}/{github_context['repository']}/actions/runs/{github_context['run_id']}"
-            try:
-                client.chat_postMessage(
-                    channel=channel_id,
-                    thread_ts=response['ts'],
-                    text=f":link: *Quick Actions*\n• View full logs: {actions_url}\n• Download artifacts: {actions_url}#artifacts\n• Check workflow file: {github_context['server_url']}/{github_context['repository']}/blob/main/.github/workflows/github-actions.yml",
-                )
-                print(f"[SUCCESS] Thread with quick actions added")
-            except Exception as thread_error:
-                print(f"[WARNING] Could not add quick actions thread: {thread_error}")
-
+        # Enviar via Webhook para canal testes-automatizados
+        response = webhook_client.send(
+            blocks=message,
+            text=f"RPA Test Report - {'FAILED' if has_errors else 'PASSED'}",
+        )
+        print(f"[SUCCESS] Message sent via Webhook! Status: {response.status_code}")
         return True
 
-    except SlackApiError as e:
-        print(f"[ERROR] SlackApiError occurred: {e.response['error']}")
-        print(f"[ERROR] Full error details: {e}")
-
-        # Try to send a fallback message
-        try:
-            actions_url = f"{github_context['server_url']}/{github_context['repository']}/actions"
-            response = client.chat_postMessage(
-                channel=channel_id,
-                blocks=[
-                    {
-                        "type": "header",
-                        "text": {
-                            "type": "plain_text",
-                            "text": ":warning: RPA Test Report - Error",
-                        },
-                    },
-                    {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": f":alert: @here There was an error generating the test report.\n\nPlease check <{actions_url}|GitHub Actions> manually.",
-                        },
-                    },
-                ],
-            )
-            print(f"[INFO] Fallback message sent successfully")
-            return False
-        except Exception as fallback_error:
-            print(f"[ERROR] Could not send fallback message: {fallback_error}")
-            return False
-
     except Exception as e:
-        print(f"[ERROR] Unexpected error: {type(e).__name__}: {e}")
+        print(f"[ERROR] Erro ao enviar notificação: {type(e).__name__}: {e}")
         import traceback
         traceback.print_exc()
         return False
