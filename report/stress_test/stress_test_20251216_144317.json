@@ -1,0 +1,1429 @@
+{
+  "test_id": "48377cb1",
+  "total_duration_seconds": 318.794098,
+  "average_time_per_file": 2.3552376649999998,
+  "success_rate_percent": 100.0,
+  "files_per_minute": 37.64185119888888,
+  "total_files_processed": 200,
+  "successful_files": 200,
+  "failed_files": 0,
+  "file_times": [
+    {
+      "file_index": "S2-1",
+      "duration_seconds": 2.782493,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:30.881688"
+    },
+    {
+      "file_index": "S9-1",
+      "duration_seconds": 2.721644,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.024495"
+    },
+    {
+      "file_index": "S4-1",
+      "duration_seconds": 2.972224,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.051498"
+    },
+    {
+      "file_index": "S7-1",
+      "duration_seconds": 2.921655,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.067792"
+    },
+    {
+      "file_index": "S6-1",
+      "duration_seconds": 2.743803,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.086133"
+    },
+    {
+      "file_index": "S8-1",
+      "duration_seconds": 2.898584,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.120994"
+    },
+    {
+      "file_index": "S5-1",
+      "duration_seconds": 2.951651,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.154146"
+    },
+    {
+      "file_index": "S10-1",
+      "duration_seconds": 2.950706,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.181009"
+    },
+    {
+      "file_index": "S3-1",
+      "duration_seconds": 2.935503,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.410330"
+    },
+    {
+      "file_index": "S1-1",
+      "duration_seconds": 2.660101,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:31.451419"
+    },
+    {
+      "file_index": "S2-2",
+      "duration_seconds": 2.42845,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.310224"
+    },
+    {
+      "file_index": "S9-2",
+      "duration_seconds": 2.505205,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.529770"
+    },
+    {
+      "file_index": "S4-2",
+      "duration_seconds": 2.502426,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.553996"
+    },
+    {
+      "file_index": "S6-2",
+      "duration_seconds": 2.529165,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.615446"
+    },
+    {
+      "file_index": "S7-2",
+      "duration_seconds": 2.658109,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.725954"
+    },
+    {
+      "file_index": "S8-2",
+      "duration_seconds": 2.755595,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.876703"
+    },
+    {
+      "file_index": "S5-2",
+      "duration_seconds": 2.785742,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.939948"
+    },
+    {
+      "file_index": "S1-2",
+      "duration_seconds": 2.497282,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.948789"
+    },
+    {
+      "file_index": "S3-2",
+      "duration_seconds": 2.54012,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.950582"
+    },
+    {
+      "file_index": "S10-2",
+      "duration_seconds": 2.781199,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:33.962264"
+    },
+    {
+      "file_index": "S2-3",
+      "duration_seconds": 2.075201,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:35.385481"
+    },
+    {
+      "file_index": "S9-3",
+      "duration_seconds": 2.116683,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:35.646507"
+    },
+    {
+      "file_index": "S4-3",
+      "duration_seconds": 2.205545,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:35.759610"
+    },
+    {
+      "file_index": "S6-3",
+      "duration_seconds": 2.305042,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:35.920576"
+    },
+    {
+      "file_index": "S7-3",
+      "duration_seconds": 2.383201,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:36.109236"
+    },
+    {
+      "file_index": "S8-3",
+      "duration_seconds": 2.4451,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:36.321963"
+    },
+    {
+      "file_index": "S1-3",
+      "duration_seconds": 2.492505,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:36.441376"
+    },
+    {
+      "file_index": "S10-3",
+      "duration_seconds": 2.490844,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:36.453169"
+    },
+    {
+      "file_index": "S3-3",
+      "duration_seconds": 2.508557,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:36.459239"
+    },
+    {
+      "file_index": "S5-3",
+      "duration_seconds": 2.559901,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:36.499912"
+    },
+    {
+      "file_index": "S2-4",
+      "duration_seconds": 2.132815,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:37.518321"
+    },
+    {
+      "file_index": "S9-4",
+      "duration_seconds": 2.536409,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.182973"
+    },
+    {
+      "file_index": "S4-4",
+      "duration_seconds": 2.487232,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.246893"
+    },
+    {
+      "file_index": "S6-4",
+      "duration_seconds": 2.347647,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.268310"
+    },
+    {
+      "file_index": "S7-4",
+      "duration_seconds": 2.252676,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.361981"
+    },
+    {
+      "file_index": "S8-4",
+      "duration_seconds": 2.15838,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.480402"
+    },
+    {
+      "file_index": "S1-4",
+      "duration_seconds": 2.455191,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.896624"
+    },
+    {
+      "file_index": "S3-4",
+      "duration_seconds": 2.481365,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.940734"
+    },
+    {
+      "file_index": "S5-4",
+      "duration_seconds": 2.443134,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.943112"
+    },
+    {
+      "file_index": "S10-4",
+      "duration_seconds": 2.493562,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:38.946793"
+    },
+    {
+      "file_index": "S2-5",
+      "duration_seconds": 2.151836,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:39.670182"
+    },
+    {
+      "file_index": "S9-5",
+      "duration_seconds": 2.143094,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:40.326092"
+    },
+    {
+      "file_index": "S4-5",
+      "duration_seconds": 2.298813,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:40.545793"
+    },
+    {
+      "file_index": "S6-5",
+      "duration_seconds": 2.2854,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:40.553776"
+    },
+    {
+      "file_index": "S7-5",
+      "duration_seconds": 2.373615,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:40.735669"
+    },
+    {
+      "file_index": "S8-5",
+      "duration_seconds": 2.323811,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:40.805289"
+    },
+    {
+      "file_index": "S1-5",
+      "duration_seconds": 2.191208,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:41.087881"
+    },
+    {
+      "file_index": "S3-5",
+      "duration_seconds": 2.343538,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:41.284325"
+    },
+    {
+      "file_index": "S5-5",
+      "duration_seconds": 2.375728,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:41.318896"
+    },
+    {
+      "file_index": "S10-5",
+      "duration_seconds": 2.42315,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:41.370039"
+    },
+    {
+      "file_index": "S2-6",
+      "duration_seconds": 2.127037,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:41.797281"
+    },
+    {
+      "file_index": "S9-6",
+      "duration_seconds": 2.084465,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:42.410583"
+    },
+    {
+      "file_index": "S4-6",
+      "duration_seconds": 2.251988,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:42.797816"
+    },
+    {
+      "file_index": "S6-6",
+      "duration_seconds": 2.267473,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:42.821285"
+    },
+    {
+      "file_index": "S7-6",
+      "duration_seconds": 2.314488,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:43.050258"
+    },
+    {
+      "file_index": "S8-6",
+      "duration_seconds": 2.279441,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:43.084801"
+    },
+    {
+      "file_index": "S1-6",
+      "duration_seconds": 2.163904,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:43.251892"
+    },
+    {
+      "file_index": "S3-6",
+      "duration_seconds": 2.299186,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:43.583551"
+    },
+    {
+      "file_index": "S10-6",
+      "duration_seconds": 2.415015,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:43.785255"
+    },
+    {
+      "file_index": "S5-6",
+      "duration_seconds": 2.501597,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:43.820583"
+    },
+    {
+      "file_index": "S2-7",
+      "duration_seconds": 2.333517,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:44.130936"
+    },
+    {
+      "file_index": "S9-7",
+      "duration_seconds": 2.104581,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:44.515192"
+    },
+    {
+      "file_index": "S4-7",
+      "duration_seconds": 2.15317,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:44.951018"
+    },
+    {
+      "file_index": "S6-7",
+      "duration_seconds": 2.174983,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:44.996351"
+    },
+    {
+      "file_index": "S7-7",
+      "duration_seconds": 2.281217,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:45.331555"
+    },
+    {
+      "file_index": "S8-7",
+      "duration_seconds": 2.416232,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:45.501069"
+    },
+    {
+      "file_index": "S1-7",
+      "duration_seconds": 2.451956,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:45.703915"
+    },
+    {
+      "file_index": "S3-7",
+      "duration_seconds": 2.196058,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:45.779676"
+    },
+    {
+      "file_index": "S10-7",
+      "duration_seconds": 2.278646,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:46.063982"
+    },
+    {
+      "file_index": "S5-7",
+      "duration_seconds": 2.246459,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:46.067137"
+    },
+    {
+      "file_index": "S2-8",
+      "duration_seconds": 2.179084,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:46.310096"
+    },
+    {
+      "file_index": "S9-8",
+      "duration_seconds": 2.088539,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:46.603793"
+    },
+    {
+      "file_index": "S4-8",
+      "duration_seconds": 2.104291,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:47.055346"
+    },
+    {
+      "file_index": "S6-8",
+      "duration_seconds": 2.188412,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:47.184822"
+    },
+    {
+      "file_index": "S7-8",
+      "duration_seconds": 2.199331,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:47.531008"
+    },
+    {
+      "file_index": "S8-8",
+      "duration_seconds": 2.217389,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:47.718516"
+    },
+    {
+      "file_index": "S1-8",
+      "duration_seconds": 2.163127,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:47.867074"
+    },
+    {
+      "file_index": "S3-8",
+      "duration_seconds": 2.292995,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:48.076695"
+    },
+    {
+      "file_index": "S10-8",
+      "duration_seconds": 2.387739,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:48.451834"
+    },
+    {
+      "file_index": "S5-8",
+      "duration_seconds": 2.398436,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:48.465651"
+    },
+    {
+      "file_index": "S2-9",
+      "duration_seconds": 2.32366,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:48.633831"
+    },
+    {
+      "file_index": "S9-9",
+      "duration_seconds": 2.403776,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:49.007706"
+    },
+    {
+      "file_index": "S4-9",
+      "duration_seconds": 2.147607,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:49.203037"
+    },
+    {
+      "file_index": "S6-9",
+      "duration_seconds": 2.182126,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:49.367001"
+    },
+    {
+      "file_index": "S7-9",
+      "duration_seconds": 2.301646,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:49.832782"
+    },
+    {
+      "file_index": "S8-9",
+      "duration_seconds": 2.214103,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:49.932680"
+    },
+    {
+      "file_index": "S1-9",
+      "duration_seconds": 2.384472,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:50.251591"
+    },
+    {
+      "file_index": "S3-9",
+      "duration_seconds": 2.443282,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:50.520098"
+    },
+    {
+      "file_index": "S10-9",
+      "duration_seconds": 2.317062,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:50.768953"
+    },
+    {
+      "file_index": "S5-9",
+      "duration_seconds": 2.38224,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:50.847972"
+    },
+    {
+      "file_index": "S2-10",
+      "duration_seconds": 2.425957,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:51.059848"
+    },
+    {
+      "file_index": "S9-10",
+      "duration_seconds": 2.294449,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:51.302246"
+    },
+    {
+      "file_index": "S4-10",
+      "duration_seconds": 2.447916,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:51.651028"
+    },
+    {
+      "file_index": "S6-10",
+      "duration_seconds": 2.336523,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:51.703610"
+    },
+    {
+      "file_index": "S7-10",
+      "duration_seconds": 2.227918,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:52.060784"
+    },
+    {
+      "file_index": "S8-10",
+      "duration_seconds": 2.203373,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:52.136096"
+    },
+    {
+      "file_index": "S1-10",
+      "duration_seconds": 2.157978,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:52.409605"
+    },
+    {
+      "file_index": "S3-10",
+      "duration_seconds": 2.1151,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:52.635227"
+    },
+    {
+      "file_index": "S10-10",
+      "duration_seconds": 2.157407,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:52.926425"
+    },
+    {
+      "file_index": "S5-10",
+      "duration_seconds": 2.176315,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:53.024346"
+    },
+    {
+      "file_index": "S2-11",
+      "duration_seconds": 2.172249,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:53.232182"
+    },
+    {
+      "file_index": "S9-11",
+      "duration_seconds": 2.160054,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:53.462350"
+    },
+    {
+      "file_index": "S4-11",
+      "duration_seconds": 2.114336,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:53.765447"
+    },
+    {
+      "file_index": "S6-11",
+      "duration_seconds": 2.159031,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:53.862750"
+    },
+    {
+      "file_index": "S7-11",
+      "duration_seconds": 2.277511,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:54.338335"
+    },
+    {
+      "file_index": "S8-11",
+      "duration_seconds": 2.299625,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:54.435783"
+    },
+    {
+      "file_index": "S1-11",
+      "duration_seconds": 2.222167,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:54.631851"
+    },
+    {
+      "file_index": "S3-11",
+      "duration_seconds": 2.243995,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:54.879265"
+    },
+    {
+      "file_index": "S10-11",
+      "duration_seconds": 2.16981,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:55.096307"
+    },
+    {
+      "file_index": "S5-11",
+      "duration_seconds": 2.227021,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:55.251472"
+    },
+    {
+      "file_index": "S2-12",
+      "duration_seconds": 2.354903,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:55.587137"
+    },
+    {
+      "file_index": "S9-12",
+      "duration_seconds": 2.333269,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:55.795740"
+    },
+    {
+      "file_index": "S4-12",
+      "duration_seconds": 2.452806,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:56.218357"
+    },
+    {
+      "file_index": "S6-12",
+      "duration_seconds": 2.398691,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:56.261607"
+    },
+    {
+      "file_index": "S7-12",
+      "duration_seconds": 2.159032,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:56.497455"
+    },
+    {
+      "file_index": "S8-12",
+      "duration_seconds": 2.304346,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:56.740201"
+    },
+    {
+      "file_index": "S1-12",
+      "duration_seconds": 2.281364,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:56.913312"
+    },
+    {
+      "file_index": "S3-12",
+      "duration_seconds": 2.28385,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:57.163175"
+    },
+    {
+      "file_index": "S10-12",
+      "duration_seconds": 2.447013,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:57.543375"
+    },
+    {
+      "file_index": "S5-12",
+      "duration_seconds": 2.483913,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:57.735448"
+    },
+    {
+      "file_index": "S2-13",
+      "duration_seconds": 2.503246,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:58.090465"
+    },
+    {
+      "file_index": "S9-13",
+      "duration_seconds": 2.519601,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:58.315429"
+    },
+    {
+      "file_index": "S4-13",
+      "duration_seconds": 2.347608,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:58.566056"
+    },
+    {
+      "file_index": "S6-13",
+      "duration_seconds": 2.32305,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:58.584728"
+    },
+    {
+      "file_index": "S7-13",
+      "duration_seconds": 2.335303,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:58.832861"
+    },
+    {
+      "file_index": "S8-13",
+      "duration_seconds": 2.304267,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:59.044528"
+    },
+    {
+      "file_index": "S1-13",
+      "duration_seconds": 2.456617,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:59.369984"
+    },
+    {
+      "file_index": "S3-13",
+      "duration_seconds": 2.288542,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:59.451788"
+    },
+    {
+      "file_index": "S10-13",
+      "duration_seconds": 2.185599,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:59.729033"
+    },
+    {
+      "file_index": "S5-13",
+      "duration_seconds": 2.218624,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:42:59.954132"
+    },
+    {
+      "file_index": "S2-14",
+      "duration_seconds": 2.144084,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:00.234616"
+    },
+    {
+      "file_index": "S9-14",
+      "duration_seconds": 2.103989,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:00.419461"
+    },
+    {
+      "file_index": "S4-14",
+      "duration_seconds": 2.198122,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:00.764236"
+    },
+    {
+      "file_index": "S6-14",
+      "duration_seconds": 2.214476,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:00.799244"
+    },
+    {
+      "file_index": "S7-14",
+      "duration_seconds": 2.236882,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:01.069831"
+    },
+    {
+      "file_index": "S8-14",
+      "duration_seconds": 2.314746,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:01.359347"
+    },
+    {
+      "file_index": "S1-14",
+      "duration_seconds": 2.328714,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:01.698727"
+    },
+    {
+      "file_index": "S3-14",
+      "duration_seconds": 2.5003,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:01.952127"
+    },
+    {
+      "file_index": "S10-14",
+      "duration_seconds": 2.485651,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:02.214779"
+    },
+    {
+      "file_index": "S5-14",
+      "duration_seconds": 2.392625,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:02.346841"
+    },
+    {
+      "file_index": "S2-15",
+      "duration_seconds": 2.192012,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:02.426682"
+    },
+    {
+      "file_index": "S9-15",
+      "duration_seconds": 2.217238,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:02.636757"
+    },
+    {
+      "file_index": "S4-15",
+      "duration_seconds": 2.313785,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:03.078131"
+    },
+    {
+      "file_index": "S6-15",
+      "duration_seconds": 2.429875,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:03.229156"
+    },
+    {
+      "file_index": "S7-15",
+      "duration_seconds": 2.477642,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:03.547545"
+    },
+    {
+      "file_index": "S8-15",
+      "duration_seconds": 2.429613,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:03.789080"
+    },
+    {
+      "file_index": "S1-15",
+      "duration_seconds": 2.21616,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:03.914954"
+    },
+    {
+      "file_index": "S3-15",
+      "duration_seconds": 2.180767,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:04.132934"
+    },
+    {
+      "file_index": "S10-15",
+      "duration_seconds": 2.17783,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:04.392663"
+    },
+    {
+      "file_index": "S5-15",
+      "duration_seconds": 2.189078,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:04.535985"
+    },
+    {
+      "file_index": "S2-16",
+      "duration_seconds": 2.283339,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:04.710103"
+    },
+    {
+      "file_index": "S9-16",
+      "duration_seconds": 2.237133,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:04.873986"
+    },
+    {
+      "file_index": "S4-16",
+      "duration_seconds": 2.103693,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:05.181873"
+    },
+    {
+      "file_index": "S6-16",
+      "duration_seconds": 2.182043,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:05.411236"
+    },
+    {
+      "file_index": "S7-16",
+      "duration_seconds": 2.148685,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:05.696288"
+    },
+    {
+      "file_index": "S8-16",
+      "duration_seconds": 2.344705,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:06.133847"
+    },
+    {
+      "file_index": "S1-16",
+      "duration_seconds": 2.415767,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:06.330862"
+    },
+    {
+      "file_index": "S3-16",
+      "duration_seconds": 2.47728,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:06.610267"
+    },
+    {
+      "file_index": "S10-16",
+      "duration_seconds": 2.602274,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:06.995022"
+    },
+    {
+      "file_index": "S5-16",
+      "duration_seconds": 2.502386,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:07.038456"
+    },
+    {
+      "file_index": "S2-17",
+      "duration_seconds": 2.472619,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:07.182831"
+    },
+    {
+      "file_index": "S9-17",
+      "duration_seconds": 2.366106,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:07.240159"
+    },
+    {
+      "file_index": "S4-17",
+      "duration_seconds": 2.341232,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:07.523171"
+    },
+    {
+      "file_index": "S6-17",
+      "duration_seconds": 2.4409,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:07.852224"
+    },
+    {
+      "file_index": "S7-17",
+      "duration_seconds": 2.30384,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:08.000236"
+    },
+    {
+      "file_index": "S8-17",
+      "duration_seconds": 2.160468,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:08.294363"
+    },
+    {
+      "file_index": "S1-17",
+      "duration_seconds": 2.243751,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:08.574725"
+    },
+    {
+      "file_index": "S3-17",
+      "duration_seconds": 2.35929,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:08.969614"
+    },
+    {
+      "file_index": "S10-17",
+      "duration_seconds": 2.507781,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:09.502834"
+    },
+    {
+      "file_index": "S5-17",
+      "duration_seconds": 2.529223,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:09.567755"
+    },
+    {
+      "file_index": "S2-18",
+      "duration_seconds": 2.51571,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:09.698621"
+    },
+    {
+      "file_index": "S9-18",
+      "duration_seconds": 2.522598,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:09.762834"
+    },
+    {
+      "file_index": "S4-18",
+      "duration_seconds": 2.528487,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:10.051723"
+    },
+    {
+      "file_index": "S6-18",
+      "duration_seconds": 2.659398,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:10.511683"
+    },
+    {
+      "file_index": "S7-18",
+      "duration_seconds": 2.625908,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:10.626269"
+    },
+    {
+      "file_index": "S8-18",
+      "duration_seconds": 2.634269,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:10.928729"
+    },
+    {
+      "file_index": "S1-18",
+      "duration_seconds": 2.577811,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:11.152638"
+    },
+    {
+      "file_index": "S3-18",
+      "duration_seconds": 2.308362,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:11.278081"
+    },
+    {
+      "file_index": "S10-18",
+      "duration_seconds": 2.162165,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:11.665048"
+    },
+    {
+      "file_index": "S5-18",
+      "duration_seconds": 2.215464,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:11.783294"
+    },
+    {
+      "file_index": "S2-19",
+      "duration_seconds": 2.369514,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:12.068199"
+    },
+    {
+      "file_index": "S9-19",
+      "duration_seconds": 2.339024,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:12.101915"
+    },
+    {
+      "file_index": "S4-19",
+      "duration_seconds": 2.213517,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:12.265328"
+    },
+    {
+      "file_index": "S6-19",
+      "duration_seconds": 2.121216,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:12.632942"
+    },
+    {
+      "file_index": "S7-19",
+      "duration_seconds": 2.197834,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:12.824186"
+    },
+    {
+      "file_index": "S8-19",
+      "duration_seconds": 2.414462,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:13.343234"
+    },
+    {
+      "file_index": "S1-19",
+      "duration_seconds": 2.549631,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:13.702352"
+    },
+    {
+      "file_index": "S3-19",
+      "duration_seconds": 2.502428,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:13.780612"
+    },
+    {
+      "file_index": "S10-19",
+      "duration_seconds": 2.463574,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:14.128696"
+    },
+    {
+      "file_index": "S5-19",
+      "duration_seconds": 2.446759,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:14.230114"
+    },
+    {
+      "file_index": "S2-20",
+      "duration_seconds": 2.417379,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:14.485664"
+    },
+    {
+      "file_index": "S9-20",
+      "duration_seconds": 2.400982,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:14.502934"
+    },
+    {
+      "file_index": "S4-20",
+      "duration_seconds": 2.387676,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:14.653087"
+    },
+    {
+      "file_index": "S6-20",
+      "duration_seconds": 2.316255,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:14.949262"
+    },
+    {
+      "file_index": "S7-20",
+      "duration_seconds": 2.334341,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:15.158616"
+    },
+    {
+      "file_index": "S8-20",
+      "duration_seconds": 2.234756,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:15.578042"
+    },
+    {
+      "file_index": "S1-20",
+      "duration_seconds": 2.230011,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:15.932422"
+    },
+    {
+      "file_index": "S3-20",
+      "duration_seconds": 2.237404,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:16.018100"
+    },
+    {
+      "file_index": "S10-20",
+      "duration_seconds": 2.154089,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:16.282838"
+    },
+    {
+      "file_index": "S5-20",
+      "duration_seconds": 2.166456,
+      "success": true,
+      "error": null,
+      "timestamp": "2025-12-16T14:43:16.396604"
+    }
+  ],
+  "results": [
+    {
+      "test_type": "Parallel Upload (10 sessions)",
+      "batch_size": 200,
+      "metrics": {
+        "total_duration": 318.794098,
+        "average_time_per_file": 2.3552376649999998,
+        "success_rate": 100.0,
+        "files_per_minute": 37.64185119888888,
+        "total_processed": 200,
+        "successful": 200,
+        "failed": 0
+      },
+      "timestamp": "2025-12-16T14:43:17.512479"
+    }
+  ],
+  "errors": []
+}

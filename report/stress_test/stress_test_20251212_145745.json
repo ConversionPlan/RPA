@@ -1,0 +1,46 @@
+{
+  "test_id": "d3c2c2f1",
+  "total_duration_seconds": 177.265423,
+  "average_time_per_file": 0,
+  "success_rate_percent": 0.0,
+  "files_per_minute": 0.0,
+  "total_files_processed": 2,
+  "successful_files": 0,
+  "failed_files": 2,
+  "file_times": [
+    {
+      "file_index": 1,
+      "duration_seconds": 62.060839,
+      "success": false,
+      "error": "[FALHA] Nao foi possivel encontrar xpath=//input[@type='file'] apos 2 tentativas",
+      "timestamp": "2025-12-12T14:56:43.852412"
+    },
+    {
+      "file_index": 2,
+      "duration_seconds": 62.120524,
+      "success": false,
+      "error": "[FALHA] Nao foi possivel encontrar xpath=//input[@type='file'] apos 2 tentativas",
+      "timestamp": "2025-12-12T14:57:45.972959"
+    }
+  ],
+  "results": [
+    {
+      "test_type": "Manual Upload",
+      "batch_size": 2,
+      "metrics": {
+        "total_duration": 177.265423,
+        "average_time_per_file": 0,
+        "success_rate": 0.0,
+        "files_per_minute": 0.0,
+        "total_processed": 2,
+        "successful": 0,
+        "failed": 2
+      },
+      "timestamp": "2025-12-12T14:57:45.973473"
+    }
+  ],
+  "errors": [
+    "Arquivo 1: [FALHA] Nao foi possivel encontrar xpath=//input[@type='file'] apos 2 tentativas",
+    "Arquivo 2: [FALHA] Nao foi possivel encontrar xpath=//input[@type='file'] apos 2 tentativas"
+  ]
+}
