@@ -667,10 +667,16 @@ def click_save_quarantine(context):
     """Clica em salvar quarentena."""
     try:
         selectors = [
+            # Botao com span interno (padrao do sistema)
+            "//button[.//span[contains(text(), 'Está bem')]]",
+            "//button[.//span[contains(text(), 'Esta bem')]]",
+            "//button[contains(@class, 'tt_utils_ui_dlg_modal-default-enabled-button')]",
+            # Fallbacks
+            "//button[contains(text(), 'Está bem')]",
+            "//button[contains(text(), 'OK')]",
             "//button[contains(text(), 'Salvar')]",
             "//button[contains(text(), 'Save')]",
             "//input[@type='submit']",
-            "//*[contains(@class, 'btn') and contains(text(), 'Salvar')]",
         ]
 
         for selector in selectors:
@@ -679,13 +685,13 @@ def click_save_quarantine(context):
                     EC.element_to_be_clickable((By.XPATH, selector))
                 )
                 element.click()
-                print("[OK] Clicou em Salvar")
+                print("[OK] Clicou em Salvar/OK")
                 time.sleep(2)
                 return
             except:
                 continue
 
-        raise Exception("Nao encontrou botao Salvar")
+        raise Exception("Nao encontrou botao Salvar/OK")
     except Exception as e:
         ends_timer(context, e)
         raise

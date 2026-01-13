@@ -43,6 +43,39 @@ Feature: Quarantine (Quarentena)
     And Quarantine Details should show product information
 
   # ========================================
+  # Adicionar a Quarentena
+  # ========================================
+
+  @quarantine_add
+  Scenario: Add item to quarantine
+    Given User exists
+    And Is Logged In
+    When Open dashboard page
+    And Open sandwich menu
+    And Click on Quarantine
+    And Click on Add to Quarantine button
+    And Select quarantine location
+    And Scan or enter serial number
+    And Select quarantine reason
+    And Add quarantine notes
+    And Click on Save Quarantine
+    Then Item should be added to quarantine successfully
+
+  @quarantine_add_multiple
+  Scenario: Add multiple items to quarantine
+    Given User exists
+    And Is Logged In
+    When Open dashboard page
+    And Open sandwich menu
+    And Click on Quarantine
+    And Click on Add to Quarantine button
+    And Select quarantine location
+    And Scan multiple serial numbers
+    And Select quarantine reason
+    And Click on Save Quarantine
+    Then All items should be added to quarantine
+
+  # ========================================
   # Liberar da Quarentena
   # ========================================
 
