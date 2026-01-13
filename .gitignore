@@ -31,13 +31,13 @@ features/14-company-management.feature
 features/15-inventory-adjustments.feature
 features/16-utilities.feature
 features/17-my-account.feature
-features/18-quarantine.feature
+# features/18-quarantine.feature - HABILITADO
 features/19-packaging-unpacking.feature
 features/20-transformation.feature
 features/21-pending-shipments.feature
 features/22-error-console.feature
 features/98-stress-test-inbound.feature
-features/steps/additional_modules.py
+# features/steps/additional_modules.py - HABILITADO
 features/steps/company_management.py
 features/steps/stress_test.py
 
