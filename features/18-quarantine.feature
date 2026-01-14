@@ -76,6 +76,23 @@ Feature: Quarantine (Quarentena)
     Then All items should be added to quarantine
 
   # ========================================
+  # Liberar da Quarentena
+  # ========================================
+
+  @quarantine_release_multiple
+  Scenario: Release multiple items from quarantine
+    Given User exists
+    And Is Logged In
+    When Open dashboard page
+    And Open sandwich menu
+    And Click on Quarantine
+    And Select multiple quarantine records
+    And Click on Bulk Release button
+    And Add release notes
+    And Confirm release
+    Then All selected items should be released
+
+  # ========================================
   # Pesquisa e Filtros
   # ========================================
 
