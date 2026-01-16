@@ -25,70 +25,98 @@ import time
 # NAVEGACAO OTIMIZADA (Performance)
 # ----------------------------------------
 
-def _is_on_main_utilities_page(context):
-    """
-    Verifica se ja esta na pagina PRINCIPAL de Utilities.
-    Nao conta sub-paginas como Electronic Exchanges.
-    """
+def _close_any_modal(context):
+    """Fecha qualquer modal que possa estar aberto."""
     try:
-        # Verifica se driver existe e esta ativo
-        if not hasattr(context, 'driver') or not context.driver:
-            return False
+        # Lista de seletores para fechar modais
+        close_selectors = [
+            "//button[contains(@class, 'close')]",
+            "//span[contains(@class, 'close')]",
+            "//button[text()='×']",
+            "//span[text()='×']",
+            "//*[@aria-label='Close']",
+            "//button[contains(text(), 'Dismiss')]",
+            "//button[contains(text(), 'Cancel')]",
+            "//button[contains(text(), 'Cancelar')]",
+        ]
 
-        # Verifica se sessao foi reiniciada (browser fechou e reabriu)
-        if hasattr(context, '_root_browser_ready') and not context._root_browser_ready:
-            return False
+        for selector in close_selectors:
+            try:
+                elements = context.driver.find_elements(By.XPATH, selector)
+                for el in elements:
+                    if el.is_displayed():
+                        el.click()
+                        time.sleep(0.3)
+                        print("[OK] Modal fechado")
+                        return True
+            except:
+                continue
+        return False
+    except:
+        return False
 
-        current_url = context.driver.current_url.lower()
 
-        # Deve estar EXATAMENTE em /utilities/ ou /utilities
-        # NAO em sub-paginas como /utilities/electronic_exchanges_dashboard
-        if not current_url.endswith('/utilities/') and not current_url.endswith('/utilities'):
-            # Pode estar em sub-pagina, precisa navegar
-            return False
+def _wait_for_utilities_options(context, timeout=10):
+    """Aguarda as opcoes da pagina Utilities estarem visiveis."""
+    try:
+        # Aguarda uma das opcoes principais estar clicavel
+        options_selectors = [
+            "//a[contains(text(), 'Upload manual de arquivo EPCIS')]",
+            "//*[contains(text(), 'Upload manual de arquivo EPCIS')]",
+            "//a[contains(@href, 'electronic_exchanges_dashboard')]",
+        ]
 
-        # Verifica se pagina Utilities realmente carregou (elemento presente)
-        try:
-            context.driver.find_element(
-                By.XPATH,
-                "//*[contains(text(), 'Serviços de utilidade pública') or contains(text(), 'Utilities')]"
-            )
-            return True
-        except:
-            return False
-
+        for selector in options_selectors:
+            try:
+                WebDriverWait(context.driver, timeout).until(
+                    EC.element_to_be_clickable((By.XPATH, selector))
+                )
+                return True
+            except:
+                continue
+        return False
     except:
         return False
 
 
 def _navigate_to_utilities_fast(context):
     """Navega diretamente para Utilities se nao estiver la."""
-    if _is_on_main_utilities_page(context):
-        print("[FAST] Ja esta em Utilities - pulando navegacao")
-        return True
-
     try:
-        # Navegacao direta via URL (mais rapido que menu)
+        # Verifica se driver existe
+        if not hasattr(context, 'driver') or not context.driver:
+            return False
+
+        # Fechar modais que possam estar abertos
+        _close_any_modal(context)
+
+        current_url = context.driver.current_url.lower()
+
+        # Se ja esta na pagina principal de Utilities E as opcoes estao visiveis
+        if (current_url.endswith('/utilities/') or current_url.endswith('/utilities')):
+            if _wait_for_utilities_options(context, timeout=3):
+                print("[FAST] Ja esta em Utilities - pulando navegacao")
+                return True
+
+        # Navega para Utilities
         base_url = context.driver.current_url.split('/')[0:3]
         utilities_url = '/'.join(base_url) + '/utilities/'
         context.driver.get(utilities_url)
 
-        # Aguarda carregamento da pagina
-        WebDriverWait(context.driver, 10).until(
-            lambda d: '/utilities' in d.current_url.lower()
+        # Aguarda URL carregar
+        WebDriverWait(context.driver, 15).until(
+            lambda d: '/utilities' in d.current_url.lower() and
+                      (d.current_url.lower().endswith('/utilities/') or
+                       d.current_url.lower().endswith('/utilities'))
         )
 
-        # Aguarda elemento da pagina carregar
-        WebDriverWait(context.driver, 10).until(
-            EC.presence_of_element_located((
-                By.XPATH,
-                "//*[contains(text(), 'Serviços de utilidade pública') or contains(text(), 'Utilities')]"
-            ))
-        )
+        # Aguarda opcoes da pagina estarem visiveis
+        if _wait_for_utilities_options(context, timeout=15):
+            print("[FAST] Navegou para Utilities via URL direta")
+            return True
+        else:
+            print("[WARN] Pagina carregou mas opcoes nao visiveis")
+            return False
 
-        print("[FAST] Navegou para Utilities via URL direta")
-        time.sleep(0.5)  # Pequena pausa para estabilidade
-        return True
     except Exception as e:
         print(f"[WARN] Navegacao direta falhou: {e}")
         return False
