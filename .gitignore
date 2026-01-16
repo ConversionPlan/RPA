@@ -29,9 +29,9 @@ backup_*/
 # Features locais (não commitadas)
 features/14-company-management.feature
 features/15-inventory-adjustments.feature
-features/16-utilities.feature
+# features/16-utilities.feature - HABILITADO (14 cenários)
 features/17-my-account.feature
-# features/18-quarantine.feature - HABILITADO
+# features/18-quarantine.feature - HABILITADO (11 cenários)
 features/19-packaging-unpacking.feature
 features/20-transformation.feature
 features/21-pending-shipments.feature
