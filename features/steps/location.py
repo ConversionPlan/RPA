@@ -263,10 +263,24 @@ def click_add_save_customer_address(context):
 @when("Click on Save - Location")
 def click_save_location(context):
     try:
+        import time
+        # Aguarda um momento para garantir que o formulario esta pronto
+        time.sleep(1)
+
         # Botão pode ser "Save" ou "Salvar" dependendo do idioma
-        wait_and_find(context.driver, By.XPATH, "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span",
+        element = wait_and_find(context.driver, By.XPATH,
+            "//button[contains(@class,'tt_utils_ui_dlg_modal-default-enabled-button')]/span",
             timeout=30
-        ).click()
+        )
+
+        # Scroll para o elemento ficar visivel
+        context.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", element)
+        time.sleep(0.5)
+
+        # Usa JavaScript click para maior compatibilidade com CI/CD
+        context.driver.execute_script("arguments[0].click();", element)
+        print("[OK] Clicou em Save Location via JavaScript")
+
     except Exception as e:
         ends_timer(context, e)
         raise
