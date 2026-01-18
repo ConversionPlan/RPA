@@ -23,24 +23,6 @@ Feature: Utilities (Servicos de Utilidade)
     Then Utilities page should be displayed
 
   # ========================================
-  # Upload Manual EPCIS/EDI
-  # ========================================
-
-  @manual_upload_epcis @parallel_group_1 @skip
-  Scenario: Upload EPCIS XML file manually
-    When Click on Manual EPCIS XML Upload
-    And Select EPCIS file to upload
-    And Click on Upload button
-    Then EPCIS file should be processed successfully
-
-  @manual_upload_edi @parallel_group_1 @skip
-  Scenario: Upload EDI XML file manually
-    When Click on Manual EPCIS XML Upload
-    And Select EDI file to upload
-    And Click on Upload button
-    Then EDI file should be processed successfully
-
-  # ========================================
   # Painel de Trocas Eletronicas
   # ========================================
 
@@ -73,17 +55,6 @@ Feature: Utilities (Servicos de Utilidade)
     When Click on Electronic Exchanges Dashboard
     And Click on first exchange record
     Then Exchange Details modal should be displayed
-
-  # ========================================
-  # Ferramenta VRS Manual
-  # ========================================
-
-  @vrs_manual_query @parallel_group_3 @skip
-  Scenario: Perform manual VRS query
-    When Click on Manual VRS Query Tool
-    And Enter product serial number
-    And Click on Query button
-    Then VRS query results should be displayed
 
   # ========================================
   # Busca de Licenca
