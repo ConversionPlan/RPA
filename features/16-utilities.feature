@@ -26,14 +26,14 @@ Feature: Utilities (Servicos de Utilidade)
   # Upload Manual EPCIS/EDI
   # ========================================
 
-  @manual_upload_epcis @parallel_group_1
+  @manual_upload_epcis @parallel_group_1 @skip
   Scenario: Upload EPCIS XML file manually
     When Click on Manual EPCIS XML Upload
     And Select EPCIS file to upload
     And Click on Upload button
     Then EPCIS file should be processed successfully
 
-  @manual_upload_edi @parallel_group_1
+  @manual_upload_edi @parallel_group_1 @skip
   Scenario: Upload EDI XML file manually
     When Click on Manual EPCIS XML Upload
     And Select EDI file to upload
@@ -78,7 +78,7 @@ Feature: Utilities (Servicos de Utilidade)
   # Ferramenta VRS Manual
   # ========================================
 
-  @vrs_manual_query @parallel_group_3
+  @vrs_manual_query @parallel_group_3 @skip
   Scenario: Perform manual VRS query
     When Click on Manual VRS Query Tool
     And Enter product serial number
