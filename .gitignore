@@ -51,3 +51,4 @@ report/stress_report_pdf.py
 *.xlsx
 debug_*.py
 run_stress_test.sh
+features/05-inbound.feature
