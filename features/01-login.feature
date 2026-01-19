@@ -7,7 +7,7 @@ Feature: Portal Login
     When Open Portal Login page https://qualityportal.qa-test.tracktraceweb.com/auth
     And Enter Username teste@teste.com
     And Click Next to Login
-    And Enter Password Mudar@12345342
+    And Enter Password Mudar@12345343
     And click on the Login button
     Then User must login successfully
     And End test

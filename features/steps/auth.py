@@ -195,8 +195,19 @@ def is_logged_in(context):
 
             enterEmail(context, "teste@teste.com")
             clickNextToLogin(context)
-            enterPassword(context, "Mudar@12345342")
+            enterPassword(context, "Mudar@12345343")
             clickSubmitButton(context)
+
+            # Fechar modal de expiracao de senha se aparecer
+            try:
+                ok_btn = WebDriverWait(context.driver, 5).until(
+                    EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Está bem') or contains(text(),'OK') or contains(text(),'Esta bem')]"))
+                )
+                ok_btn.click()
+                print("[OK] Modal de expiracao de senha fechado")
+                time.sleep(1)
+            except:
+                pass  # Modal pode nao aparecer
 
             # Wait for redirect to dashboard (substituido sleep fixo por wait inteligente)
             try:

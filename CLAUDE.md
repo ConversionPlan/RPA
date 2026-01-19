@@ -95,4 +95,4 @@ Pipeline configurada em `.github/workflows/github-actions.yml`:
 ## Credenciais de Teste
 - URL: https://qualityportal.qa-test.tracktraceweb.com/auth
 - Usuário: teste@teste.com
-- Senha: Mudar@12345342
+- Senha: Mudar@12345343
