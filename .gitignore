@@ -27,7 +27,6 @@ venv/
 backup_*/
 
 # Features locais (não commitadas)
-features/00-smoke-tests.feature
 features/99-performance-test.feature
 features/14-company-management.feature
 features/15-inventory-adjustments.feature
