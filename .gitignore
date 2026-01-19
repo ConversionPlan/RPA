@@ -28,6 +28,7 @@ backup_*/
 
 # Features locais (não commitadas)
 features/99-performance-test.feature
+features/08-manufacture.feature
 features/14-company-management.feature
 features/15-inventory-adjustments.feature
 # features/16-utilities.feature - HABILITADO (14 cenários)
