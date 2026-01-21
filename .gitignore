@@ -35,7 +35,7 @@ features/15-inventory-adjustments.feature
 features/17-my-account.feature
 # features/18-quarantine.feature - HABILITADO (11 cenários)
 features/19-packaging-unpacking.feature
-features/20-transformation.feature
+# features/20-transformation.feature - HABILITADO (2 cenários)
 features/21-pending-shipments.feature
 features/22-error-console.feature
 features/98-stress-test-inbound.feature
