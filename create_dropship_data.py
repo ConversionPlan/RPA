@@ -15,7 +15,7 @@ API_URL = f"{BASE_URL}/api/epcis"
 
 # Credenciais (mesmas do CLAUDE.md)
 USERNAME = "teste@teste.com"
-PASSWORD = "Mudar@12345343"
+PASSWORD = "Mudar@12345344"
 
 
 def generate_serial():

@@ -195,7 +195,7 @@ def is_logged_in(context):
 
             enterEmail(context, "teste@teste.com")
             clickNextToLogin(context)
-            enterPassword(context, "Mudar@12345343")
+            enterPassword(context, "Mudar@12345344")
             clickSubmitButton(context)
 
             # Fechar modal de expiracao de senha se aparecer
